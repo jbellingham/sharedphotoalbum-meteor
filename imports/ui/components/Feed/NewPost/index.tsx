@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { Posts } from '/imports/api/posts'
+import ProfilePicture from '../../shared/ProfilePicture'
 
 function toTitleCase(input: string): string {
     input = input.toLowerCase()
@@ -74,7 +75,7 @@ function NewPost(): JSX.Element {
             <Form>
                 <Row>
                     <Col md={{ span: 1 }}>
-                        {/* <ProfilePicture {...profilePictureProps} /> */}
+                        <ProfilePicture />
                     </Col>
                     <Col className="status-input align-middle">
                         <Form.Control
@@ -86,7 +87,7 @@ function NewPost(): JSX.Element {
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
-                    <Form.File multiple onChange={onFileAdd} />
+                    <Form.File multiple onChange={onFileAdd} custom label="Add photos or videos" />
                     <Button variant="light">Life Event</Button>
                 </Row>
             </Form>

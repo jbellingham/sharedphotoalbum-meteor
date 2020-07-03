@@ -15,13 +15,14 @@ function insertPost(text: string, comments: CommentModel[]) {
 }
 
 Meteor.startup(() => {
-  if (Posts.find().count() === 0)
-  insertPost('Some post', [])
-  insertPost('Some other post',
-    [
-      {text: 'Some comment', createdAt: new Date(), likes: 0, postId: ''},
-      {text: 'Some other comment', createdAt: new Date(), likes: 0, postId: ''},
-    ])
-  insertPost('Some other other post', [])
-  insertPost('Some post with poop', [])
+  if (Posts.find().count() === 0) {
+    insertPost('Some post', [])
+    insertPost('Some other post',
+      [
+        {text: 'Some comment', createdAt: new Date(), likes: 0, postId: ''},
+        {text: 'Some other comment', createdAt: new Date(), likes: 0, postId: ''},
+      ])
+    insertPost('Some other other post', [])
+    insertPost('Some post with poop', [])
+  }
 });
