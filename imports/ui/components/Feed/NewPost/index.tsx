@@ -2,14 +2,22 @@ import React from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { Posts } from '/imports/api/posts'
 import ProfilePicture from '../../shared/ProfilePicture'
+import { Feeds } from '/imports/api/feeds'
+import { useTracker } from 'meteor/react-meteor-data'
+import { Meteor } from 'meteor/meteor'
 
 function toTitleCase(input: string): string {
     input = input.toLowerCase()
     return input.charAt(0).toUpperCase() + input.slice(1)
 }
 
-function NewPost(): JSX.Element {
+export interface INewPostProps {
+    feedId: string
+}
+
+function NewPost(props: INewPostProps): JSX.Element {
     const [postText, setPostTest] = React.useState('')
+    const { feedId } = props
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setPostTest(event.currentTarget.value)
@@ -31,10 +39,14 @@ function NewPost(): JSX.Element {
             event.preventDefault()
             event.stopPropagation()
             if (postText) {
-                Posts.insert({
+                const postId = Posts.insert({
                     text: postText,
                     createdAt: new Date(),
-                    comments: []
+                    comments: [],
+                    feedId
+                })
+                Feeds.update(feedId, {
+                    $push: { posts: postId }
                 })
                 setPostTest('')
             }

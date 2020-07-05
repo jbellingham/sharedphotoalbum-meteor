@@ -6,6 +6,7 @@ export interface CommentModel {
   createdAt: Date;
   likes: number;
   postId: string | undefined;
+  postedBy: string;
 }
 
 export const Comments = new Mongo.Collection<CommentModel>('comments');

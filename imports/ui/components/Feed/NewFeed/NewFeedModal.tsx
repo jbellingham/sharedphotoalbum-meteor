@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Form, FormControl, Container, Modal, ModalBody, ModalFooter } from 'react-bootstrap'
-// import { useStore } from '../../../stores/StoreContext'
-// import { CreateFeedCommand } from '../../../Client'
 import { useHistory } from 'react-router-dom'
+import { Feeds } from '/imports/api/feeds'
+import { Meteor } from 'meteor/meteor'
+import { useTracker } from 'meteor/react-meteor-data'
 
 export interface IModalProps {
     show: boolean
@@ -14,8 +15,10 @@ function NewFeedModal(props: IModalProps): JSX.Element {
     const { show, handleClose } = props
     const [feedName, setFeedName] = React.useState('')
     const [feedDescription, setFeedDescription] = React.useState('')
-    // const [isSubmitting, setIsSubmitting] = React.useState(false)
-    // const { feedStore } = useStore()
+    
+    const userId = useTracker(() => {
+        return Meteor.userId()
+    }, [])
 
     const feedNameInputId = 'feedNameInput'
     const feedDescriptionInputId = 'feedDescriptionInput'
@@ -33,11 +36,25 @@ function NewFeedModal(props: IModalProps): JSX.Element {
     }
 
     const handleSubmit = async (): Promise<void> => {
-        // const feedId = await feedStore.createFeed(
-        //     new CreateFeedCommand({ name: feedName, description: feedDescription }),
-        // )
-        // history.push(`/feed/${feedId}`)
-        handleClose()
+        if (feedName && userId) {
+            Feeds.insert({
+                name: feedName,
+                description: feedDescription,
+                createdAt: new Date(),
+                posts: [],
+                ownerId: userId
+            }, (error: any, id: any) => {
+                if (error) {
+
+                }
+                else {
+                    handleClose()
+                    history.push(`/feed/${id}`)
+                }
+            })
+            setFeedName('')
+            setFeedDescription('')
+        }
     }
 
     return (

@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor';
+import './imports/service-config';
 import { Comments, CommentModel } from '/imports/api/comments';
 import { Posts } from '/imports/api/posts';
+import { Feeds } from '/imports/api/feeds';
 
-function insertPost(text: string, comments: CommentModel[]) {
-  const postId = Posts.insert({ text, createdAt: new Date(), comments: [] });
+function insertPost(text: string, comments: CommentModel[], feedId: string) {
+  const postId = Posts.insert({ text, createdAt: new Date(), comments: [], feedId });
   comments.map((c) => {
     const commentId = Comments.insert({ text: c.text, postId, likes: 0, createdAt: new Date() });
     let post = Posts.findOne(postId)
@@ -14,15 +16,33 @@ function insertPost(text: string, comments: CommentModel[]) {
   })
 }
 
+function insertFeed(name: string, description: string): string {
+  return Feeds.insert({
+    name,
+    description,
+    posts: [],
+    ownerId: '',
+    createdAt: new Date()
+  })
+}
+
 Meteor.startup(() => {
-  if (Posts.find().count() === 0) {
-    insertPost('Some post', [])
-    insertPost('Some other post',
-      [
-        {text: 'Some comment', createdAt: new Date(), likes: 0, postId: ''},
-        {text: 'Some other comment', createdAt: new Date(), likes: 0, postId: ''},
-      ])
-    insertPost('Some other other post', [])
-    insertPost('Some post with poop', [])
-  }
+  // let feedId: string = '' 
+  // if (Feeds.find().count() === 0) {
+  //   feedId = insertFeed("Baby Oli", "old mate")
+  // }
+  // else {
+  //   feedId = Feeds.findOne({}, { sort: { createdAt: -1 }})?._id || ''
+  // }
+
+  // if (Posts.find().count() === 0) {
+  //   insertPost('Some post', [], feedId)
+  //   insertPost('Some other post',
+  //     [
+  //       {text: 'Some comment', createdAt: new Date(), likes: 0, postId: ''},
+  //       {text: 'Some other comment', createdAt: new Date(), likes: 0, postId: ''},
+  //     ], feedId)
+  //   insertPost('Some other other post', [], feedId)
+  //   insertPost('Some post with poop', [], feedId)
+  // }
 });

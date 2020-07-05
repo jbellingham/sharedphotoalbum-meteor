@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { Card, Form } from 'react-bootstrap'
 import Comment from './Comment'
-import { PostModel } from '/imports/api/posts'
+import { PostModel, Posts } from '/imports/api/posts'
 import { Comments, CommentModel } from '/imports/api/comments'
+import { useTracker } from 'meteor/react-meteor-data'
+import { Meteor } from 'meteor/meteor'
 
 export interface IPostProps {
     post: PostModel
@@ -10,12 +12,13 @@ export interface IPostProps {
 
 const Post = (props: IPostProps) => {
     const [comment, setComment] = React.useState('')
-    const [comments, setComments] = React.useState(new Array<CommentModel>())
+    const userId = useTracker(() => {
+        return Meteor.userId()
+    }, [])
 
     const { post } = props
-
-    useEffect(() => {
-        setComments(Comments.find({postId: post._id}).fetch())
+    const comments = useTracker(() => {
+        return Comments.find({postId: post._id}).fetch()
     }, [])
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -26,13 +29,11 @@ const Post = (props: IPostProps) => {
         if (event.key === 'Enter') {
             event.preventDefault()
             event.stopPropagation()
-            if (comment) {
-                const newComment = {text: comment, createdAt: new Date(), likes: 0, postId: post._id}
-                Comments.insert(newComment)
-                setComments([
-                    newComment,
-                    ...comments
-                ])
+            if (comment && userId && post._id) {
+                const commentId = Comments.insert({text: comment, createdAt: new Date(), likes: 0, postId: post._id, postedBy: userId})
+                Posts.update(post._id, {
+                    $push: { comments: commentId }
+                })
                 setComment('')
             }
         }
