@@ -49,7 +49,7 @@ function NewFeedModal(props: IModalProps): JSX.Element {
                 }
                 else {
                     handleClose()
-                    history.push(`/feed/${id}`)
+                    history.push(`/${id}`)
                 }
             })
             setFeedName('')
