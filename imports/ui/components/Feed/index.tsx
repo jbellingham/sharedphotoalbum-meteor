@@ -34,22 +34,13 @@ function Feed() {
                     <FeedList onFeedSelected={onFeedSelected} selectedFeed={selectedFeed} />
                 </Col>
                 <Col md={{ span: 6 }}>
-                    <h1>{feed?.name}</h1>                    
-                </Col>
-            </Row>
-            <Row>
-                <Col md={{ span: 6, offset: 2 }}>
+                    <h1>{feed?.name}</h1>
                     <NewPost feedId={selectedFeed} />
+                    {posts.map((post) => (
+                        <Post post={post} key={post._id} />
+                    ))}
                 </Col>
             </Row>
-            {posts.map((post) => (
-            <Row>
-                <Col md={{ span: 6, offset: 2 }}>
-                    <Post post={post} key={post._id} />
-                </Col>
-            </Row>
-            ))
-            }            
         </div>
     )
 }

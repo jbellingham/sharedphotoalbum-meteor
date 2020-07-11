@@ -28,3 +28,4 @@ service-configuration
 jquery
 fourseven:scss
 aldeed:simple-schema
+socialize:cloudinary

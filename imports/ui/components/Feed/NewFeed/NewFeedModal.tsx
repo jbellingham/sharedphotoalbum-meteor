@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button, Form, FormControl, Container, Modal, ModalBody, ModalFooter } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { Feeds } from '/imports/api/feeds'

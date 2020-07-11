@@ -3,7 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { Posts } from '/imports/api/posts'
 import ProfilePicture from '../../shared/ProfilePicture'
 import { Feeds } from '/imports/api/feeds'
-import { useTracker } from 'meteor/react-meteor-data'
+import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
 
 function toTitleCase(input: string): string {
@@ -17,6 +17,7 @@ export interface INewPostProps {
 
 function NewPost(props: INewPostProps): JSX.Element {
     const [postText, setPostTest] = React.useState('')
+    const [photoId, setPhotoId] = React.useState(0)
     const { feedId } = props
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -68,19 +69,28 @@ function NewPost(props: INewPostProps): JSX.Element {
     }
 
     const onFileAdd = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        // event.persist()
-        // const files = event.currentTarget.files || []
-        // Array.from(files).forEach((file) => {
-        //     getFileFromInput(file)
-        //         .then((binary) => {
-        //             manageUploadedFile(binary, file)
-        //         })
-        //         .catch(function (reason) {
-        //             console.log(`Error during upload ${reason}`)
-        //             event.target.value = '' // to allow upload of same file if error occurs
-        //         })
-        // })
+        const { cloudName, uploadPreset } = Meteor.settings.public.cloudinary;
+        const files = Array.from(event.currentTarget.files || [])
+        const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+        // const title = this.titleEl.value;
+
+        for (let file of files) {
+            setPhotoId(photoId + 1)
+            const fileName = file.name;
+            request.post(url)
+                .field('upload_preset', uploadPreset)
+                .field('file', file)
+                .field('multiple', true)
+                // .field('tags', title ? `myphotoalbum,${title}` : 'myphotoalbum')
+                // .field('context', title ? `photo=${title}` : '')
+                // .on('progress', (progress) => this.onPhotoUploadProgress(photoId, file.name, progress))
+                .end((error, response) => {
+                    console.log(error || response)
+                    // onPhotoUploaded(photoId, fileName, response);
+                });
+        }
     }
+
 
     return (
         <>
@@ -100,6 +110,8 @@ function NewPost(props: INewPostProps): JSX.Element {
                 </Row>
                 <Row className="justify-content-md-center">
                     <Form.File multiple onChange={onFileAdd} custom label="Add photos or videos" />
+                    {/* <CloudinaryUploader /> */}
+                    {/* <Button onClick={onFileAdd} >Add photos or videos</Button> */}
                     <Button variant="light">Life Event</Button>
                 </Row>
             </Form>
