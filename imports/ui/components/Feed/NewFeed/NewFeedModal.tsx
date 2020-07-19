@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Form, FormControl, Container, Modal, ModalBody, ModalFooter } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
-import { Feeds } from '/imports/api/feeds'
 import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
 import { useTracker } from 'meteor/react-meteor-data'
 
 export interface IModalProps {
@@ -37,12 +37,13 @@ function NewFeedModal(props: IModalProps): JSX.Element {
 
     const handleSubmit = async (): Promise<void> => {
         if (feedName && userId) {
-            Feeds.insert({
+            feeds.insert({
                 name: feedName,
                 description: feedDescription,
                 createdAt: new Date(),
                 posts: [],
-                ownerId: userId
+                ownerId: userId,
+                inviteCode: Random.id()
             }, (error: any, id: any) => {
                 if (error) {
 

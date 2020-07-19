@@ -7,6 +7,7 @@ import { Layout } from './components/shared/Layout';
 import AuthorizedRoute from './components/shared/AuthorizedRoute';
 import { CloudinaryContext } from 'cloudinary-react';
 import { Meteor } from 'meteor/meteor';
+import Invite from './components/Invite';
 
 function App(props: IAccountProps) {
   const [cloudName, setCloudName] = React.useState('')
@@ -24,6 +25,7 @@ function App(props: IAccountProps) {
               <AccountsUIWrapper />
             </div>
             <Switch>
+              <Route path="/invite/:inviteCode" component={Invite} />
               <AuthorizedRoute path="/:feedId" component={Feed} />
               <AuthorizedRoute path="/" component={Feed} />
               {/* <AuthorizedRoute path="/feed/:feedId" component={Feed} {...props} /> */}

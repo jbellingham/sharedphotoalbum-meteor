@@ -1,19 +1,19 @@
 import React from 'react'
 import NewPost from './NewPost'
-import { Posts, PostModel } from '/imports/api/posts'
+import { Posts, PostModel } from '../../../api/models/posts'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
-import { Feeds, FeedModel } from '/imports/api/feeds'
+import { Feeds, FeedModel } from '../../../api/models/feeds'
 import { Col, Row } from 'react-bootstrap'
 import FeedList from './FeedList/FeedList'
 import { Meteor } from 'meteor/meteor'
-import { Subscriptions } from '/imports/api/subscriptions'
+import { Subscriptions } from '../../../api/models/subscriptions'
 
 function Feed() {
     let { feedId } = useParams()
     const [selectedFeed, setSelectedFeed] = React.useState(feedId)
-    const [userId, setUserId] = React.useState(Meteor.userId())
+    const [userId] = React.useState(Meteor.userId())
     if (feedId && selectedFeed !== feedId) {
         setSelectedFeed(feedId)
     }
