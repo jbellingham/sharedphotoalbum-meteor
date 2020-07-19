@@ -1,16 +1,19 @@
 import React from 'react'
 import NewPost from './NewPost'
-import { Posts } from '/imports/api/posts'
+import { Posts, PostModel } from '/imports/api/posts'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
-import { Feeds } from '/imports/api/feeds'
+import { Feeds, FeedModel } from '/imports/api/feeds'
 import { Col, Row } from 'react-bootstrap'
 import FeedList from './FeedList/FeedList'
+import { Meteor } from 'meteor/meteor'
+import { Subscriptions } from '/imports/api/subscriptions'
 
 function Feed() {
     let { feedId } = useParams()
     const [selectedFeed, setSelectedFeed] = React.useState(feedId)
+    const [userId, setUserId] = React.useState(Meteor.userId())
     if (feedId && selectedFeed !== feedId) {
         setSelectedFeed(feedId)
     }
@@ -19,28 +22,45 @@ function Feed() {
         setSelectedFeed(selectedFeedId)
     }
 
-    const feed = useTracker(() => {
+    const feed: FeedModel | undefined = useTracker(() => {
         return Feeds.findOne({_id: selectedFeed})
     })
 
-    const posts = useTracker(() => {
+    const posts : PostModel[] = useTracker(() => {
         return Posts.find({feedId: selectedFeed}, {sort: { createdAt: -1}}).fetch()
     })
+
+    const subscription = useTracker(() => {
+        return userId && Subscriptions.findOne({userId, feedId})
+    })
+
+    const isOwner : boolean = useTracker(() => {
+        return userId === feed?.ownerId
+    })
+
+    const canView : boolean = isOwner || !!subscription
+    
     
     return (
         <div className="feed-container">
-            <Row>
-                <Col md={{ span: 2 }}>
-                    <FeedList onFeedSelected={onFeedSelected} selectedFeed={selectedFeed} />
-                </Col>
-                <Col md={{ span: 6 }}>
-                    <h1>{feed?.name}</h1>
-                    <NewPost feedId={selectedFeed} />
-                    {posts?.map((post) => (
-                        <Post post={post} key={post._id} />
-                    ))}
-                </Col>
-            </Row>
+            {canView &&
+                <Row>
+                    <Col md={{ span: 2 }}>
+                        <FeedList onFeedSelected={onFeedSelected} selectedFeed={selectedFeed} />
+                    </Col>
+                    <Col md={{ span: 6 }}>
+                        <h1>{feed?.name}</h1>
+                        {isOwner &&
+                            <NewPost feedId={selectedFeed} />
+                        }
+                        {posts?.map((post) => (
+                            <Post post={post} key={post._id} />
+                        ))}
+                    </Col>
+                </Row>
+            ||
+                <p>Unauthorized</p>
+            }
         </div>
     )
 }
