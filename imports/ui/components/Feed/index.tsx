@@ -1,6 +1,6 @@
+import React from 'react'
 import NewPost from './NewPost'
 import { Posts } from '/imports/api/posts'
-import React, { useEffect } from 'react'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
@@ -36,7 +36,7 @@ function Feed() {
                 <Col md={{ span: 6 }}>
                     <h1>{feed?.name}</h1>
                     <NewPost feedId={selectedFeed} />
-                    {posts.map((post) => (
+                    {posts?.map((post) => (
                         <Post post={post} key={post._id} />
                     ))}
                 </Col>

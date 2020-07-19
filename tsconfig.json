@@ -4,7 +4,8 @@
     "target": "es2018",
     "module": "esNext",
     "lib": ["esnext", "dom"],
-    "allowJs": true,
+    "allowJs": true,    
+    "allowSyntheticDefaultImports": true,
     "checkJs": false,
     "jsx": "preserve",
     "incremental": true,
@@ -36,5 +37,9 @@
   "exclude": [
     "./.meteor/**",
     "./packages/**"
+  ],
+  "typeRoots": [
+    "src/customTypings",
+    "/@types"
   ]
 }

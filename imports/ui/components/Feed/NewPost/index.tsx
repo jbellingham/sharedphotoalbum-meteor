@@ -5,6 +5,7 @@ import ProfilePicture from '../../shared/ProfilePicture'
 import { Feeds } from '/imports/api/feeds'
 import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
+import { Media } from '/imports/api/media'
 
 function toTitleCase(input: string): string {
     input = input.toLowerCase()
@@ -17,6 +18,7 @@ export interface INewPostProps {
 
 function NewPost(props: INewPostProps): JSX.Element {
     const [postText, setPostTest] = React.useState('')
+    const [files, setFiles] = React.useState(new Array<File>())
     const [photoId, setPhotoId] = React.useState(0)
     const { feedId } = props
 
@@ -44,8 +46,10 @@ function NewPost(props: INewPostProps): JSX.Element {
                     text: postText,
                     createdAt: new Date(),
                     comments: [],
-                    feedId
+                    feedId,
+                    media: [],
                 })
+                uploadFiles(postId)
                 Feeds.update(feedId, {
                     $push: { posts: postId }
                 })
@@ -54,26 +58,13 @@ function NewPost(props: INewPostProps): JSX.Element {
         }
     }
 
-    const manageUploadedFile = (binary: string, file: File): void => {
-        // const mt = file.type.split('/')[0]
-        // files.push({
-        //     content: binary,
-        //     mediaType: MediaType[toTitleCase(mt) as keyof typeof MediaType],
-        //     init: function () {
-        //         return
-        //     },
-        //     toJSON: function () {
-        //         return
-        //     },
-        // })
+    const onFileAdd = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        setFiles(Array.from(event.currentTarget.files || []))
     }
 
-    const onFileAdd = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const uploadFiles = (postId: string) => {
         const { cloudName, uploadPreset } = Meteor.settings.public.cloudinary;
-        const files = Array.from(event.currentTarget.files || [])
         const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
-        // const title = this.titleEl.value;
-
         for (let file of files) {
             setPhotoId(photoId + 1)
             const fileName = file.name;
@@ -85,10 +76,22 @@ function NewPost(props: INewPostProps): JSX.Element {
                 // .field('context', title ? `photo=${title}` : '')
                 // .on('progress', (progress) => this.onPhotoUploadProgress(photoId, file.name, progress))
                 .end((error, response) => {
+                    if (response?.body) {
+                        storeMediaDetails(postId, response.body)
+                    }
                     console.log(error || response)
                     // onPhotoUploaded(photoId, fileName, response);
                 });
         }
+    }
+
+    const storeMediaDetails = (postId: string, details: any) => {
+        const mediaId = Media.insert({
+            postId: postId,
+            createdAt: new Date(),
+            publicId: details.public_id
+        })
+        console.log(mediaId)
     }
 
 
@@ -110,8 +113,6 @@ function NewPost(props: INewPostProps): JSX.Element {
                 </Row>
                 <Row className="justify-content-md-center">
                     <Form.File multiple onChange={onFileAdd} custom label="Add photos or videos" />
-                    {/* <CloudinaryUploader /> */}
-                    {/* <Button onClick={onFileAdd} >Add photos or videos</Button> */}
                     <Button variant="light">Life Event</Button>
                 </Row>
             </Form>

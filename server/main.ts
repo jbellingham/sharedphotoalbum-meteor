@@ -3,11 +3,12 @@ import './imports/service-config';
 import { Comments, CommentModel } from '/imports/api/comments';
 import { Posts } from '/imports/api/posts';
 import { Feeds } from '/imports/api/feeds';
+import { Media } from '/imports/api/media';
 
 function insertPost(text: string, comments: CommentModel[], feedId: string) {
-  const postId = Posts.insert({ text, createdAt: new Date(), comments: [], feedId });
+  const postId = Posts.insert({ text, createdAt: new Date(), comments: [], feedId, media: [] });
   comments.map((c) => {
-    const commentId = Comments.insert({ text: c.text, postId, likes: 0, createdAt: new Date() });
+    const commentId = Comments.insert({ text: c.text, postId, likes: 0, createdAt: new Date(), postedBy: '' });
     let post = Posts.findOne(postId)
     post?.comments.push(commentId)
     Posts.update(postId, {
@@ -23,6 +24,14 @@ function insertFeed(name: string, description: string): string {
     posts: [],
     ownerId: '',
     createdAt: new Date()
+  })
+}
+
+function insertMedia() {
+  return Media.insert({
+    postId: '',
+    createdAt: new Date(),
+    publicId: ''
   })
 }
 

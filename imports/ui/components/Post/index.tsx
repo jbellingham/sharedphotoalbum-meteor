@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Card, Form } from 'react-bootstrap'
 import Comment from './Comment'
 import { PostModel, Posts } from '/imports/api/posts'
-import { Comments, CommentModel } from '/imports/api/comments'
+import { Media } from '/imports/api/media'
+import { Comments } from '/imports/api/comments'
 import { useTracker } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
+import MediaContainer from './MediaContainer'
 
 export interface IPostProps {
     post: PostModel
@@ -20,6 +22,10 @@ const Post = (props: IPostProps) => {
     const comments = useTracker(() => {
         return Comments.find({postId: post._id}).fetch()
     }, [])
+
+    const media = useTracker(() => {
+            return Media.find({postId: post._id}).fetch()
+    })
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setComment(event.currentTarget.value)
@@ -41,10 +47,14 @@ const Post = (props: IPostProps) => {
 
     return (
         <Card className="post-container">
-            <Card.Header>{props.post.text}</Card.Header>
-            {/* {props.storedMedia && props.storedMedia.map((media) => <Media key={media.id} {...media} />)} */}
+            <Card.Header>{post.text}</Card.Header>
+            {media.length > 0 &&
+                <Card.Body>
+                    <MediaContainer media={media}/>
+                </Card.Body>
+            }
             <Card.Footer className="text-center">
-                {comments && (
+                {comments.length > 0 && (
                     <div className="comments-container">
                         {comments.map((comment) => (
                             <Comment {...comment} key={comment._id} />

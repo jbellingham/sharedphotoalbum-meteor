@@ -61,7 +61,6 @@ function FeedList(props: IFeedListProps): JSX.Element {
             <h3>Subscriptions</h3>
             {subscriptions.map(subscription => renderButton(subscription))}
         </>
-        
     )
 }
 

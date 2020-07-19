@@ -6,6 +6,7 @@ export interface PostModel {
   createdAt: Date
   comments: string[]
   feedId: string
+  media: string[]
 }
 
 export const Posts = new Mongo.Collection<PostModel>('posts');
