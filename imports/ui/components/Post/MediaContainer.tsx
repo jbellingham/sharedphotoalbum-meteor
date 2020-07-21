@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Carousel, CarouselItem } from 'react-bootstrap'
-import { MediaModel } from '/imports/api/media'
 import { Image } from 'cloudinary-react'
+import { MediaModel } from '/imports/api/models/media'
 
 export interface IMediaDto {
     media: MediaModel[]

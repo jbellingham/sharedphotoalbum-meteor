@@ -1,5 +1,3 @@
-import { Mongo } from 'meteor/mongo';
-
 export interface PostModel {
   _id?: string
   text: string
@@ -8,5 +6,3 @@ export interface PostModel {
   feedId: string
   media: string[]
 }
-
-export const Posts = new Mongo.Collection<PostModel>('posts');

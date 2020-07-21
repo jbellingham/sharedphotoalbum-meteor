@@ -2,9 +2,9 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Button } from 'react-bootstrap'
-import { Subscriptions } from '../../../api/models/subscriptions'
+import { Subscriptions } from '/imports/api'
 import { useTracker } from 'meteor/react-meteor-data'
-import { Feeds } from '../../../api/models/feeds'
+import { Feeds } from '/imports/api'
 
 function Invite() {
     let { inviteCode } = useParams()
@@ -15,7 +15,7 @@ function Invite() {
 
     const acceptInvite = () => {
         if (feedId && userId) {
-            Subscriptions.insert({feedId, userId, createdAt: new Date(), isActive: true})
+            Subscriptions.insert({feedId, userId, createdAt: new Date(), isActive: false})
         }
     }
 

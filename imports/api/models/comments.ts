@@ -1,5 +1,3 @@
-import { Mongo } from 'meteor/mongo';
-
 export interface CommentModel {
   _id?: string;
   text: string;
@@ -8,5 +6,3 @@ export interface CommentModel {
   postId: string | undefined;
   postedBy: string;
 }
-
-export const Comments = new Mongo.Collection<CommentModel>('comments');

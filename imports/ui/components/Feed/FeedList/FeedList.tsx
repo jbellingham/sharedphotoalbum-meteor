@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTracker } from "meteor/react-meteor-data"
-import { Subscriptions } from '/imports/api/subscriptions';
+import { Subscriptions } from '/imports/api';
 import { Meteor } from 'meteor/meteor';
-import { Feeds } from '/imports/api/feeds';
+import { Feeds } from '/imports/api';
 import NewFeed from '../NewFeed';
 import { Button } from 'react-bootstrap';
 

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import { useTracker } from 'meteor/react-meteor-data'
+import { Feeds } from '/imports/api'
 
 export interface IModalProps {
     show: boolean
@@ -37,7 +38,7 @@ function NewFeedModal(props: IModalProps): JSX.Element {
 
     const handleSubmit = async (): Promise<void> => {
         if (feedName && userId) {
-            feeds.insert({
+            Feeds.insert({
                 name: feedName,
                 description: feedDescription,
                 createdAt: new Date(),
