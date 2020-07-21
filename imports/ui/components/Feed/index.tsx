@@ -1,14 +1,15 @@
 import React from 'react'
 import NewPost from './NewPost'
-import { Posts, PostModel } from '../../../api/models/posts'
+import { Posts } from '/imports/api'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
-import { Feeds, FeedModel } from '../../../api/models/feeds'
+import { Feeds } from '/imports/api'
 import { Col, Row } from 'react-bootstrap'
 import FeedList from './FeedList/FeedList'
 import { Meteor } from 'meteor/meteor'
-import { Subscriptions } from '../../../api/models/subscriptions'
+import { Subscriptions } from '/imports/api'
+import SubscriptionRequests from './SubscriptionRequests'
 
 function Feed() {
     let { feedId } = useParams()
@@ -22,11 +23,11 @@ function Feed() {
         setSelectedFeed(selectedFeedId)
     }
 
-    const feed: FeedModel | undefined = useTracker(() => {
+    const feed = useTracker(() => {
         return Feeds.findOne({_id: selectedFeed})
     })
 
-    const posts : PostModel[] = useTracker(() => {
+    const posts = useTracker(() => {
         return Posts.find({feedId: selectedFeed}, {sort: { createdAt: -1}}).fetch()
     })
 
@@ -38,7 +39,7 @@ function Feed() {
         return userId === feed?.ownerId
     })
 
-    const canView : boolean = isOwner || !!subscription
+    const canView : boolean = !feedId || isOwner || !!subscription
     
     
     return (
@@ -56,6 +57,9 @@ function Feed() {
                         {posts?.map((post) => (
                             <Post post={post} key={post._id} />
                         ))}
+                    </Col>
+                    <Col md={{ span: 4 }}>
+                        <SubscriptionRequests />
                     </Col>
                 </Row>
             ||
