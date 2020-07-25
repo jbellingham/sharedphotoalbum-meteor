@@ -1,0 +1,10 @@
+type Feed {
+    _id: String!
+    name: String!
+    description: String
+    ownerId: String!
+}
+
+type Mutation {
+    createFeed(name: String!, description: String, ownerId: String!): Feed
+}

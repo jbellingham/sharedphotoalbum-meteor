@@ -5,13 +5,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from './components/shared/Layout';
 import AuthorizedRoute from './components/shared/AuthorizedRoute';
 import { CloudinaryContext } from 'cloudinary-react';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import { Meteor } from 'meteor/meteor';
 import Invite from './components/Invite';
 import { Row, Col } from 'react-bootstrap';
 
-function App({data}) {
+function App() {
   const [cloudName] = React.useState(Meteor.settings.public.cloudinary.cloudName)
 
   return (
@@ -20,7 +18,6 @@ function App({data}) {
         <div className="App" >
           <Layout>
             <Row>
-              {data.hi}
               <Col md={{ span: 2, offset: 10}}>
                 <AccountsUIWrapper />
               </Col>
@@ -37,12 +34,4 @@ function App({data}) {
   )
 }
 
-const hiQuery = gql`
-{
-  hi
-}
-`;
-
-export default graphql(
-  hiQuery
-)(App)
+export default App

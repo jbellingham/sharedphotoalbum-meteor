@@ -1,9 +1,21 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
-import { IModalProps } from './NewFeedModal'
-import NewFeedModal from './NewFeedModal'
+import { Button, Modal, ModalBody, Container, Form, FormControl, ModalFooter } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
+import { Meteor } from 'meteor/meteor'
+import gql from 'graphql-tag'
+import { useMutation } from 'react-apollo'
 
-function NewFeed(): JSX.Element {
+
+const CREATE_FEED = gql`
+    mutation createFeed($name: String!, $description: String, $ownerId: String!) {
+        createFeed(name: $name, description: $description, ownerId: $ownerId) {
+            _id
+        }
+    }
+`
+
+function NewFeed(props: any): JSX.Element {
     const [show, setShow] = React.useState(false)
 
     const handleClickShow = (): void => {
@@ -14,9 +26,49 @@ function NewFeed(): JSX.Element {
         setShow(false)
     }
 
-    const modalProps: IModalProps = {
-        handleClose,
-        show,
+    const history = useHistory()
+    const [feedName, setFeedName] = React.useState('')
+    const [feedDescription, setFeedDescription] = React.useState('')
+    const [createNewFeed, { loading, error }] = useMutation(CREATE_FEED, {
+        onCompleted({createFeed}) {
+            debugger
+            history.push(`/${createFeed._id}`)
+        },
+        onError(e) {
+            debugger
+        }
+    })
+    
+    const userId = useTracker(() => {
+        return Meteor.userId()
+    }, [])
+
+    const feedNameInputId = 'feedNameInput'
+    const feedDescriptionInputId = 'feedDescriptionInput'
+
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+        const { id, value } = event.currentTarget
+        switch (id) {
+            case feedNameInputId:
+                setFeedName(value)
+                break
+            case feedDescriptionInputId:
+                setFeedDescription(event.currentTarget.value)
+                break
+        }
+    }
+
+
+    const handleSubmit = async (): Promise<void> => {
+        if (feedName && userId) {
+            createNewFeed({ variables: {
+                name: feedName,
+                description: feedDescription,
+                ownerId: userId
+            }})
+            setFeedName('')
+            setFeedDescription('')
+        }
     }
 
     return (
@@ -24,7 +76,37 @@ function NewFeed(): JSX.Element {
             <Button variant="primary" onClick={handleClickShow}>
                 Create new feed
             </Button>
-            <NewFeedModal {...modalProps} />
+            <Modal show={show} onHide={handleClose} onClose={handleClose}>
+            <Modal.Header>Create a new feed</Modal.Header>
+            <ModalBody>
+                <Container fluid>
+                    <Form>
+                        <Form.Group>
+                            <FormControl
+                                id={feedNameInputId}
+                                placeholder="Feed name"
+                                value={feedName}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <FormControl
+                                id={feedDescriptionInputId}
+                                placeholder="What is this feed about?"
+                                onChange={handleChange}
+                                value={feedDescription}
+                                as="textarea"
+                            />
+                        </Form.Group>
+                    </Form>
+                </Container>
+            </ModalBody>
+            <ModalFooter>
+                <Button variant="primary" onClick={handleSubmit}>
+                    Create
+                </Button>
+            </ModalFooter>
+        </Modal>
         </>
     )
 }

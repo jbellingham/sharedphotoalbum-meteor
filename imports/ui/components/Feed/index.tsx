@@ -4,7 +4,7 @@ import { Posts } from '/imports/api'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
-import { Feeds } from '/imports/api'
+import Feeds from '/imports/api/feeds/feeds';
 import { Col, Row } from 'react-bootstrap'
 import FeedList from './FeedList/FeedList'
 import { Meteor } from 'meteor/meteor'
