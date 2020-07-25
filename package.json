@@ -23,10 +23,12 @@
     "cloudinary-react": "^1.6.0",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
+    "graphql-tag": "^2.10.4",
     "graphql-tools": "^6.0.14",
     "jquery": "^3.5.1",
     "meteor-node-stubs": "^1.0.0",
     "react": "^16.13.0",
+    "react-apollo": "^3.1.5",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.0",
     "react-dropzone": "^11.0.1",
@@ -47,7 +49,7 @@
   },
   "meteor": {
     "mainModule": {
-      "client": "client/main.tsx",
+      "client": "client/main.ts",
       "server": "server/main.ts"
     },
     "testModule": "tests/main.ts"

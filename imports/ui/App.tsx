@@ -1,21 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import AccountsUIWrapper from './components/Accounts/AccountsUIWrapper';
 import Feed from './components/Feed';
-import { withAccount, IAccountProps } from './components/shared/AccountContext';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Layout } from './components/shared/Layout';
 import AuthorizedRoute from './components/shared/AuthorizedRoute';
 import { CloudinaryContext } from 'cloudinary-react';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import { Meteor } from 'meteor/meteor';
 import Invite from './components/Invite';
 import { Row, Col } from 'react-bootstrap';
 
-function App(props: IAccountProps) {
-  const [cloudName, setCloudName] = React.useState('')
-
-  useEffect(() => {
-    setCloudName(Meteor.settings.public.cloudinary.cloudName)
-  });
+function App({data}) {
+  const [cloudName] = React.useState(Meteor.settings.public.cloudinary.cloudName)
 
   return (
     <CloudinaryContext cloudName={cloudName}>
@@ -23,6 +20,7 @@ function App(props: IAccountProps) {
         <div className="App" >
           <Layout>
             <Row>
+              {data.hi}
               <Col md={{ span: 2, offset: 10}}>
                 <AccountsUIWrapper />
               </Col>
@@ -31,7 +29,6 @@ function App(props: IAccountProps) {
               <Route path="/invite/:inviteCode" component={Invite} />
               <AuthorizedRoute path="/:feedId" component={Feed} />
               <AuthorizedRoute path="/" component={Feed} />
-              {/* <AuthorizedRoute path="/feed/:feedId" component={Feed} {...props} /> */}
             </Switch>
           </Layout>
         </div>
@@ -40,4 +37,12 @@ function App(props: IAccountProps) {
   )
 }
 
-export default withAccount((props: IAccountProps) => <App {...props}/>)
+const hiQuery = gql`
+{
+  hi
+}
+`;
+
+export default graphql(
+  hiQuery
+)(App)
