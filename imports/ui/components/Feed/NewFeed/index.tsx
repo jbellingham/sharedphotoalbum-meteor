@@ -29,10 +29,14 @@ function NewFeed(props: any): JSX.Element {
     const history = useHistory()
     const [feedName, setFeedName] = React.useState('')
     const [feedDescription, setFeedDescription] = React.useState('')
-    const [createNewFeed, { loading, error }] = useMutation(CREATE_FEED, {
+    const [createNewFeed] = useMutation(CREATE_FEED, {
         onCompleted({createFeed}) {
-            debugger
-            history.push(`/${createFeed._id}`)
+            props.refetch()
+            // todo: find a better way to do this
+            setTimeout(() => {
+                handleClose()
+                history.push(`/${createFeed._id}`)
+            }, 500)
         },
         onError(e) {
             debugger
@@ -61,11 +65,13 @@ function NewFeed(props: any): JSX.Element {
 
     const handleSubmit = async (): Promise<void> => {
         if (feedName && userId) {
-            createNewFeed({ variables: {
-                name: feedName,
-                description: feedDescription,
-                ownerId: userId
-            }})
+            createNewFeed(
+                { variables: {
+                    name: feedName,
+                    description: feedDescription,
+                    ownerId: userId
+                }
+            })
             setFeedName('')
             setFeedDescription('')
         }

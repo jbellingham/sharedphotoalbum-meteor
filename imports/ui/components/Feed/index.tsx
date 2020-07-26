@@ -3,7 +3,7 @@ import NewPost from './NewPost'
 import { Posts } from '/imports/api'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import Feeds from '/imports/api/feeds/feeds';
 import { Col, Row } from 'react-bootstrap'
 import FeedList from './FeedList/FeedList'
@@ -13,22 +13,19 @@ import SubscriptionRequests from './SubscriptionRequests'
 
 function Feed() {
     let { feedId } = useParams()
-    const [selectedFeed, setSelectedFeed] = React.useState(feedId)
+    const history = useHistory()
     const [userId] = React.useState(Meteor.userId())
-    if (feedId && selectedFeed !== feedId) {
-        setSelectedFeed(feedId)
-    }
 
     const onFeedSelected = (selectedFeedId: string) => {
-        setSelectedFeed(selectedFeedId)
+        history.push(selectedFeedId)
     }
 
     const feed = useTracker(() => {
-        return Feeds.findOne({_id: selectedFeed})
+        return Feeds.findOne({_id: feedId})
     })
 
     const posts = useTracker(() => {
-        return Posts.find({feedId: selectedFeed}, {sort: { createdAt: -1}}).fetch()
+        return Posts.find({feedId: feedId}, {sort: { createdAt: -1}}).fetch()
     })
 
     const subscription = useTracker(() => {
@@ -47,12 +44,12 @@ function Feed() {
             {canView &&
                 <Row>
                     <Col md={{ span: 2 }}>
-                        <FeedList onFeedSelected={onFeedSelected} selectedFeed={selectedFeed} />
+                        <FeedList onFeedSelected={onFeedSelected} selectedFeed={feedId} />
                     </Col>
                     <Col md={{ span: 6 }}>
                         <h1>{feed?.name}</h1>
                         {isOwner &&
-                            <NewPost feedId={selectedFeed} />
+                            <NewPost feedId={feedId} />
                         }
                         {posts?.map((post) => (
                             <Post post={post} key={post._id} />

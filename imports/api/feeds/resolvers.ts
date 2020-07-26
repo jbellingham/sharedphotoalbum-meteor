@@ -1,10 +1,19 @@
 import Feeds from './feeds'
 import { Random } from 'meteor/random'
+import { Subscriptions } from '..'
 
 export default {
     Query: {
-      feeds() {
-          return Feeds.find({}).fetch()
+      feeds(obj, {userId, getSubscriptions}, context, info) {
+          let feeds;
+          if (getSubscriptions) {
+            const feedIds = Subscriptions.find({userId}).map(_ => _.feedId)
+            feeds = Feeds.find({_id: {$in: feedIds}}).fetch()
+          }
+          else {
+              feeds = Feeds.find({ownerId: userId}).fetch()
+          }
+          return feeds
       }
     },
     Mutation: {
@@ -18,9 +27,7 @@ export default {
                 inviteCode: Random.id()
             })
 
-            console.log(id)
             const feed = Feeds.findOne(id)
-            console.log(feed)
             return feed
         }
     }

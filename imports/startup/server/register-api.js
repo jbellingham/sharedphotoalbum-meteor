@@ -9,11 +9,11 @@ import merge from 'lodash/merge'
 const testSchema = `
 type Query {
   hi: String
-  feeds: [Feed]
+  feeds(userId: String, getSubscriptions: Boolean): [Feed]
 }
 `;
+//
 // 
-
 const typeDefs = [
     testSchema,
     FeedsSchema
