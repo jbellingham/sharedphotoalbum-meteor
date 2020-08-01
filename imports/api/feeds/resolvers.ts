@@ -4,14 +4,15 @@ import { Subscriptions } from '..'
 
 export default {
     Query: {
-      feeds(_: any, { userId, getSubscriptions }: any, __: any, ___: any) {
+      async feeds(_: any, { getSubscriptions }: any, context: any, ___: any) {
+          const user = await context.user()
           let feeds;
           if (getSubscriptions) {
-            const feedIds = Subscriptions.find({userId}).map(_ => _.feedId)
+            const feedIds = Subscriptions.find({userId: user._id}).map(_ => _.feedId)
             feeds = Feeds.find({_id: {$in: feedIds}}).fetch()
           }
           else {
-              feeds = Feeds.find({ownerId: userId}).fetch()
+              feeds = Feeds.find({ownerId: user._id}).fetch()
           }
           return feeds
       }
