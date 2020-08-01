@@ -17,7 +17,7 @@ function SubscriptionRequests() {
     })
 
     return <div className="subscription-requests">
-        <h3>Pending subscription requests</h3>
+        <h5>Pending subscription requests</h5>
         {requests.map(_ => buildUserComponent(_.userId))}
     </div>
 }

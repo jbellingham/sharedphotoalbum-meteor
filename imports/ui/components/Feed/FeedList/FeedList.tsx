@@ -68,9 +68,9 @@ function FeedList(props: IFeedListProps): JSX.Element {
     return (
         <>
             <NewFeed refetch={feedsRefetch} />
-            <h3>My Feeds</h3>
+            <h5>My Feeds</h5>
             {myFeeds && myFeeds.map((feed: IFeedButtonProps) => renderButton(feed))}
-            <h3>Subscriptions</h3>
+            <h5>Subscriptions</h5>
             {subscriptions && subscriptions.map((subscription: IFeedButtonProps) => renderButton(subscription))}
         </>
     )

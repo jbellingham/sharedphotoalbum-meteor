@@ -2,10 +2,10 @@ import React from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { Posts } from '/imports/api'
 import ProfilePicture from '../../shared/ProfilePicture'
-import { Feeds } from '/imports/api'
 import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
 import { Media } from '/imports/api'
+import Feeds from '/imports/api/feeds/feeds';
 
 function toTitleCase(input: string): string {
     input = input.toLowerCase()
