@@ -30,9 +30,8 @@ function NewFeed(props: any): JSX.Element {
     const [feedName, setFeedName] = React.useState('')
     const [feedDescription, setFeedDescription] = React.useState('')
     const [createNewFeed] = useMutation(CREATE_FEED, {
+        refetchQueries: ['feeds'],
         onCompleted({createFeed}) {
-            props.refetch()
-            // todo: find a better way to do this
             setTimeout(() => {
                 handleClose()
                 history.push(`/${createFeed._id}`)

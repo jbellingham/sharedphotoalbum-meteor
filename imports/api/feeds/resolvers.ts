@@ -4,7 +4,7 @@ import { Subscriptions } from '..'
 
 export default {
     Query: {
-      feeds(obj, {userId, getSubscriptions}, context, info) {
+      feeds(_: any, { userId, getSubscriptions }: any, __: any, ___: any) {
           let feeds;
           if (getSubscriptions) {
             const feedIds = Subscriptions.find({userId}).map(_ => _.feedId)
@@ -17,7 +17,7 @@ export default {
       }
     },
     Mutation: {
-        createFeed(obj, { name, description, ownerId }, context) {
+        createFeed(_: any, { name, description, ownerId }: any, __: any) {
             const id = Feeds.insert({
                 name: name,
                 description: description,

@@ -31,7 +31,7 @@ function FeedList(props: IFeedListProps): JSX.Element {
     const userId = Meteor.userId()
     const [selectedFeedId, setSelectedFeedId] = React.useState(props.selectedFeed)
 
-    let { data: feedsData, loading: feedsLoading, refetch: feedsRefetch } = useQuery(
+    let { data: feedsData, loading: feedsLoading } = useQuery(
         GET_FEEDS, {
         variables: { userId, getSubscriptions: false },
     })
@@ -67,7 +67,7 @@ function FeedList(props: IFeedListProps): JSX.Element {
 
     return (
         <>
-            <NewFeed refetch={feedsRefetch} />
+            <NewFeed />
             <h5>My Feeds</h5>
             {myFeeds && myFeeds.map((feed: IFeedButtonProps) => renderButton(feed))}
             <h5>Subscriptions</h5>
