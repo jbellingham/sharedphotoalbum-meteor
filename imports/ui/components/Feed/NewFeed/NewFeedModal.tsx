@@ -2,7 +2,6 @@ import React from 'react'
 import { Button, Form, FormControl, Container, Modal, ModalBody, ModalFooter } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
-import { Random } from 'meteor/random'
 import { useTracker } from 'meteor/react-meteor-data'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
@@ -30,20 +29,6 @@ function NewFeedModal(): JSX.Element {
         return Meteor.userId()
     }, [])
 
-    const feedNameInputId = 'feedNameInput'
-    const feedDescriptionInputId = 'feedDescriptionInput'
-
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-        const { id, value } = event.currentTarget
-        switch (id) {
-            case feedNameInputId:
-                setFeedName(value)
-                break
-            case feedDescriptionInputId:
-                setFeedDescription(event.currentTarget.value)
-                break
-        }
-    }
 
     const handleSubmit = async (): Promise<void> => {
         if (feedName && userId) {
@@ -76,17 +61,15 @@ function NewFeedModal(): JSX.Element {
                     <Form>
                         <Form.Group>
                             <FormControl
-                                id={feedNameInputId}
                                 placeholder="Feed name"
                                 value={feedName}
-                                onChange={handleChange}
+                                onChange={e => setFeedName(e.target.value)}
                             />
                         </Form.Group>
                         <Form.Group>
                             <FormControl
-                                id={feedDescriptionInputId}
                                 placeholder="What is this feed about?"
-                                onChange={handleChange}
+                                onChange={e => setFeedDescription(e.target.value)}
                                 value={feedDescription}
                                 as="textarea"
                             />

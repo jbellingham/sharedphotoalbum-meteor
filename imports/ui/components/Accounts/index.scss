@@ -5,3 +5,16 @@
         float: right;
     }
 }
+
+.fake-link {
+    cursor: pointer;
+    color: #0056b3;
+}
+
+.fake-link:hover {
+    text-decoration:underline;
+}
+
+.error-message {
+    color: red;
+}

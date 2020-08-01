@@ -1,8 +1,5 @@
 import React from 'react';
-import { useTracker } from "meteor/react-meteor-data"
-import { Subscriptions } from '/imports/api';
 import { Meteor } from 'meteor/meteor';
-import Feeds from '/imports/api/feeds/feeds';
 import NewFeed from '../NewFeed';
 import { Button } from 'react-bootstrap';
 import gql from 'graphql-tag';

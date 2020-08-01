@@ -15,7 +15,7 @@ const CREATE_FEED = gql`
     }
 `
 
-function NewFeed(props: any): JSX.Element {
+function NewFeed(): JSX.Element {
     const [show, setShow] = React.useState(false)
 
     const handleClickShow = (): void => {
