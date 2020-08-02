@@ -16,7 +16,7 @@ export interface IFeedListProps {
 }
 
 const GET_FEEDS = gql`
-    query feeds {
+    query {
         feeds {
             _id
             name
@@ -25,7 +25,7 @@ const GET_FEEDS = gql`
 `
 
 const GET_SUBSCRIPTIONS = gql`
-    query subscriptions {
+    query {
         subscriptions {
             _id
             name
@@ -39,8 +39,7 @@ function FeedList(props: IFeedListProps): JSX.Element {
     const { data: feedsData, loading: feedsLoading } = useQuery(GET_FEEDS)
 
     const feedsList = !feedsLoading &&
-    feedsData.feeds.map((_: { _id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
-
+        feedsData.feeds.map((_: { _id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
     
     const { data: subscriptionsData, loading: subscriptionsLoading } = useQuery(GET_SUBSCRIPTIONS)
     const subscriptionsList = !subscriptionsLoading &&
