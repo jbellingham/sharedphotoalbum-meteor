@@ -16,8 +16,17 @@ export interface IFeedListProps {
 }
 
 const GET_FEEDS = gql`
-    query feeds($getSubscriptions: Boolean) {
-        feeds(getSubscriptions: $getSubscriptions) {
+    query feeds {
+        feeds {
+            _id
+            name
+        }
+    }
+`
+
+const GET_SUBSCRIPTIONS = gql`
+    query subscriptions {
+        subscriptions {
             _id
             name
         }
@@ -25,24 +34,17 @@ const GET_FEEDS = gql`
 `
 
 function FeedList(props: IFeedListProps): JSX.Element {
-    const userId = Meteor.userId()
     const [selectedFeedId, setSelectedFeedId] = React.useState(props.selectedFeed)
 
-    let { data: feedsData, loading: feedsLoading } = useQuery(
-        GET_FEEDS, {
-        variables: { getSubscriptions: false },
-    })
+    const { data: feedsData, loading: feedsLoading } = useQuery(GET_FEEDS)
 
-    const myFeeds = !feedsLoading &&
-        feedsData.feeds.map((_: { _id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
+    const feedsList = !feedsLoading &&
+    feedsData.feeds.map((_: { _id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
 
-    let { data: subscriptionsData, loading: subscriptionsLoading } = useQuery(
-        GET_FEEDS, {
-        variables: { getSubscriptions: true },
-    })
-
-    const subscriptions = !subscriptionsLoading &&
-        subscriptionsData.feeds.map((_: {_id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
+    
+    const { data: subscriptionsData, loading: subscriptionsLoading } = useQuery(GET_SUBSCRIPTIONS)
+    const subscriptionsList = !subscriptionsLoading &&
+        subscriptionsData.subscriptions.map((_: {_id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
 
     if (props.selectedFeed && selectedFeedId !== props.selectedFeed) {
         setSelectedFeedId(props.selectedFeed)
@@ -66,9 +68,9 @@ function FeedList(props: IFeedListProps): JSX.Element {
         <>
             <NewFeed />
             <h5>My Feeds</h5>
-            {myFeeds && myFeeds.map((feed: IFeedButtonProps) => renderButton(feed))}
+            {feedsList && feedsList.map((feed: IFeedButtonProps) => renderButton(feed))}
             <h5>Subscriptions</h5>
-            {subscriptions && subscriptions.map((subscription: IFeedButtonProps) => renderButton(subscription))}
+            {subscriptionsList && subscriptionsList.map((subscription: IFeedButtonProps) => renderButton(subscription))}
         </>
     )
 }

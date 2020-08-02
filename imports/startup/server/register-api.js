@@ -1,34 +1,25 @@
 import { ApolloServer, gql } from 'apollo-server-express'
 import { WebApp } from 'meteor/webapp'
 import { getUser } from 'meteor/apollo'
-import FeedsSchema from '../../api/feeds/Feeds.graphql'
-import FeedsResolvers from '../../api/feeds/resolvers'
 import merge from 'lodash/merge'
 
+import FeedsSchema from '../../api/feeds/Feeds.graphql'
+import FeedsResolvers from '../../api/feeds/resolvers'
+
+import UsersSchema from '../../api/users/User.graphql'
+import UsersResolvers from '../../api/users/resolvers'
+
 // import typeDefs from './schema'
-const testSchema = `
-type Query {
-  hi: String
-  feeds(userId: String, getSubscriptions: Boolean): [Feed]
-}
-`;
-//
-// 
+//ssssdsa
+// fdsfzsfsasas
 const typeDefs = [
-    testSchema,
-    FeedsSchema
+    FeedsSchema,
+    UsersSchema
 ]
 
 // import resolvers from './resolvers'
-const testResolvers = {
-  Query: {
-    hi() {
-      return "Hello World.";
-    }
-  }
-}
 
-const resolvers = merge(testResolvers, FeedsResolvers)
+const resolvers = merge(FeedsResolvers, UsersResolvers)
 
 const server = new ApolloServer({
     typeDefs,

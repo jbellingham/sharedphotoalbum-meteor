@@ -4,17 +4,14 @@ import { Subscriptions } from '..'
 
 export default {
     Query: {
-      async feeds(_: any, { getSubscriptions }: any, context: any, ___: any) {
+      async feeds(_: any, __: any, context: any, ___: any) {
           const user = await context.user()
-          let feeds;
-          if (getSubscriptions) {
-            const feedIds = Subscriptions.find({userId: user._id}).map(_ => _.feedId)
-            feeds = Feeds.find({_id: {$in: feedIds}}).fetch()
-          }
-          else {
-              feeds = Feeds.find({ownerId: user._id}).fetch()
-          }
-          return feeds
+          return Feeds.find({ownerId: user._id}).fetch()
+      },
+      async subscriptions(_: any, __: any, context: any, ___: any) {
+        const user = await context.user()
+        const feedIds = Subscriptions.find({userId: user._id}).map(_ => _.feedId)
+        return Feeds.find({_id: {$in: feedIds}}).fetch()
       }
     },
     Mutation: {

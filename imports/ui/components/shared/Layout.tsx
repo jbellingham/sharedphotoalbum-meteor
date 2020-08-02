@@ -9,7 +9,6 @@ export interface ILoginProps {
 }
 
 function Layout(props: any) {
-  // static displayName = Layout.name;
   const [loggedIn, setLoggedIn] = React.useState(!!Meteor.userId())
 
   const loginProps: ILoginProps = {

@@ -8,3 +8,8 @@ type Feed {
 type Mutation {
     createFeed(name: String!, description: String, ownerId: String!): Feed
 }
+
+type Query {
+  feeds: [Feed]
+  subscriptions: [Feed]
+}
