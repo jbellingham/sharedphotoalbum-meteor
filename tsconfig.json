@@ -34,12 +34,10 @@
     "esModuleInterop": true,
     "preserveSymlinks": true
   },
+  "files": ["/@types/graphql.d.ts"],
   "exclude": [
     "./.meteor/**",
     "./packages/**"
   ],
-  "typeRoots": [
-    "src/customTypings",
-    "/@types"
-  ]
+  "typeRoots": ["/@types"]
 }

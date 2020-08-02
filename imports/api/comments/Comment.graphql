@@ -1,0 +1,15 @@
+type Comment {
+  _id: String
+  text: String
+#   likes: number;
+  postId: String
+  postedBy: String
+}
+
+type Mutation {
+    createComment(text: String!, postId: String!): Feed
+}
+
+type Query {
+  comments: [Comment]
+}

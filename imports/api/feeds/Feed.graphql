@@ -7,9 +7,11 @@ type Feed {
 
 type Mutation {
     createFeed(name: String!, description: String, ownerId: String!): Feed
+    deleteFeed(id: String!): Boolean
 }
 
 type Query {
-  feeds: [Feed]
-  subscriptions: [Feed]
+    feedById(id: String!): Feed
+    feeds: [Feed]
+    subscriptions: [Feed]
 }

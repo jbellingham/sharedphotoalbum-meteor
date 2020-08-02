@@ -1,40 +1,48 @@
 import React from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap'
-import { Posts } from '/imports/api'
 import ProfilePicture from '../../shared/ProfilePicture'
 import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
 import { Media } from '/imports/api'
-import Feeds from '/imports/api/feeds/feeds';
-
-function toTitleCase(input: string): string {
-    input = input.toLowerCase()
-    return input.charAt(0).toUpperCase() + input.slice(1)
-}
+import gql from 'graphql-tag';
+import { useMutation } from 'react-apollo';
 
 export interface INewPostProps {
     feedId: string
 }
+
+const CREATE_POST = gql`
+    mutation ($text: String!, $feedId: String!) {
+        createPost(text: $text, feedId: $feedId) {
+            _id
+        }
+    }
+`
 
 function NewPost(props: INewPostProps): JSX.Element {
     const [postText, setPostTest] = React.useState('')
     const [files, setFiles] = React.useState(new Array<File>())
     const [photoId, setPhotoId] = React.useState(0)
     const { feedId } = props
+    const [createPost] = useMutation(CREATE_POST, {
+        // refetchQueries: [{
+        //     query: gql`
+        //         query ($id: String!) {
+        //             posts(feedId: $id) {
+        //                 _id
+        //                 text
+        //             }
+        //         }
+        //         `,
+        //         variables: { feedId }                
+        //     }],
+        onCompleted: ({ createPost }) => {
+            uploadFiles(createPost._id)
+        }
+    })
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setPostTest(event.currentTarget.value)
-    }
-
-    const getFileFromInput = (file: File): Promise<any> => {
-        return new Promise(function (resolve, reject) {
-            const reader = new FileReader()
-            reader.onerror = reject
-            reader.onload = (): void => {
-                resolve(reader.result)
-            }
-            reader.readAsDataURL(file) // here the file can be read in different way Text, DataUrl, ArrayBuffer
-        })
     }
 
     const onKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
@@ -42,17 +50,7 @@ function NewPost(props: INewPostProps): JSX.Element {
             event.preventDefault()
             event.stopPropagation()
             if (postText) {
-                const postId = Posts.insert({
-                    text: postText,
-                    createdAt: new Date(),
-                    comments: [],
-                    feedId,
-                    media: [],
-                })
-                uploadFiles(postId)
-                Feeds.update(feedId, {
-                    $push: { posts: postId }
-                })
+                await createPost({ variables: { text: postText, feedId }})
                 setPostTest('')
             }
         }
@@ -67,7 +65,7 @@ function NewPost(props: INewPostProps): JSX.Element {
         const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
         for (let file of files) {
             setPhotoId(photoId + 1)
-            const fileName = file.name;
+            // const fileName = file.name;
             request.post(url)
                 .field('upload_preset', uploadPreset)
                 .field('file', file)

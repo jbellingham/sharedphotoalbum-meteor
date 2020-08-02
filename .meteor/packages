@@ -30,5 +30,6 @@ jquery
 fourseven:scss
 aldeed:simple-schema
 socialize:cloudinary
+swydo:graphql
 
 apollo

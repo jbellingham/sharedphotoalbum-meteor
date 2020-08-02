@@ -3,12 +3,7 @@ import { WebApp } from 'meteor/webapp'
 import { getUser } from 'meteor/apollo'
 
 import typeDefs from './graphql/schema'
-//ssssdsa
-// fdsfzsfsasas
-
-
 import resolvers from './graphql/resolvers'
-
 
 const server = new ApolloServer({
     typeDefs,
@@ -18,7 +13,7 @@ const server = new ApolloServer({
     })
   })
   
-server.applyMiddleware({
+  server.applyMiddleware({
     app: WebApp.connectHandlers,
     path: '/graphql'
 })

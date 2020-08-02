@@ -8,6 +8,9 @@ export default {
           const user = await context.user()
           return Feeds.find({ownerId: user._id}).fetch()
       },
+      async feedById(_: any, { id }: any, __: any) {
+        return Feeds.findOne({ _id: id })
+      },
       async subscriptions(_: any, __: any, context: any, ___: any) {
         const user = await context.user()
         const feedIds = Subscriptions.find({userId: user._id}).map(_ => _.feedId)
@@ -29,4 +32,4 @@ export default {
             return feed
         }
     }
-  }
+}

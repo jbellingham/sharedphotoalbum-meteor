@@ -1,0 +1,14 @@
+type Post {    
+    _id: String
+    text: String
+    comments: [String]
+    media: [String]
+}
+
+extend type Mutation {
+    createPost(text: String!, feedId: String!): Post
+}
+
+extend type Query {
+     posts(feedId: String!): [Post]
+}

@@ -37,7 +37,7 @@ const Post = (props: IPostProps) => {
             event.preventDefault()
             event.stopPropagation()
             if (comment && userId && post._id) {
-                const commentId = Comments.insert({text: comment, createdAt: new Date(), likes: 0, postId: post._id, postedBy: userId})
+                const commentId = Comments.insert({ text: comment, createdAt: new Date(), likes: 0, postId: post._id, userId })
                 Posts.update(post._id, {
                     $push: { comments: commentId }
                 })

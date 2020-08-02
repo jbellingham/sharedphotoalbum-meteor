@@ -1,6 +1,5 @@
 import React from 'react'
 import NewPost from './NewPost'
-import { Posts } from '/imports/api'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams, useHistory } from 'react-router-dom'
@@ -10,6 +9,21 @@ import FeedList from './FeedList/FeedList'
 import { Meteor } from 'meteor/meteor'
 import { Subscriptions } from '/imports/api'
 import SubscriptionRequests from './SubscriptionRequests'
+import Posts from '/imports/api/posts/posts'
+import gql from 'graphql-tag'
+import { useQuery } from 'react-apollo'
+
+const GET_FEED = gql`
+    query ($id: String!) {
+        feedById(id: $id) {
+            _id
+        }
+        posts(feedId: $id) {
+            _id
+            text
+        }
+    }
+`
 
 function Feed() {
     let { feedId } = useParams()
@@ -19,6 +33,12 @@ function Feed() {
     const onFeedSelected = (selectedFeedId: string) => {
         history.push(selectedFeedId)
     }
+
+    const { data, loading } = useQuery(GET_FEED, {
+        variables: {
+            id: feedId
+        }
+    })
 
     const feed = useTracker(() => {
         return Feeds.findOne({_id: feedId})

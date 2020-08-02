@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { CommentModel } from '/imports/api/models/comments'
+import { CommentModel } from '../../../api/comments/comments'
 
 function Comment(props: CommentModel): ReactElement {
     return (
