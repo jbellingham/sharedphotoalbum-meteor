@@ -1,16 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container } from 'react-bootstrap';
+import ProfilePanel from './ProfilePanel';
+import { Meteor } from 'meteor/meteor';
+import Login from '../Accounts/Login';
 
-export class Layout extends Component {
-  static displayName = Layout.name;
+export interface ILoginProps {
+  setLoggedIn: (value :boolean) => void
+}
 
-  render () {
+function Layout(props: any) {
+  // static displayName = Layout.name;
+  const [loggedIn, setLoggedIn] = React.useState(!!Meteor.userId())
+
+  const loginProps: ILoginProps = {
+    setLoggedIn,
+  }
+
     return (
       <div>
+        {loggedIn &&
+          <ProfilePanel {...loginProps} />
+        }
         <Container fluid>
-          {this.props.children}
+            {!loggedIn &&
+              <div className='vertical-center justify-content-center'>
+                  <Login {...loginProps} />
+              </div>
+            }
+          {props.children}
         </Container>
       </div>
     );
-  }
 }
+
+export default Layout
