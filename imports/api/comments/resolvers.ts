@@ -1,4 +1,3 @@
-import { Posts } from ".."
 import Comments from "./comments"
 
 export default {
@@ -6,12 +5,11 @@ export default {
       async comments(_: any, __: any, context: any, ___: any) {
           const user = await context.user()
           return Comments.find({ownerId: user._id}).fetch()
-      },
-    //   async subscriptions(_: any, __: any, context: any, ___: any) {
-    //     const user = await context.user()
-    //     const feedIds = Subscriptions.find({userId: user._id}).map(_ => _.feedId)
-    //     return Feeds.find({_id: {$in: feedIds}}).fetch()
-    //   }
+      }
+    },
+    Comment: {
+        // todo: this isn't working...
+        postedBy: comment => Meteor.users.findOne({_id: comment.userId})
     },
     Mutation: {
         async createComment(_: any, { text, postId }: any, context: any) {

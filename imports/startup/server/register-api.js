@@ -11,7 +11,7 @@ const server = new ApolloServer({
     context: async ({ req }) => ({
       user: async () => await getUser(req.headers.authorization)
     })
-  })
+})
   
   server.applyMiddleware({
     app: WebApp.connectHandlers,

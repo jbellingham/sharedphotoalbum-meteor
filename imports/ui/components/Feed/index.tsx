@@ -3,24 +3,23 @@ import NewPost from './NewPost'
 import Post from '../Post'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams, useHistory } from 'react-router-dom'
-import Feeds from '/imports/api/feeds/feeds';
 import { Col, Row } from 'react-bootstrap'
 import FeedList from './FeedList/FeedList'
 import { Meteor } from 'meteor/meteor'
-import { Subscriptions } from '/imports/api'
 import SubscriptionRequests from './SubscriptionRequests'
-import Posts from '/imports/api/posts/posts'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo'
+import { Subscriptions } from '../../../api'
 
 const GET_FEED = gql`
     query ($id: String!) {
-        feedById(id: $id) {
+        feedById(_id: $id) {
             _id
-        }
-        posts(feedId: $id) {
-            _id
-            text
+            ownerId
+            posts {
+                _id
+                text
+            }
         }
     }
 `
@@ -40,13 +39,7 @@ function Feed() {
         }
     })
 
-    const feed = useTracker(() => {
-        return Feeds.findOne({_id: feedId})
-    })
-
-    const posts = useTracker(() => {
-        return Posts.find({feedId: feedId}, {sort: { createdAt: -1}}).fetch()
-    })
+    const { feedById: feed } = data || {}
 
     const subscription = useTracker(() => {
         return userId && Subscriptions.findOne({userId, feedId})
@@ -56,8 +49,7 @@ function Feed() {
         return userId === feed?.ownerId
     })
 
-    const canView : boolean = !feedId || isOwner || !!subscription
-    
+    const canView : boolean = !feedId || isOwner || !!subscription    
     
     return (
         <div className="feed-container">
@@ -71,7 +63,7 @@ function Feed() {
                         {isOwner &&
                             <NewPost feedId={feedId} />
                         }
-                        {posts?.map((post) => (
+                        {feed?.posts?.map((post) => (
                             <Post post={post} key={post._id} />
                         ))}
                     </Col>

@@ -1,13 +1,12 @@
 import React from 'react'
 import { Card, Form } from 'react-bootstrap'
 import Comment from './Comment'
-import { Posts } from '/imports/api'
-import { Media } from '/imports/api'
-import { Comments } from '/imports/api'
 import { useTracker } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
 import MediaContainer from './MediaContainer'
-import { PostModel } from '../../../api/posts/posts'
+import Posts, { PostModel } from '../../../api/posts/posts'
+import { Media } from '../../../api'
+import Comments from '../../../api/comments/comments'
 
 export interface IPostProps {
     post: PostModel

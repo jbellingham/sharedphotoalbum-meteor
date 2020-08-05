@@ -1,14 +1,11 @@
 type Post {    
     _id: String
     text: String
-    comments: [String]
+    comments: [Comment]
     media: [String]
+    postedBy: User
 }
 
 extend type Mutation {
     createPost(text: String!, feedId: String!): Post
-}
-
-extend type Query {
-     posts(feedId: String!): [Post]
 }

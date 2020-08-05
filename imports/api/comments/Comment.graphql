@@ -1,15 +1,14 @@
 type Comment {
   _id: String
   text: String
-#   likes: number;
-  postId: String
-  postedBy: String
+  # likes: Integer;
+  postedBy: User
 }
 
-type Mutation {
+extend type Mutation {
     createComment(text: String!, postId: String!): Feed
 }
 
-type Query {
+extend type Query {
   comments: [Comment]
 }

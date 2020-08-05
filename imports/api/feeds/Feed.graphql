@@ -3,6 +3,7 @@ type Feed {
     name: String!
     description: String
     ownerId: String!
+    posts: [Post]
 }
 
 type Mutation {
@@ -11,7 +12,8 @@ type Mutation {
 }
 
 type Query {
-    feedById(id: String!): Feed
+    feedById(_id: String!): Feed
     feeds: [Feed]
     subscriptions: [Feed]
+    posts(_id: String!): [Post]
 }
