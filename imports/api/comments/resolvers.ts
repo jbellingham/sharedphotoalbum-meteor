@@ -2,9 +2,8 @@ import Comments from "./comments"
 
 export default {
     Query: {
-      async comments(_: any, __: any, context: any, ___: any) {
-          const user = await context.user()
-          return Comments.find({ownerId: user._id}).fetch()
+      comments(_: any, { postId }: any, __: any, ___: any) {
+          return Comments.find({ postId }).fetch()
       }
     },
     Comment: {

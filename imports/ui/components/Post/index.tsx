@@ -7,10 +7,25 @@ import MediaContainer from './MediaContainer'
 import Posts, { PostModel } from '../../../api/posts/posts'
 import Comments from '../../../api/comments/comments'
 import Media from '../../../api/media/media'
+import gql from 'graphql-tag'
+import { useQuery } from 'react-apollo'
 
 export interface IPostProps {
     post: PostModel
 }
+
+const GET_COMMENTS = gql`
+    query ($postId: String!) {
+        comments(postId: $postId) {
+            text
+            likes
+            postedBy {
+                _id
+                email
+            }
+        }
+    }
+`
 
 const Post = (props: IPostProps) => {
     const [comment, setComment] = React.useState('')
@@ -19,9 +34,14 @@ const Post = (props: IPostProps) => {
     }, [])
 
     const { post } = props
-    const comments = useTracker(() => {
-        return Comments.find({postId: post._id}).fetch()
-    }, [])
+
+    // todo: not working
+    const { data, loading } = useQuery(GET_COMMENTS, {
+        variables: { postId: post._id }
+    })
+    // const comments = useTracker(() => {
+    //     return Comments.find({postId: post._id}).fetch()
+    // }, [])
 
     const media = useTracker(() => {
         return Media.find({postId: post._id}).fetch()
@@ -54,9 +74,9 @@ const Post = (props: IPostProps) => {
                 </Card.Body>
             }
             <Card.Footer className="text-center">
-                {comments.length > 0 && (
+                {data?.comments?.length > 0 && (
                     <div className="comments-container">
-                        {comments.map((comment) => (
+                        {data.comments.map((comment) => (
                             <Comment {...comment} key={comment._id} />
                         ))}
                     </div>
