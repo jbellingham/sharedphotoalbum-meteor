@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Button } from 'react-bootstrap'
 import { useTracker } from 'meteor/react-meteor-data'
@@ -20,6 +20,7 @@ const CREATE_SUBSCRIPTION = gql`
 
 function Invite() {
     let { inviteCode } = useParams()
+    const history = useHistory()
     const [userId] = React.useState(Meteor.userId())
     const feedId = useTracker(() => {
         return Feeds.findOne({inviteCode})?._id
@@ -27,15 +28,14 @@ function Invite() {
 
     const [createSubscription] = useMutation(CREATE_SUBSCRIPTION, {
         // refetchQueries: ['feeds'],
-        // onCompleted({createFeed}) {
-        //     setTimeout(() => {
-        //         handleClose()
-        //         history.push(`/${createFeed._id}`)
-        //     }, 500)
-        // },
-        // onError(e) {
-        //     debugger
-        // }
+        onCompleted() {
+            setTimeout(() => {
+                history.push(`/${feedId}`)
+            }, 500)
+        },
+        onError(e) {
+            debugger
+        }
     })
 
     const acceptInvite = () => {
