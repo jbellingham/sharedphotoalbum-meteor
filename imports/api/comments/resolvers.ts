@@ -9,7 +9,7 @@ export default {
     },
     Comment: {
         // todo: this isn't working...
-        postedBy: comment => Meteor.users.findOne({_id: comment.userId})
+        postedBy: comment => Meteor.users.findOne({ _id: comment.userId }),
     },
     Mutation: {
         async createComment(_: any, { text, postId }: any, context: any) {
@@ -22,8 +22,7 @@ export default {
                 likes: 0
             })
 
-            const comment = Comments.findOne(id)
-            return comment
+            return Comments.findOne(id)
         }
     }
 }

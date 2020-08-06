@@ -4,3 +4,5 @@ export interface MediaModel {
   createdAt: Date
   postId: string
 }
+
+export const Media = new Mongo.Collection<MediaModel>('media');

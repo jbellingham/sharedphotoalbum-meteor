@@ -19,26 +19,29 @@ const CREATE_POST = gql`
     }
 `
 
+const CREATE_MEDIA = gql`
+    mutation ($publicId: String!, $postId: String!) {
+        createMedia(publicId: $publicId, postId: $postId) {
+            _id
+        }
+    }
+`
+
 function NewPost(props: INewPostProps): JSX.Element {
     const [postText, setPostTest] = React.useState('')
     const [files, setFiles] = React.useState(new Array<File>())
     const [photoId, setPhotoId] = React.useState(0)
     const { feedId } = props
     const [createPost] = useMutation(CREATE_POST, {
-        // refetchQueries: [{
-        //     query: gql`
-        //         query ($id: String!) {
-        //             posts(feedId: $id) {
-        //                 _id
-        //                 text
-        //             }
-        //         }
-        //         `,
-        //         variables: { feedId }                
-        //     }],
         onCompleted: ({ createPost }) => {
             uploadFiles(createPost._id)
         }
+    })
+
+    const [createMedia] = useMutation(CREATE_MEDIA, {
+        // onCompleted: ({ createMedia }) => {
+        //     uploadFiles(createMedia._id)
+        // }
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -73,9 +76,9 @@ function NewPost(props: INewPostProps): JSX.Element {
                 // .field('tags', title ? `myphotoalbum,${title}` : 'myphotoalbum')
                 // .field('context', title ? `photo=${title}` : '')
                 // .on('progress', (progress) => this.onPhotoUploadProgress(photoId, file.name, progress))
-                .end((error, response) => {
+                .end(async (error, response) => {
                     if (response?.body) {
-                        storeMediaDetails(postId, response.body)
+                        await createMedia({ variables: { publicId: response.body.public_id, postId }})
                     }
                     console.log(error || response)
                     // onPhotoUploaded(photoId, fileName, response);

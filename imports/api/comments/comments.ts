@@ -5,7 +5,7 @@ export interface CommentModel {
   text: string;
   createdAt: Date;
   likes: number;
-  postId: string | undefined;
+  postId: string;
   userId: string;
 }
 

@@ -1,0 +1,13 @@
+type Media {    
+  _id: String
+  publicId: String
+  createdAt: Date
+}
+
+extend type Mutation {
+    createMedia(publicId: String!, postId: String!): Media
+}
+
+extend type Query {
+    media(postId: String!): [Media]
+}

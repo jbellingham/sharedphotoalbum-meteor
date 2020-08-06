@@ -9,7 +9,7 @@ export default {
       }
     },
     Post: {
-        postedBy: post => Meteor.users.findOne({_id: post.userId}),
+        postedBy: post => Meteor.users.findOne({ _id: post.userId }),
         comments: post => Comments.find({ postId: post._id }).fetch()
     },
     Mutation: {

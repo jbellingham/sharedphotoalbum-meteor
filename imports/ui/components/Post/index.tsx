@@ -5,8 +5,8 @@ import { useTracker } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
 import MediaContainer from './MediaContainer'
 import Posts, { PostModel } from '../../../api/posts/posts'
-import { Media } from '../../../api'
 import Comments from '../../../api/comments/comments'
+import { Media } from '../../../api/media/media'
 
 export interface IPostProps {
     post: PostModel

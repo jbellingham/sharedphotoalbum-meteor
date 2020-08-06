@@ -32,8 +32,7 @@ export default {
                 inviteCode: Random.id()
             })
 
-            const feed = Feeds.findOne(id)
-            return feed
+            return Feeds.findOne(id)
         }
     }
 }
