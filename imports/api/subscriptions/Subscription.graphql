@@ -1,0 +1,13 @@
+type Subscription {
+  _id: String
+  createdAt: Date
+  isActive: Boolean
+}
+
+extend type Mutation {
+    createSubscription(feedId: String!, userId: String!): Subscription
+}
+
+extend type Query {
+    subscription(feedId: String!, userId: String!): Subscription
+}

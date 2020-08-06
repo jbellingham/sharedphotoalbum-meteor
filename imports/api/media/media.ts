@@ -5,4 +5,5 @@ export interface MediaModel {
   postId: string
 }
 
-export const Media = new Mongo.Collection<MediaModel>('media');
+const Media = new Mongo.Collection<MediaModel>('media');
+export default Media

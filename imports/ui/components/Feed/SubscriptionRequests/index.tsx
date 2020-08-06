@@ -1,8 +1,7 @@
 import React from 'react'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
-import { Subscriptions } from '/imports/api'
-import { Meteor } from 'meteor/meteor'
+import Subscriptions from '../../../../api/subscriptions/subscriptions'
 
 function SubscriptionRequests() {
     let { feedId } = useParams()

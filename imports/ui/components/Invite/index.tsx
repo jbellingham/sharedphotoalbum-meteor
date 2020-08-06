@@ -2,9 +2,21 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Button } from 'react-bootstrap'
-import { Subscriptions } from '/imports/api'
 import { useTracker } from 'meteor/react-meteor-data'
-import { Feeds } from '/imports/api'
+import Feeds from '../../../api/feeds/feeds'
+import gql from 'graphql-tag'
+import { useMutation } from 'react-apollo'
+
+
+const CREATE_SUBSCRIPTION = gql`
+    mutation createSubscription($feedId: String!, $userId: String!) {
+        createSubscription(feedId: $feedId, userId: $userId) {
+            _id
+        }
+    }
+`
+    
+  
 
 function Invite() {
     let { inviteCode } = useParams()
@@ -13,9 +25,22 @@ function Invite() {
         return Feeds.findOne({inviteCode})?._id
     })
 
+    const [createSubscription] = useMutation(CREATE_SUBSCRIPTION, {
+        // refetchQueries: ['feeds'],
+        // onCompleted({createFeed}) {
+        //     setTimeout(() => {
+        //         handleClose()
+        //         history.push(`/${createFeed._id}`)
+        //     }, 500)
+        // },
+        // onError(e) {
+        //     debugger
+        // }
+    })
+
     const acceptInvite = () => {
         if (feedId && userId) {
-            Subscriptions.insert({feedId, userId, createdAt: new Date(), isActive: false})
+            createSubscription({variables: { feedId, userId }})
         }
     }
 

@@ -9,7 +9,7 @@ import { Meteor } from 'meteor/meteor'
 import SubscriptionRequests from './SubscriptionRequests'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo'
-import { Subscriptions } from '../../../api'
+import Subscriptions from '../../../api/subscriptions/subscriptions'
 
 const GET_FEED = gql`
     query ($id: String!) {

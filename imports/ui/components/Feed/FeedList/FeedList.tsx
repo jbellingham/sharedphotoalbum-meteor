@@ -1,5 +1,4 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import NewFeed from '../NewFeed';
 import { Button } from 'react-bootstrap';
 import gql from 'graphql-tag';

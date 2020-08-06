@@ -4,6 +4,7 @@ import PostsSchema from '../../../../api/posts/Post.graphql'
 import UsersSchema from '../../../../api/users/User.graphql'
 import CommentsSchema from '../../../../api/comments/Comment.graphql'
 import MediaSchema from '../../../../api/media/Media.graphql'
+import SubscriptionsSchema from '../../../../api/subscriptions/Subscription.graphql'
 
 const typeDefs = [
     DatesSchema,
@@ -12,7 +13,8 @@ const typeDefs = [
     PostsSchema,
     UsersSchema,
     MediaSchema,
+    SubscriptionsSchema,
 ]
-//ddsasdcdsddsddsdsa
+//ddsasdcdsddsddsdsadsa
 
 export default typeDefs

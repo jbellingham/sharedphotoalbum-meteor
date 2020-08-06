@@ -3,7 +3,6 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import ProfilePicture from '../../shared/ProfilePicture'
 import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
-import { Media } from '/imports/api'
 import gql from 'graphql-tag';
 import { useMutation } from 'react-apollo';
 
@@ -84,15 +83,6 @@ function NewPost(props: INewPostProps): JSX.Element {
                     // onPhotoUploaded(photoId, fileName, response);
                 });
         }
-    }
-
-    const storeMediaDetails = (postId: string, details: any) => {
-        const mediaId = Media.insert({
-            postId: postId,
-            createdAt: new Date(),
-            publicId: details.public_id
-        })
-        console.log(mediaId)
     }
 
 

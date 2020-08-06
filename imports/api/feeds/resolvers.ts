@@ -1,7 +1,7 @@
 import Feeds from './feeds'
 import { Random } from 'meteor/random'
-import { Subscriptions } from '..'
 import Posts from '../posts/posts'
+import Subscriptions from '../subscriptions/subscriptions'
 
 export default {
     Query: {

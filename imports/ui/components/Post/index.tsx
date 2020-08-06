@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor'
 import MediaContainer from './MediaContainer'
 import Posts, { PostModel } from '../../../api/posts/posts'
 import Comments from '../../../api/comments/comments'
-import { Media } from '../../../api/media/media'
+import Media from '../../../api/media/media'
 
 export interface IPostProps {
     post: PostModel
@@ -24,7 +24,7 @@ const Post = (props: IPostProps) => {
     }, [])
 
     const media = useTracker(() => {
-            return Media.find({postId: post._id}).fetch()
+        return Media.find({postId: post._id}).fetch()
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {

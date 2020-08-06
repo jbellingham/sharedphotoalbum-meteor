@@ -1,4 +1,4 @@
-type Media {    
+type Media {
   _id: String
   publicId: String
   createdAt: Date
