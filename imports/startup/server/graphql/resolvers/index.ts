@@ -6,6 +6,7 @@ import UsersResolvers from '../../../../api/users/resolvers'
 import PostsResolvers from '../../../../api/posts/resolvers'
 import MediaResolvers from '../../../../api/media/resolvers'
 import SubscriptionsResolvers from '../../../../api/subscriptions/resolvers'
+import CommentsResolvers from '../../../../api/comments/resolvers'
 
 const resolvers = merge(
     DateResolvers,
@@ -13,6 +14,7 @@ const resolvers = merge(
     UsersResolvers,
     PostsResolvers,
     MediaResolvers,
-    SubscriptionsResolvers)
+    SubscriptionsResolvers,
+    CommentsResolvers)
     
 export default resolvers

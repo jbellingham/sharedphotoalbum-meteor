@@ -2,9 +2,10 @@ type Post {
     _id: String
     text: String
     comments: [Comment]
-    media: [String]
-    postedBy: User
+    media: [Media]
+    poster: User
 }
+
 
 extend type Mutation {
     createPost(text: String!, feedId: String!): Post

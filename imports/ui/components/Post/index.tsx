@@ -1,25 +1,16 @@
 import React from 'react'
 import { Card, Form } from 'react-bootstrap'
 import Comment from './Comment'
-import { useTracker } from 'meteor/react-meteor-data'
-import { Meteor } from 'meteor/meteor'
 import MediaContainer from './MediaContainer'
-import Posts, { PostModel } from '../../../api/posts/posts'
-import Comments from '../../../api/comments/comments'
-import Media from '../../../api/media/media'
 import gql from 'graphql-tag'
-import { useQuery } from 'react-apollo'
-
-export interface IPostProps {
-    post: PostModel
-}
+import { useQuery, useMutation } from 'react-apollo'
 
 const GET_COMMENTS = gql`
     query ($postId: String!) {
         comments(postId: $postId) {
             text
             likes
-            postedBy {
+            commenter {
                 _id
                 email
             }
@@ -27,24 +18,29 @@ const GET_COMMENTS = gql`
     }
 `
 
-const Post = (props: IPostProps) => {
-    const [comment, setComment] = React.useState('')
-    const userId = useTracker(() => {
-        return Meteor.userId()
-    }, [])
+const CREATE_COMMENT = gql`
+    mutation createComment($text: String!, $postId: String!) {
+        createComment(text: $text, postId: $postId) {
+            _id
+        }
+    }
+`
 
+const Post = (props: any) => {
     const { post } = props
+    const [comment, setComment] = React.useState('')
 
-    // todo: not working
     const { data, loading } = useQuery(GET_COMMENTS, {
-        variables: { postId: post._id }
+        variables: {postId: post._id}
     })
-    // const comments = useTracker(() => {
-    //     return Comments.find({postId: post._id}).fetch()
-    // }, [])
 
-    const media = useTracker(() => {
-        return Media.find({postId: post._id}).fetch()
+    const [createComment] = useMutation(CREATE_COMMENT, {
+        onError: () => console.log('shit'),
+        onCompleted: () => setComment(''),
+        refetchQueries: [{
+            query: GET_COMMENTS,
+            variables: {postId: post._id}
+        }]
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -55,12 +51,8 @@ const Post = (props: IPostProps) => {
         if (event.key === 'Enter') {
             event.preventDefault()
             event.stopPropagation()
-            if (comment && userId && post._id) {
-                const commentId = Comments.insert({ text: comment, createdAt: new Date(), likes: 0, postId: post._id, userId })
-                Posts.update(post._id, {
-                    $push: { comments: commentId }
-                })
-                setComment('')
+            if (comment && post._id) {
+                createComment({ variables: { text: comment, postId: post._id }})
             }
         }
     }
@@ -68,13 +60,13 @@ const Post = (props: IPostProps) => {
     return (
         <Card className="post-container">
             <Card.Header>{post.text}</Card.Header>
-            {media.length > 0 &&
+            {post.media.length > 0 &&
                 <Card.Body>
-                    <MediaContainer media={media}/>
+                    <MediaContainer media={post.media}/>
                 </Card.Body>
             }
             <Card.Footer className="text-center">
-                {data?.comments?.length > 0 && (
+                {loading ? "Loading" : (
                     <div className="comments-container">
                         {data.comments.map((comment) => (
                             <Comment {...comment} key={comment._id} />

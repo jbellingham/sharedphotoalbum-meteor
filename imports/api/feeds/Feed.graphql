@@ -15,5 +15,4 @@ type Query {
     feedById(_id: String!): Feed
     feeds: [Feed]
     subscriptions: [Feed]
-    posts(_id: String!): [Post]
 }

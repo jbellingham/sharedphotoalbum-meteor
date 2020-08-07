@@ -2,13 +2,12 @@ import Comments from "./comments"
 
 export default {
     Query: {
-      comments(_: any, { postId }: any, __: any, ___: any) {
-          return Comments.find({ postId }).fetch()
-      }
+        comments(_: any, { postId }: any, __: any) {
+            return Comments.find({ postId }).fetch()
+        }
     },
     Comment: {
-        // todo: this isn't working...
-        postedBy: comment => Meteor.users.findOne({ _id: comment.userId }),
+        commenter: comment => Meteor.users.findOne({ _id: comment.userId }),
     },
     Mutation: {
         async createComment(_: any, { text, postId }: any, context: any) {

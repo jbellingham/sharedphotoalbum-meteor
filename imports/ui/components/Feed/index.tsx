@@ -12,13 +12,21 @@ import { useQuery } from 'react-apollo'
 import Subscriptions from '../../../api/subscriptions/subscriptions'
 
 const GET_FEED = gql`
-    query ($id: String!) {
+    query feedById($id: String!) {
         feedById(_id: $id) {
             _id
             ownerId
             posts {
                 _id
                 text
+                poster {
+                    _id
+                    email
+                }
+                media {
+                    _id
+                    publicId
+                }
             }
         }
     }
