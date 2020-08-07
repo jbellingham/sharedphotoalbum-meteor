@@ -4,6 +4,8 @@ type Feed {
     description: String
     ownerId: String!
     posts: [Post]
+    isOwner: Boolean
+    isSubscription: Boolean
 }
 
 type Mutation {

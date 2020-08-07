@@ -19,7 +19,16 @@ export default {
       }
     },
     Feed: {
-      posts: feed => Posts.find({ feedId: feed._id }).fetch()
+      posts: feed => Posts.find({ feedId: feed._id }).fetch(),
+      isOwner: async (feed: any, _: any, { user }: any, __: any) => {
+        const u = await user()
+        return feed.ownerId === u._id
+      },
+      isSubscription: async (feed: any, _: any, { user }: any, __: any) => {
+        const u = await user()
+        // better way to do this??
+        return Subscriptions.find({ userId: u._id, feedId: feed._id }).count() > 0
+      }
     },
     Mutation: {
         createFeed(_: any, { name, description, ownerId }: any, __: any) {

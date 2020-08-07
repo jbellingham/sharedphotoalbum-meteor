@@ -35,7 +35,6 @@ const Post = (props: any) => {
     })
 
     const [createComment] = useMutation(CREATE_COMMENT, {
-        onError: () => console.log('shit'),
         onCompleted: () => setComment(''),
         refetchQueries: [{
             query: GET_COMMENTS,

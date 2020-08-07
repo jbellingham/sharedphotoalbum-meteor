@@ -16,6 +16,8 @@ const GET_FEED = gql`
         feedById(_id: $id) {
             _id
             ownerId
+            isOwner
+            isSubscription
             posts {
                 _id
                 text
@@ -49,15 +51,7 @@ function Feed() {
 
     const { feedById: feed } = data || {}
 
-    const subscription = useTracker(() => {
-        return userId && Subscriptions.findOne({userId, feedId})
-    })
-
-    const isOwner : boolean = useTracker(() => {
-        return userId === feed?.ownerId
-    })
-
-    const canView : boolean = !feedId || isOwner || !!subscription    
+    const canView : boolean = !loading && !feedId || feed?.isOwner || feed?.isSubscription
     
     return (
         <div className="feed-container">
@@ -68,7 +62,7 @@ function Feed() {
                     </Col>
                     <Col md={{ span: 6 }}>
                         <h1>{feed?.name}</h1>
-                        {isOwner &&
+                        {feed.isOwner &&
                             <NewPost feedId={feedId} />
                         }
                         {feed?.posts?.map((post) => (
