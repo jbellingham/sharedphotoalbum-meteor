@@ -8,8 +8,8 @@ import { useMutation } from 'react-apollo'
 
 
 const CREATE_FEED = gql`
-    mutation createFeed($name: String!, $description: String, $ownerId: String!) {
-        createFeed(name: $name, description: $description, ownerId: $ownerId) {
+    mutation createFeed($name: String!, $description: String) {
+        createFeed(name: $name, description: $description) {
             _id
         }
     }
@@ -41,10 +41,6 @@ function NewFeed(): JSX.Element {
             debugger
         }
     })
-    
-    const userId = useTracker(() => {
-        return Meteor.userId()
-    }, [])
 
     const feedNameInputId = 'feedNameInput'
     const feedDescriptionInputId = 'feedDescriptionInput'
@@ -63,12 +59,11 @@ function NewFeed(): JSX.Element {
 
 
     const handleSubmit = async (): Promise<void> => {
-        if (feedName && userId) {
+        if (feedName) {
             createNewFeed(
                 { variables: {
                     name: feedName,
-                    description: feedDescription,
-                    ownerId: userId
+                    description: feedDescription
                 }
             })
             setFeedName('')

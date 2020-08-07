@@ -7,16 +7,12 @@ export default {
     Query: {
       async feeds(_: any, __: any, context: any, ___: any) {
           const user = await context.user()
-          return Feeds.find({ownerId: user._id}).fetch()
+          const feedIds = Subscriptions.find({userId: user._id}).map(_ => _.feedId)
+          return Feeds.find({$or: [{ ownerId: user._id }, { _id: { $in: feedIds }}]}).fetch()
       },
       async feedById(_: any, { _id }: any, __: any) {
         return Feeds.findOne(_id)
       },
-      async subscriptions(_: any, __: any, context: any, ___: any) {
-        const user = await context.user()
-        const feedIds = Subscriptions.find({userId: user._id}).map(_ => _.feedId)
-        return Feeds.find({_id: {$in: feedIds}}).fetch()
-      }
     },
     Feed: {
       posts: feed => Posts.find({ feedId: feed._id }).fetch(),
@@ -31,11 +27,12 @@ export default {
       }
     },
     Mutation: {
-        createFeed(_: any, { name, description, ownerId }: any, __: any) {
+        async createFeed(_: any, { name, description }: any, context: any) {
+            const user = await context.user()
             const id = Feeds.insert({
                 name: name,
                 description: description,
-                ownerId: ownerId,
+                ownerId: user._id,
                 createdAt: new Date(),
                 posts: [],
                 inviteCode: Random.id()

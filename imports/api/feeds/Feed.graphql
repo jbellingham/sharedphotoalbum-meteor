@@ -9,7 +9,7 @@ type Feed {
 }
 
 type Mutation {
-    createFeed(name: String!, description: String, ownerId: String!): Feed
+    createFeed(name: String!, description: String): Feed
     deleteFeed(id: String!): Boolean
 }
 

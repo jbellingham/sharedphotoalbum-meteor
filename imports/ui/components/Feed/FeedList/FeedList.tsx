@@ -19,15 +19,8 @@ const GET_FEEDS = gql`
         feeds {
             _id
             name
-        }
-    }
-`
-
-const GET_SUBSCRIPTIONS = gql`
-    query {
-        subscriptions {
-            _id
-            name
+            isOwner
+            isSubscription
         }
     }
 `
@@ -35,14 +28,13 @@ const GET_SUBSCRIPTIONS = gql`
 function FeedList(props: IFeedListProps): JSX.Element {
     const [selectedFeedId, setSelectedFeedId] = React.useState(props.selectedFeed)
 
-    const { data: feedsData, loading: feedsLoading } = useQuery(GET_FEEDS)
+    const { data, loading } = useQuery(GET_FEEDS)
 
-    const feedsList = !feedsLoading &&
-        feedsData.feeds.map((_: { _id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
+    const feedsList = !loading &&
+        data.feeds.filter(_ => _.isOwner).map((_: { _id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
     
-    const { data: subscriptionsData, loading: subscriptionsLoading } = useQuery(GET_SUBSCRIPTIONS)
-    const subscriptionsList = !subscriptionsLoading &&
-        subscriptionsData.subscriptions.map((_: {_id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
+    const subscriptionsList = !loading &&
+        data.feeds.filter(_ => _.isSubscription).map((_: {_id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
 
     if (props.selectedFeed && selectedFeedId !== props.selectedFeed) {
         setSelectedFeedId(props.selectedFeed)
