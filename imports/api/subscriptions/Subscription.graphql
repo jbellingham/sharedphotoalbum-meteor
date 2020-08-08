@@ -2,6 +2,7 @@ type Subscription {
   _id: String
   createdAt: Date
   isActive: Boolean
+  user: User
 }
 
 extend type Mutation {
@@ -10,4 +11,5 @@ extend type Mutation {
 
 extend type Query {
     subscription(feedId: String!, userId: String!): Subscription
+    pendingSubscriptionsByFeedId(feedId: String!): [Subscription]
 }
