@@ -37,11 +37,7 @@ function NewPost(props: INewPostProps): JSX.Element {
         }
     })
 
-    const [createMedia] = useMutation(CREATE_MEDIA, {
-        // onCompleted: ({ createMedia }) => {
-        //     uploadFiles(createMedia._id)
-        // }
-    })
+    const [createMedia] = useMutation(CREATE_MEDIA)
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
         setPostTest(event.currentTarget.value)

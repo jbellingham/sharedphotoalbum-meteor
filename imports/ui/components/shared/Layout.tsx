@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import ProfilePanel from './ProfilePanel';
-import { Meteor } from 'meteor/meteor';
 import Login from '../Accounts/Login';
 
 export interface ILoginProps {
@@ -11,22 +10,18 @@ export interface ILoginProps {
 function Layout(props: any) {
   const [loggedIn, setLoggedIn] = React.useState(!!Meteor.userId())
 
-  const loginProps: ILoginProps = {
-    setLoggedIn,
-  }
-
     return (
       <div>
         {loggedIn &&
-          <ProfilePanel {...loginProps} />
+          <ProfilePanel setLoggedIn={setLoggedIn} />
         }
         <Container fluid>
-            {!loggedIn &&
+            {loggedIn ?
+              props.children :
               <div className='vertical-center justify-content-center'>
-                  <Login {...loginProps} />
+                  <Login setLoggedIn={setLoggedIn} />
               </div>
             }
-          {props.children}
         </Container>
       </div>
     );

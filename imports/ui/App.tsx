@@ -13,7 +13,7 @@ function App() {
   return (
     <CloudinaryContext cloudName={cloudName}>
       <Router>
-        <Layout >
+        <Layout>
           <div className="App" >
             <Switch>
               <Route path="/invite/:inviteCode" component={Invite} />
