@@ -15,7 +15,7 @@ export interface IFeedListProps {
 }
 
 const GET_FEEDS = gql`
-    query {
+    query feeds {
         feeds {
             _id
             name

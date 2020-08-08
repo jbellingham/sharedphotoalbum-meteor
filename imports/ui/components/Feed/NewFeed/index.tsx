@@ -1,8 +1,6 @@
 import React from 'react'
 import { Button, Modal, ModalBody, Container, Form, FormControl, ModalFooter } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
-import { useTracker } from 'meteor/react-meteor-data'
-import { Meteor } from 'meteor/meteor'
 import gql from 'graphql-tag'
 import { useMutation } from 'react-apollo'
 
@@ -38,7 +36,6 @@ function NewFeed(): JSX.Element {
             }, 500)
         },
         onError(e) {
-            debugger
         }
     })
 
@@ -60,7 +57,7 @@ function NewFeed(): JSX.Element {
 
     const handleSubmit = async (): Promise<void> => {
         if (feedName) {
-            createNewFeed(
+            await createNewFeed(
                 { variables: {
                     name: feedName,
                     description: feedDescription
