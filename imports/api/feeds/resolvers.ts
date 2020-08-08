@@ -13,6 +13,9 @@ export default {
       async feedById(_: any, { _id }: any, __: any) {
         return Feeds.findOne(_id)
       },
+      async feedByInviteCode(_: any, { inviteCode }: any, __: any) {
+        return Feeds.findOne({ inviteCode })
+      },
     },
     Feed: {
       posts: feed => Posts.find({ feedId: feed._id }).fetch(),

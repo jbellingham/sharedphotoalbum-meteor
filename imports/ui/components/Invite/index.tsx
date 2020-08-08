@@ -1,11 +1,9 @@
 import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
-import { Button } from 'react-bootstrap'
-import { useTracker } from 'meteor/react-meteor-data'
-import Feeds from '../../../api/feeds/feeds'
+import { Button, Row, Col } from 'react-bootstrap'
 import gql from 'graphql-tag'
-import { useMutation } from 'react-apollo'
+import { useMutation, useQuery } from 'react-apollo'
 
 
 const CREATE_SUBSCRIPTION = gql`
@@ -15,23 +13,35 @@ const CREATE_SUBSCRIPTION = gql`
         }
     }
 `
+
+const GET_FEED = gql`
+    query feedByInviteCode($inviteCode: String!) {
+        feedByInviteCode(inviteCode: $inviteCode) {
+            _id
+            isSubscription
+        }
+    }
+`
     
   
 
 function Invite() {
     let { inviteCode } = useParams()
-    const history = useHistory()
     const [userId] = React.useState(Meteor.userId())
-    const feedId = useTracker(() => {
-        return Feeds.findOne({inviteCode})?._id
+    const [requested, setRequested] = React.useState(false)
+
+    const { data, loading } = useQuery(GET_FEED, {
+        variables: { inviteCode },
+        onCompleted({ feedByInviteCode }) {
+            setRequested(feedByInviteCode.isSubscription)
+        }
     })
 
+    const { feedByInviteCode: feed } = data || {}
+
     const [createSubscription] = useMutation(CREATE_SUBSCRIPTION, {
-        // refetchQueries: ['feeds'],
         onCompleted() {
-            setTimeout(() => {
-                history.push(`/${feedId}`)
-            }, 500)
+            setRequested(true)
         },
         onError(e) {
             debugger
@@ -39,16 +49,24 @@ function Invite() {
     })
 
     const acceptInvite = () => {
-        if (feedId && userId) {
-            createSubscription({variables: { feedId, userId }})
+        if (feed?._id && userId) {
+            createSubscription({variables: { feedId: feed._id, userId }})
         }
     }
 
     return <>
         {userId &&
-            <Button variant="primary" onClick={acceptInvite}>
-                Accept invite
-            </Button>
+            <Row>
+                <Col md={{span: 2, offset: 4}}>
+                    {loading ? "loading" : <>
+                        {requested ? <span>Subscription requested</span> : 
+                            <Button variant="primary" onClick={acceptInvite}>
+                                Request subscription
+                            </Button>
+                        }
+                    </>}
+                </Col>
+            </Row>
         }
     </>
 }

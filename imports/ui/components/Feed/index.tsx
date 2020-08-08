@@ -1,7 +1,6 @@
 import React from 'react'
 import NewPost from './NewPost'
 import Post from '../Post'
-import { useTracker } from 'meteor/react-meteor-data'
 import { useParams, useHistory } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import FeedList from './FeedList/FeedList'
@@ -9,7 +8,6 @@ import { Meteor } from 'meteor/meteor'
 import SubscriptionRequests from './SubscriptionRequests'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo'
-import Subscriptions from '../../../api/subscriptions/subscriptions'
 
 const GET_FEED = gql`
     query feedById($id: String!) {

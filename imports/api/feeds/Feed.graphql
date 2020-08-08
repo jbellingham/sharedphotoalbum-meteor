@@ -15,6 +15,7 @@ type Mutation {
 
 type Query {
     feedById(_id: String!): Feed
+    feedByInviteCode(inviteCode: String!): Feed
     feeds: [Feed]
     subscriptions: [Feed]
 }
