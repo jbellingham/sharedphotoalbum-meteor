@@ -15,7 +15,7 @@ const GET_FEED = gql`
             _id
             ownerId
             isOwner
-            isSubscription
+            isActiveSubscription
             posts {
                 _id
                 text
@@ -49,7 +49,7 @@ function Feed() {
 
     const { feedById: feed } = data || {}
 
-    const canView : boolean = !loading && !feedId || feed?.isOwner || feed?.isSubscription
+    const canView : boolean = !loading && !feedId || feed?.isOwner || feed?.isActiveSubscription
     
     return (
         <div className="feed-container">

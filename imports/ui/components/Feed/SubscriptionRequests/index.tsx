@@ -1,9 +1,9 @@
 import React from 'react'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
-import Subscriptions from '../../../../api/subscriptions/subscriptions'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo'
+import { Button } from 'react-bootstrap'
 
 
 const GET_PENDING_SUBSCRIPTIONS = gql`
@@ -21,8 +21,12 @@ const GET_PENDING_SUBSCRIPTIONS = gql`
 function SubscriptionRequests() {
     let { feedId } = useParams()
 
+    const acceptRequest = (requestId: string) => {
+        
+    }
+
     const buildUserComponent = (request: any) => {
-        return <div>Subscription id: {request._id} <br />User: {request.user.email}</div>
+        return <>User: {request.user.email}<Button className="ml-2" variant="primary" onClick={() => acceptRequest(request._id)}>Accept</Button></>
     }
 
     const { data, loading } = useQuery(GET_PENDING_SUBSCRIPTIONS, {

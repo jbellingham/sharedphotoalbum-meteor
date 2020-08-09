@@ -7,6 +7,7 @@ type Subscription {
 
 extend type Mutation {
     createSubscription(feedId: String!, userId: String!): Subscription
+    updateSubscription(subscriptionId: String!, newValue: Boolean!): Subscription
 }
 
 extend type Query {

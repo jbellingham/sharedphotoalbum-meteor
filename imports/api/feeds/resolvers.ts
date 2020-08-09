@@ -23,10 +23,15 @@ export default {
         const u = await user()
         return feed.ownerId === u._id
       },
-      isSubscription: async (feed: any, _: any, { user }: any, __: any) => {
+      isActiveSubscription: async (feed: any, _: any, { user }: any, __: any) => {
         const u = await user()
         // better way to do this??
-        return Subscriptions.find({ userId: u._id, feedId: feed._id }).count() > 0
+        return Subscriptions.find({ userId: u._id, feedId: feed._id, isActive: true }).count() > 0
+      },
+      isPendingSubscription: async (feed: any, _: any, { user }: any, __: any) => {
+        const u = await user()
+        // better way to do this??
+        return Subscriptions.find({ userId: u._id, feedId: feed._id, isActive: false }).count() > 0
       }
     },
     Mutation: {

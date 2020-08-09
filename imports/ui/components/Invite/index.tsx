@@ -18,7 +18,7 @@ const GET_FEED = gql`
     query feedByInviteCode($inviteCode: String!) {
         feedByInviteCode(inviteCode: $inviteCode) {
             _id
-            isSubscription
+            isActiveSubscription
         }
     }
 `
@@ -33,7 +33,7 @@ function Invite() {
     const { data, loading } = useQuery(GET_FEED, {
         variables: { inviteCode },
         onCompleted({ feedByInviteCode }) {
-            setRequested(feedByInviteCode.isSubscription)
+            setRequested(feedByInviteCode.isActiveSubscription)
         }
     })
 
