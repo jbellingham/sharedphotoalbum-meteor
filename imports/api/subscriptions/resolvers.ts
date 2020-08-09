@@ -22,6 +22,13 @@ export default {
             })
 
             return Subscriptions.findOne(id)
+        },
+        async updateSubscription(_: any, { subscriptionId, newValue }: any, __: any) {
+            Subscriptions.update(subscriptionId, {
+                $set: { isActive: newValue }
+            })
+
+            return Subscriptions.findOne(subscriptionId)
         }
     }
 }
