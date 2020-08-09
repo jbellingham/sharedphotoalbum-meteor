@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import ProfilePanel from './ProfilePanel';
 import Login from '../Accounts/Login';
+import CollapseContainer from './CollapseContainer';
 
 export interface ILoginProps {
   setLoggedIn: (value :boolean) => void
@@ -13,11 +13,12 @@ function Layout(props: any) {
     return (
       <div>
         {loggedIn &&
-          <ProfilePanel setLoggedIn={setLoggedIn} />
+          <CollapseContainer setLoggedIn={setLoggedIn} children={props.children} />
         }
-        <Container fluid>
+        <Container fluid style={{ display: "flex" }}>
             {loggedIn ?
-              props.children :
+               props.children
+               :
               <div className='vertical-center justify-content-center'>
                   <Login setLoggedIn={setLoggedIn} />
               </div>

@@ -1,0 +1,11 @@
+.collapse-container {
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    height: 100%;
+    background-color: slategrey;
+}
+
+.collapse-hide {
+    display: none;
+}
