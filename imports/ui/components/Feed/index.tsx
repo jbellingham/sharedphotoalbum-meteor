@@ -13,6 +13,7 @@ const GET_FEED = gql`
     query feedById($id: String!) {
         feedById(_id: $id) {
             _id
+            name
             ownerId
             isOwner
             isActiveSubscription
@@ -34,12 +35,6 @@ const GET_FEED = gql`
 
 function Feed() {
     let { feedId } = useParams()
-    const history = useHistory()
-    const [userId] = React.useState(Meteor.userId())
-
-    const onFeedSelected = (selectedFeedId: string) => {
-        history.push(selectedFeedId)
-    }
 
     const { data, loading } = useQuery(GET_FEED, {
         variables: {
@@ -55,10 +50,7 @@ function Feed() {
         <div className="feed-container">
             {canView &&
                 <Row>
-                    <Col md={{ span: 2 }}>
-                        <FeedList onFeedSelected={onFeedSelected} selectedFeed={feedId} />
-                    </Col>
-                    <Col md={{ span: 6 }}>
+                    <Col md={{ span: 6, offset: 2 }}>
                         <h1>{feed?.name}</h1>
                         {feed.isOwner &&
                             <NewPost feedId={feedId} />

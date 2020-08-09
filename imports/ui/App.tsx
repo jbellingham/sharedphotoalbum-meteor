@@ -13,15 +13,11 @@ function App() {
   return (
     <CloudinaryContext cloudName={cloudName}>
       <Router>
-        <Layout>
-          <div className="App" >
             <Switch>
               <Route path="/invite/:inviteCode" component={Invite} />
               <AuthorizedRoute path="/:feedId" component={Feed} />
               <AuthorizedRoute path="/" component={Feed} />
             </Switch>
-          </div>
-        </Layout>
       </Router>
     </CloudinaryContext>
   )

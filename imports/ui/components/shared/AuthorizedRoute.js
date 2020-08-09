@@ -3,6 +3,7 @@ import { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
+import Layout from './Layout'
 
 function AuthorizedRoute(props) {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -16,11 +17,9 @@ function AuthorizedRoute(props) {
         <Route
             {...rest}
             render={(props) => {
-                if (isLoggedIn) {
-                    return <Component {...props} />
-                } else {
-                    return <Redirect to="/" />
-                }
+                return <Layout>
+                    <Component {...props} />
+                </Layout>
             }}
         />
     )

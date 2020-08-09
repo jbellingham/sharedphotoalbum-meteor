@@ -56,13 +56,13 @@ function FeedList(props: IFeedListProps): JSX.Element {
     }
 
     return (
-        <>
+        <div className="feed-list-container">
             <NewFeed />
             <h5>My Feeds</h5>
             {feedsList && feedsList.map((feed: IFeedButtonProps) => renderButton(feed))}
             <h5>Subscriptions</h5>
             {subscriptionsList && subscriptionsList.map((subscription: IFeedButtonProps) => renderButton(subscription))}
-        </>
+        </div>
     )
 }
 

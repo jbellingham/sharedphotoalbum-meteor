@@ -11,20 +11,17 @@ function Layout(props: any) {
   const [loggedIn, setLoggedIn] = React.useState(!!Meteor.userId())
 
     return (
-      <div>
-        {loggedIn &&
-          <CollapseContainer setLoggedIn={setLoggedIn} children={props.children} />
+      <>
+      <CollapseContainer setLoggedIn={setLoggedIn} />
+      <div className="App" >
+        {loggedIn
+          ? props.children
+          : <div className='vertical-center justify-content-center'>
+              <Login setLoggedIn={setLoggedIn} />
+          </div>
         }
-        <Container fluid style={{ display: "flex" }}>
-            {loggedIn ?
-               props.children
-               :
-              <div className='vertical-center justify-content-center'>
-                  <Login setLoggedIn={setLoggedIn} />
-              </div>
-            }
-        </Container>
       </div>
+      </>
     );
 }
 

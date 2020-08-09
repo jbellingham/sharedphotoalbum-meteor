@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import FeedList from '../../Feed/FeedList/FeedList'
+import { useParams, useHistory } from 'react-router-dom'
 
 interface ICollapseMenuProps {
     children: any
@@ -7,12 +8,18 @@ interface ICollapseMenuProps {
 }
 
 function CollapseMenu(props: ICollapseMenuProps) {
+    let { feedId } = useParams()
+    const history = useHistory()
+
+    const onFeedSelected = (selectedFeedId: string) => {
+        history.push(selectedFeedId)
+    }
     
     return <>
         <div className={`collapse-container ${ props.show ? '' : 'collapse-hide'}`}>
-        poop
+            <FeedList onFeedSelected={onFeedSelected} selectedFeed={feedId} />
         </div>
-        {props.children}
+        {/* {props.children} */}
     </>
 }
 
