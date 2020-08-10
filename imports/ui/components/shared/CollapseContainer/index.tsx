@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Row, Col } from 'react-bootstrap'
+import { Button, Row, Col, Container } from 'react-bootstrap'
 import { Meteor } from 'meteor/meteor'
 import CollapseMenu from '../CollapseMenu'
 
@@ -11,15 +11,17 @@ function CollapseContainer({ setLoggedIn, children }: any) {
     const [show, setShow] = React.useState(false)
 
     return <><div className="header">
-        <Row>
-            <Col md={{ span: 1 }} >
-                <Button variant="primary" onClick={() => setShow(!show)}>Click</Button>
-            </Col>
-            
-            <Col md={{ span: 1, offset: 10 }} >
-                <Button variant="primary" onClick={logout} >Logout</Button>
-            </Col>
-        </Row>
+        <Container fluid>
+            <Row>
+                <Col md={{ span: 1 }} >
+                    <Button onClick={() => setShow(!show)}><i className="fas fa-bars fa-2x"></i></Button>
+                </Col>
+                
+                <Col md={{ span: 1, offset: 10 }} >
+                    <Button variant="primary" onClick={logout} >Logout</Button>
+                </Col>
+            </Row>
+        </Container>
     </div>
     <CollapseMenu children={children} show={show} />
     </>

@@ -13,6 +13,7 @@ const GET_COMMENTS = gql`
             commenter {
                 _id
                 email
+                name
             }
         }
     }

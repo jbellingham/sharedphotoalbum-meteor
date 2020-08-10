@@ -6,13 +6,14 @@ interface ICommentProps {
     likes: number
     commenter: {
         email: string
+        name: string
     }
 }
 
 function Comment(props: ICommentProps): ReactElement {
     return (
         <div className="d-flex flex-row">
-            {props.commenter.email}
+            {props.commenter.name || props.commenter.email}
             <p className="comment">
                 Likes:{props.likes}
                 <br />

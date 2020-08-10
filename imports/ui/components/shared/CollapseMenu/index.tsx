@@ -16,10 +16,10 @@ function CollapseMenu(props: ICollapseMenuProps) {
     }
     
     return <>
-        <div className={`collapse-container ${ props.show ? '' : 'collapse-hide'}`}>
+        <div className={`collapse-container collapse-slider ${ props.show ? 'collapse-show' : ''}`}>
             <FeedList onFeedSelected={onFeedSelected} selectedFeed={feedId} />
         </div>
-        {/* {props.children} */}
+        {props.children}
     </>
 }
 

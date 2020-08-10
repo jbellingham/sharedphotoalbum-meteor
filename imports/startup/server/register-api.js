@@ -1,4 +1,4 @@
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
 import { WebApp } from 'meteor/webapp'
 import { getUser } from 'meteor/apollo'
 

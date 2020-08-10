@@ -6,6 +6,16 @@
     background-color: palegreen;
 }
 
-.collapse-hide {
-    display: none;
+.collapse-slider {
+    width: 0px;
+    overflow: hidden;
+    transition: height 0.5s ease;
+    -moz-transition: height 0.5s ease;
+    -ms-transition: height 0.5s ease;
+    -o-transition: height 0.5s ease;
+    -webkit-transition: height 0.5s ease;
+}
+
+.collapse-show {
+    width: 200px;
 }

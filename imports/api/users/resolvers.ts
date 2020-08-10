@@ -8,6 +8,7 @@ export default {
     User: {
         email: (user: any) => user.emails ?
             user.emails[0].address :
-            user.services?.facebook?.email
+            user.services?.facebook?.email,
+        name: (user: any) => user.profile?.name,
     }
 }
