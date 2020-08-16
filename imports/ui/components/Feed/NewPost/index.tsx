@@ -83,7 +83,7 @@ function NewPost(props: INewPostProps): JSX.Element {
 
 
     return (
-        <>
+        <div className="mb-2">
             <Form>
                 <Row>
                     <Col md={{ span: 1 }}>
@@ -99,11 +99,15 @@ function NewPost(props: INewPostProps): JSX.Element {
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
-                    <Form.File multiple onChange={onFileAdd} custom label="Add photos or videos" />
-                    <Button variant="light">Life Event</Button>
+                    <Col md={{ span: 3 }}>
+                        <Form.File multiple onChange={onFileAdd} custom label="Add photos or videos" />
+                    </Col>
+                    <Col md={{ span: 3 }}>
+                        <Button variant="light">Life Event</Button>
+                    </Col>
                 </Row>
             </Form>
-        </>
+        </div>
     )
 }
 

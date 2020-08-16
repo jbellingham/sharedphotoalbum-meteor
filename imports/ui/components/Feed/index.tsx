@@ -50,7 +50,7 @@ function Feed() {
         <div className="feed-container">
             {canView &&
                 <Row>
-                    <Col md={{ span: 6, offset: 2 }}>
+                    <Col md={{ span: 7, offset: 2 }}>
                         <h1>{feed?.name}</h1>
                         {feed.isOwner &&
                             <NewPost feedId={feedId} />
@@ -59,7 +59,7 @@ function Feed() {
                             <Post post={post} key={post._id} />
                         ))}
                     </Col>
-                    <Col md={{ span: 4 }}>
+                    <Col md={{ span: 3 }}>
                         <SubscriptionRequests />
                     </Col>
                 </Row>

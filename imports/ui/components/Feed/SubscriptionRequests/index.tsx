@@ -49,7 +49,7 @@ function SubscriptionRequests() {
 
     const { pendingSubscriptionsByFeedId: requests } = data || {}
 
-    return <div className="subscription-requests">
+    return <div className="subscription-requests panel">
         <h5>Pending subscription requests</h5>
         {loading ? "loading" : requests.map(request => buildUserComponent(request))}
     </div>
