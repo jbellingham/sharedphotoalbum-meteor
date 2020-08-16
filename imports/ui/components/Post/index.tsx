@@ -65,7 +65,7 @@ const Post = (props: any) => {
                     <MediaContainer media={post.media}/>
                 </Card.Body>
             }
-            <Card.Footer className="text-center">
+            <Card.Footer>
                 {loading ? "Loading" : (
                     <div className="comments-container">
                         {data.comments.map((comment) => (

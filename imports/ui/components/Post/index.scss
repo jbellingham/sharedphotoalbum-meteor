@@ -11,17 +11,20 @@
         margin-bottom: 0;
     }
 
-    .comments-container {        
-        margin-top: 1em;
-        p {
-            padding: 2px 5px;
-            font-size: 16px;
-            border-radius: 10px;
-        }
+    .comments-container {   
+        .comment {
+            margin-bottom: 1em;
+            .comment-body {
+                padding: 0.5em;
+                background-color: #3dcc3d;
+                border-radius: 10px;
+                span {
+                    font-size: 16px;
+                    color: white;
+                }
+            }   
+            margin-top: 1em;
 
-        p.comment {
-            background-color: #3dcc3d;
-            color: white;
         }
     }
 }

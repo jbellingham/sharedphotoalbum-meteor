@@ -12,13 +12,20 @@ interface ICommentProps {
 
 function Comment(props: ICommentProps): ReactElement {
     return (
-        <div className="d-flex flex-row">
-            {props.commenter.name || props.commenter.email}
-            <p className="comment">
-                Likes:{props.likes}
+        <div className="comment">
+            <div className="d-flex flex-row">
+                <div className="comment-body">
+                    {props.commenter.name || props.commenter.email}
+                    <span>
+                        <br />
+                        {props.text}
+                    </span>
+                </div>
                 <br />
-                {props.text}
-            </p>
+            </div>
+            <div className="d-flex flex-row">
+                <span className="ml-1">Likes:{props.likes}</span>
+            </div>
         </div>
     )
 }
