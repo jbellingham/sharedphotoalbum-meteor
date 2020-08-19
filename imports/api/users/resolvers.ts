@@ -9,6 +9,6 @@ export default {
         email: (user: any) => user.emails ?
             user.emails[0].address :
             user.services?.facebook?.email,
-        name: (user: any) => user.profile?.name,
+        name: (user: any) => user.profile?.name || `${user.profile?.firstName} ${user.profile?.lastName}`,
     }
 }

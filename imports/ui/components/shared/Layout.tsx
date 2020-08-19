@@ -12,7 +12,7 @@ function Layout(props: any) {
 
     return (
       <>
-      <CollapseContainer setLoggedIn={setLoggedIn} />
+      {loggedIn && <CollapseContainer setLoggedIn={setLoggedIn} />}
       <div className="App" >
         {loggedIn
           ? props.children

@@ -11,7 +11,8 @@ const GET_PENDING_SUBSCRIPTIONS = gql`
             _id
             user {
                 _id
-                email
+                email,
+                name
             }
         }
     }
@@ -43,7 +44,7 @@ function SubscriptionRequests() {
     }
 
     const buildUserComponent = (request: any) => {
-        return <>User: {request.user.email}<Button className="ml-2" variant="primary" onClick={() => acceptRequest(request._id)}>Accept</Button></>
+        return <>{request.user.name}<Button className="ml-2" variant="primary" onClick={() => acceptRequest(request._id)}>Accept</Button></>
     }
 
 
@@ -51,7 +52,10 @@ function SubscriptionRequests() {
 
     return <div className="subscription-requests panel">
         <h5>Pending subscription requests</h5>
-        {loading ? "loading" : requests.map(request => buildUserComponent(request))}
+        {loading && "loading"}
+        {!loading &&
+            requests.length > 0 ? requests.map(request => buildUserComponent(request)) :
+            "No pending requests"}
     </div>
 }
 

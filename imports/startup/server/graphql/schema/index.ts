@@ -15,6 +15,6 @@ const typeDefs = [
     MediaSchema,
     SubscriptionsSchema,
 ]
-//ddsasdcdsddsddsdsadsdsaddsdsas
+//ddsasdcdsddsddsdsadsdsaddsdsass
 
 export default typeDefs

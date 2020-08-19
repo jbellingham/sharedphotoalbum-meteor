@@ -10,7 +10,7 @@ import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo'
 
 const GET_FEED = gql`
-    query feedById($id: String!) {
+    query feedById($id: String) {
         feedById(_id: $id) {
             _id
             name
@@ -47,7 +47,8 @@ function Feed() {
     const canView : boolean = !loading && !feedId || feed?.isOwner || feed?.isActiveSubscription
     
     return (
-        <div className="feed-container">
+        feed ?
+            <div className="feed-container">
             {canView &&
                 <Row>
                     <Col md={{ span: 7, offset: 2 }}>
@@ -67,7 +68,9 @@ function Feed() {
                 <p>Unauthorized</p>
             }
         </div>
-    )
+        :
+        <div>Please select a feed.</div>
+        )
 }
 
 export default Feed

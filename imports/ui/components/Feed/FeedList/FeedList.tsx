@@ -35,7 +35,7 @@ function FeedList(props: IFeedListProps): JSX.Element {
         data.feeds.filter(_ => _.isOwner).map((_: { _id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
     
     const subscriptionsList = !loading &&
-        data.feeds.filter(_ => _.isSubscription).map((_: {_id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
+        data.feeds.filter(_ => _.isActiveSubscription).map((_: {_id: any; name: any; }) => ({feedId: _._id, feedName: _.name}))
 
     if (props.selectedFeed && selectedFeedId !== props.selectedFeed) {
         setSelectedFeedId(props.selectedFeed)
