@@ -13,8 +13,13 @@ const CREATE_FEED = gql`
     }
 `
 
-function NewFeed(): JSX.Element {
-    const [show, setShow] = React.useState(false)
+interface IModalProps {
+    show: boolean
+    handleClose: () => void
+}
+
+function NewFeed(props: IModalProps): JSX.Element {
+    const [show, setShow] = React.useState(props.show)
 
     const handleClickShow = (): void => {
         setShow(true)
@@ -70,40 +75,37 @@ function NewFeed(): JSX.Element {
 
     return (
         <>
-            <Button variant="primary" onClick={handleClickShow}>
-                Create new feed
-            </Button>
-            <Modal show={show} onHide={handleClose} onClose={handleClose}>
-            <Modal.Header>Create a new feed</Modal.Header>
-            <ModalBody>
-                <Container fluid>
-                    <Form>
-                        <Form.Group>
-                            <FormControl
-                                id={feedNameInputId}
-                                placeholder="Feed name"
-                                value={feedName}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <FormControl
-                                id={feedDescriptionInputId}
-                                placeholder="What is this feed about?"
-                                onChange={handleChange}
-                                value={feedDescription}
-                                as="textarea"
-                            />
-                        </Form.Group>
-                    </Form>
-                </Container>
-            </ModalBody>
-            <ModalFooter>
-                <Button variant="primary" onClick={handleSubmit}>
-                    Create
-                </Button>
-            </ModalFooter>
-        </Modal>
+            <Modal show={props.show} onHide={props.handleClose} onClose={props.handleClose}>
+                <Modal.Header closeButton>Create a new feed</Modal.Header>
+                <ModalBody>
+                    <Container fluid>
+                        <Form>
+                            <Form.Group>
+                                <FormControl
+                                    id={feedNameInputId}
+                                    placeholder="Feed name"
+                                    value={feedName}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+                                <FormControl
+                                    id={feedDescriptionInputId}
+                                    placeholder="What is this feed about?"
+                                    onChange={handleChange}
+                                    value={feedDescription}
+                                    as="textarea"
+                                />
+                            </Form.Group>
+                        </Form>
+                    </Container>
+                </ModalBody>
+                <ModalFooter>
+                    <Button variant="primary" onClick={handleSubmit}>
+                        Create
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </>
     )
 }

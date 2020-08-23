@@ -28,6 +28,11 @@ const GET_FEEDS = gql`
 
 function FeedList(props: IFeedListProps): JSX.Element {
     const [selectedFeedId, setSelectedFeedId] = React.useState(props.selectedFeed)
+    const [showNewFeedModal, setShowNewFeedModal] = React.useState(false)
+    
+    const handleNewFeedModalClose = () => {
+        setShowNewFeedModal(!showNewFeedModal)
+    }
 
     const { data, loading } = useQuery(GET_FEEDS)
 
@@ -57,7 +62,10 @@ function FeedList(props: IFeedListProps): JSX.Element {
 
     return (
         <div className="feed-list-container">
-            <NewFeed />
+            <Button variant="primary" onClick={() => setShowNewFeedModal(!showNewFeedModal)}>
+                Create new feed
+            </Button>
+            <NewFeed show={showNewFeedModal} handleClose={handleNewFeedModalClose} />
             <h5>My Feeds</h5>
             {feedsList && feedsList.map((feed: IFeedButtonProps) => renderButton(feed))}
             <h5>Subscriptions</h5>
