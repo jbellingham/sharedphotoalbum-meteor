@@ -65,7 +65,7 @@ const Post = (props: any) => {
                     <MediaContainer media={post.media}/>
                 </Card.Body>
             }
-            <Card.Footer>
+            <Card.Body>
                 {loading ? "Loading" : (
                     <div className="comments-container">
                         {data.comments.map((comment) => (
@@ -81,7 +81,7 @@ const Post = (props: any) => {
                         onChange={handleChange}
                     />
                 </Form>
-            </Card.Footer>
+            </Card.Body>
         </Card>
     )
 }

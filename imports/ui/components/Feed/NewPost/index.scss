@@ -1,3 +1,20 @@
-.status-input {
-    margin: 0.3em 0 0 1em;
+.new-post-container {
+    border-radius: 10px;
+    
+    .status-input {
+        margin: 0.3em 0 0 1em;
+    }
+
+    .custom-file {
+        .custom-file-label {
+            text-align: center;
+        }
+        .custom-file-label::after {
+            display: none;
+        }
+    }
+
+    .life-event-button {
+        width: 100%;
+    }
 }

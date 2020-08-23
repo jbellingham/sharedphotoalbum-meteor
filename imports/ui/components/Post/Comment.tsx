@@ -15,16 +15,13 @@ function Comment(props: ICommentProps): ReactElement {
         <div className="comment">
             <div className="d-flex flex-row">
                 <div className="comment-body">
-                    {props.commenter.name || props.commenter.email}
+                    <span className="commenter-name">{props.commenter.name || props.commenter.email}</span>
                     <span>
                         <br />
                         {props.text}
                     </span>
                 </div>
                 <br />
-            </div>
-            <div className="d-flex flex-row">
-                <span className="ml-1">Likes:{props.likes}</span>
             </div>
         </div>
     )

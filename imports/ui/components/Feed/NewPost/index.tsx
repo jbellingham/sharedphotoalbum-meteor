@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Row, Col, Card } from 'react-bootstrap'
 import ProfilePicture from '../../shared/ProfilePicture'
 import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
@@ -83,31 +83,33 @@ function NewPost(props: INewPostProps): JSX.Element {
 
 
     return (
-        <div className="mb-2">
-            <Form>
-                <Row>
-                    <Col md={{ span: 1 }}>
-                        <ProfilePicture />
-                    </Col>
-                    <Col className="status-input align-middle">
-                        <Form.Control
-                            placeholder="Whats new?"
-                            value={postText}
-                            onKeyDown={onKeyDown}
-                            onChange={handleChange}
-                        />
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col md={{ span: 3 }}>
-                        <Form.File multiple onChange={onFileAdd} custom label="Add photos or videos" />
-                    </Col>
-                    <Col md={{ span: 3 }}>
-                        <Button variant="light">Life Event</Button>
-                    </Col>
-                </Row>
-            </Form>
-        </div>
+        <Card className="new-post-container mb-2">
+            <Card.Body>
+                <Form>
+                    <Row>
+                        <Col md={{ span: 1 }}>
+                            <ProfilePicture />
+                        </Col>
+                        <Col className="status-input align-middle">
+                            <Form.Control
+                                placeholder="Whats new?"
+                                value={postText}
+                                onKeyDown={onKeyDown}
+                                onChange={handleChange}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col md={{ offset: 1, span: 2 }}>
+                            <Form.File multiple onChange={onFileAdd} custom label="Photos/Videos" />
+                        </Col>
+                        <Col md={{ span: 2 }}>
+                            <Button className="life-event-button" variant="light">Life Event</Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Card.Body>
+        </Card>
     )
 }
 

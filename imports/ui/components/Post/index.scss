@@ -15,6 +15,9 @@
         .comment {
             margin-bottom: 1em;
             .comment-body {
+                .commenter-name {
+                    font-weight: 500;
+                }
                 padding: 0.5em;
                 background-color: #3dcc3d;
                 border-radius: 10px;
