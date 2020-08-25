@@ -62,14 +62,18 @@ function FeedList(props: IFeedListProps): JSX.Element {
 
     return (
         <div className="feed-list-container">
-            <Button variant="primary" onClick={() => setShowNewFeedModal(!showNewFeedModal)}>
-                Create new feed
-            </Button>
+            <div className="mb-2">
+                <Button variant="primary" onClick={() => setShowNewFeedModal(!showNewFeedModal)}>
+                    Create new feed
+                </Button>
+            </div>
             <NewFeed show={showNewFeedModal} handleClose={handleNewFeedModalClose} />
-            <h5>My Feeds</h5>
-            {feedsList && feedsList.map((feed: IFeedButtonProps) => renderButton(feed))}
+            <div className="mb-4">
+                <h5>My Feeds</h5>
+                {feedsList.count > 0 ? feedsList.map((feed: IFeedButtonProps) => renderButton(feed)) : <span>No feeds to display.</span>}
+            </div>
             <h5>Subscriptions</h5>
-            {subscriptionsList && subscriptionsList.map((subscription: IFeedButtonProps) => renderButton(subscription))}
+            {subscriptionsList.count > 0 ? subscriptionsList.map((subscription: IFeedButtonProps) => renderButton(subscription)) : <span>No subscriptions to display.</span>}
         </div>
     )
 }

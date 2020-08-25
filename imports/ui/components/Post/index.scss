@@ -14,6 +14,8 @@
     .comments-container {   
         .comment {
             margin-bottom: 1em;
+            margin-top: 1em;
+
             .comment-body {
                 .commenter-name {
                     font-weight: 500;
@@ -25,9 +27,10 @@
                     font-size: 16px;
                     color: white;
                 }
-            }   
-            margin-top: 1em;
-
+            }
+            .comment-profile-picture-container {
+                margin-right: 1em;
+            }
         }
     }
 }
