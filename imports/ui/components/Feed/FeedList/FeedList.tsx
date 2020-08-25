@@ -70,10 +70,10 @@ function FeedList(props: IFeedListProps): JSX.Element {
             <NewFeed show={showNewFeedModal} handleClose={handleNewFeedModalClose} />
             <div className="mb-4">
                 <h5>My Feeds</h5>
-                {feedsList.count > 0 ? feedsList.map((feed: IFeedButtonProps) => renderButton(feed)) : <span>No feeds to display.</span>}
+                {feedsList.length > 0 ? feedsList.map((feed: IFeedButtonProps) => renderButton(feed)) : <span>No feeds to display.</span>}
             </div>
             <h5>Subscriptions</h5>
-            {subscriptionsList.count > 0 ? subscriptionsList.map((subscription: IFeedButtonProps) => renderButton(subscription)) : <span>No subscriptions to display.</span>}
+            {subscriptionsList.length > 0 ? subscriptionsList.map((subscription: IFeedButtonProps) => renderButton(subscription)) : <span>No subscriptions to display.</span>}
         </div>
     )
 }

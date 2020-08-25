@@ -12,11 +12,14 @@ const MediaContainer = (props: IMediaDto): JSX.Element => {
         <Carousel interval={null}>
             {props.media?.map(_ => 
                 <CarouselItem key={_._id}>
-                    <Image publicId={_.publicId}
-                        // width="500"
-                        // height="500"
-                        // crop="fit"
-                        quality="80"  className="d-block w-100"/>
+                    <div className="image-container" >
+                        <Image publicId={_.publicId}
+                            dpr="auto"
+                            responsive
+                            width="auto"
+                            crop="fit"
+                            quality="80"  className="d-block w-100"/>
+                    </div>
                 </CarouselItem>
             )}
         </Carousel>
