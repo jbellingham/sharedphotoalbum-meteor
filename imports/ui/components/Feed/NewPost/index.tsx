@@ -5,6 +5,7 @@ import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
 import gql from 'graphql-tag';
 import { useMutation } from 'react-apollo';
+import { GET_FEED } from '..';
 
 export interface INewPostProps {
     feedId: string
@@ -32,6 +33,10 @@ function NewPost(props: INewPostProps): JSX.Element {
     const [photoId, setPhotoId] = React.useState(0)
     const { feedId } = props
     const [createPost] = useMutation(CREATE_POST, {
+        refetchQueries: [{
+            query: GET_FEED,
+            variables: { id: feedId }
+        }],
         onCompleted: ({ createPost }) => {
             uploadFiles(createPost._id)
         }

@@ -18,7 +18,7 @@ export default {
       },
     },
     Feed: {
-      posts: feed => Posts.find({ feedId: feed._id }).fetch(),
+      posts: feed => Posts.find({ feedId: feed._id }, { sort: { createdAt: -1 } }).fetch(),
       isOwner: async (feed: any, _: any, { user }: any, __: any) => {
         const u = await user()
         return feed.ownerId === u._id

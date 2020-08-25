@@ -3,14 +3,12 @@ import NewPost from './NewPost'
 import Post from '../Post'
 import { useParams, useHistory } from 'react-router-dom'
 import { Col, Row, Container } from 'react-bootstrap'
-import FeedList from './FeedList/FeedList'
-import { Meteor } from 'meteor/meteor'
 import SubscriptionRequests from './SubscriptionRequests'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo'
 import NewFeed from './NewFeed'
 
-const GET_FEED = gql`
+export const GET_FEED = gql`
     query feedById($id: String) {
         feedById(_id: $id) {
             _id

@@ -39,7 +39,7 @@ const Post = (props: any) => {
         onCompleted: () => setComment(''),
         refetchQueries: [{
             query: GET_COMMENTS,
-            variables: {postId: post._id}
+            variables: { postId: post._id }
         }]
     })
 
