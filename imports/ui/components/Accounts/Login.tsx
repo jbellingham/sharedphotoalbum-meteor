@@ -14,7 +14,7 @@ function Login({ setLoggedIn }: ILoginProps) {
     const [loginError, setLoginError] = React.useState('')
 
     const registerWithEmail = () => {
-        Accounts.createUser({ email, password, profile: { firstName, lastName } },
+        Accounts.createUser({ email, password, profile: { firstName, lastName, name: `${firstName} ${lastName}` } },
             function(error) {
                 if (!error) {
                     setLoggedIn(true)

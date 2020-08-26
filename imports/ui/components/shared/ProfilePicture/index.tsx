@@ -8,7 +8,7 @@ function ProfilePicture(props: IAccountProps) {
     const { user } = props.account
     if (user) {
         const { url, width, height } = user.services.facebook?.picture?.data || {}
-        return <Image alt="Jesse Bellingham" src={url} roundedCircle width={width} height={height} />
+        return <Image alt={user.profile?.name} src={url} roundedCircle width={width} height={height} />
     }
     return null
 }
