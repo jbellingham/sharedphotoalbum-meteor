@@ -45,7 +45,7 @@ function Feed() {
 
     let { feedId } = useParams()
 
-    const { data, loading } = useQuery(GET_FEED, {
+    const { data, loading, refetch } = useQuery(GET_FEED, {
         variables: {
             id: feedId
         }
@@ -61,16 +61,16 @@ function Feed() {
             {canView &&
                 <Container fluid>
                     <Row>
-                        <Col md={{ span: 7, offset: 2 }}>
+                        <Col xs={{ span: 12 }} lg={{ span: 7, offset: 2 }}>
                             <h1>{feed?.name}</h1>
                             {feed.isOwner &&
-                                <NewPost feedId={feedId} />
+                                <NewPost feedId={feedId} refetchFeed={refetch} />
                             }
                             {feed?.posts?.map((post) => (
                                 <Post post={post} key={post._id} />
                             ))}
                         </Col>
-                        <Col md={{ span: 3 }}>
+                        <Col xs={{ span: 0 }} lg={{ span: 3 }}>
                             <SubscriptionRequests />
                         </Col>
                     </Row>
