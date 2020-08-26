@@ -14,7 +14,7 @@ function App() {
     <CloudinaryContext cloudName={cloudName}>
       <Router>
             <Switch>
-              <Route path="/invite/:inviteCode" component={Invite} />
+              <AuthorizedRoute path="/invite/:inviteCode" component={Invite} />
               <AuthorizedRoute path="/:feedId" component={Feed} />
               <AuthorizedRoute path="/" component={Feed} />
             </Switch>
