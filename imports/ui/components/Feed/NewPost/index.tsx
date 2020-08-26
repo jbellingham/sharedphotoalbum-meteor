@@ -32,6 +32,8 @@ function NewPost(props: INewPostProps): JSX.Element {
     const [files, setFiles] = React.useState(new Array<File>())
     const [photoId, setPhotoId] = React.useState(0)
     const { feedId } = props
+    const env = Meteor.isDevelopment ? "development" : "production"
+    
     const [createPost] = useMutation(CREATE_POST, {
         refetchQueries: [{
             query: GET_FEED,
@@ -73,6 +75,7 @@ function NewPost(props: INewPostProps): JSX.Element {
                 .field('upload_preset', uploadPreset)
                 .field('file', file)
                 .field('multiple', true)
+                .field('folder', `${env}/feed-${feedId}`)
                 // .field('tags', title ? `myphotoalbum,${title}` : 'myphotoalbum')
                 // .field('context', title ? `photo=${title}` : '')
                 // .on('progress', (progress) => this.onPhotoUploadProgress(photoId, file.name, progress))
@@ -85,7 +88,6 @@ function NewPost(props: INewPostProps): JSX.Element {
                 });
         }
     }
-
 
     return (
         <Card className="new-post-container mb-2">
