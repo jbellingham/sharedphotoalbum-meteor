@@ -3,6 +3,15 @@
     
     .status-input {
         margin: 0.3em 0 0 1em;
+        .status-input-field {
+            display: inline;
+            width: 90%;
+        }
+        .status-input-submit {
+            color: #3dcc3d;
+            margin-left: 1em;
+            text-decoration: none;
+        }
     }
 
     .custom-file {

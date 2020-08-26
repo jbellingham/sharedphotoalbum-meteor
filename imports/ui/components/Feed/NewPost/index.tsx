@@ -50,14 +50,18 @@ function NewPost(props: INewPostProps): JSX.Element {
         setPostTest(event.currentTarget.value)
     }
 
+    const createNewPost = async () => {
+        event.preventDefault()
+        event.stopPropagation()
+        if (postText) {
+            await createPost({ variables: { text: postText, feedId }})
+            setPostTest('')
+        }
+    }
+
     const onKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
         if (event.key === 'Enter') {
-            event.preventDefault()
-            event.stopPropagation()
-            if (postText) {
-                await createPost({ variables: { text: postText, feedId }})
-                setPostTest('')
-            }
+            await createNewPost()
         }
     }
 
@@ -70,7 +74,6 @@ function NewPost(props: INewPostProps): JSX.Element {
         const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
         for (let file of files) {
             setPhotoId(photoId + 1)
-            // const fileName = file.name;
             request.post(url)
                 .field('upload_preset', uploadPreset)
                 .field('file', file)
@@ -84,7 +87,6 @@ function NewPost(props: INewPostProps): JSX.Element {
                         await createMedia({ variables: { publicId: response.body.public_id, postId }})
                     }
                     console.log(error || response)
-                    // onPhotoUploaded(photoId, fileName, response);
                 });
         }
     }
@@ -97,20 +99,22 @@ function NewPost(props: INewPostProps): JSX.Element {
                         <Col md={{ span: 1 }}>
                             <ProfilePicture />
                         </Col>
-                        <Col className="status-input align-middle">
+                        <Col className="status-input">
                             <Form.Control
+                                className="status-input-field align-middle"
                                 placeholder="Whats new?"
                                 value={postText}
                                 onKeyDown={onKeyDown}
                                 onChange={handleChange}
                             />
+                            <a href="#" className="fas fa-play fa-2x status-input-submit align-middle" onClick={createNewPost}></a>
                         </Col>
                     </Row>
-                    <Row className="justify-content-md-center">
-                        <Col md={{ offset: 1, span: 2 }}>
+                    <Row className="justify-content-md-center mt-1">
+                        <Col md={{ offset: 1, span: 3 }}>
                             <Form.File multiple onChange={onFileAdd} custom label="Photos/Videos" />
                         </Col>
-                        <Col md={{ span: 2 }}>
+                        <Col md={{ span: 3 }}>
                             <Button className="life-event-button" variant="light">Life Event</Button>
                         </Col>
                     </Row>

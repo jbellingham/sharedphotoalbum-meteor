@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card, Carousel, CarouselItem } from 'react-bootstrap'
-import { Image } from 'cloudinary-react'
+import {  Carousel, CarouselItem } from 'react-bootstrap'
+import { Image, Transformation } from 'cloudinary-react'
 import { MediaModel } from '../../../api/media/media'
 
 export interface IMediaDto {
@@ -16,9 +16,13 @@ const MediaContainer = (props: IMediaDto): JSX.Element => {
                         <Image publicId={_.publicId}
                             dpr="auto"
                             responsive
-                            width="auto"
                             crop="fit"
-                            quality="80"  className="d-block w-100"/>
+                            quality="80"
+                            className="d-block w-100">
+                                <Transformation
+                                    width="500"
+                                />
+                            </Image>
                     </div>
                 </CarouselItem>
             )}
