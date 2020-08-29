@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal, ModalBody, Container, Form, FormControl, ModalFooter } from 'react-bootstrap'
+import { Button, Modal, Container, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useMutation } from 'react-apollo'
@@ -20,10 +20,6 @@ interface IModalProps {
 
 function NewFeed(props: IModalProps): JSX.Element {
     const [show, setShow] = React.useState(props.show)
-
-    const handleClickShow = (): void => {
-        setShow(true)
-    }
 
     const handleClose = (): void => {
         setShow(false)
@@ -77,11 +73,11 @@ function NewFeed(props: IModalProps): JSX.Element {
         <>
             <Modal show={props.show} onHide={props.handleClose} onClose={props.handleClose}>
                 <Modal.Header closeButton>Create a new feed</Modal.Header>
-                <ModalBody>
+                <Modal.Body>
                     <Container fluid>
                         <Form>
                             <Form.Group>
-                                <FormControl
+                                <Form.Control
                                     id={feedNameInputId}
                                     placeholder="Feed name"
                                     value={feedName}
@@ -89,7 +85,7 @@ function NewFeed(props: IModalProps): JSX.Element {
                                 />
                             </Form.Group>
                             <Form.Group>
-                                <FormControl
+                                <Form.Control
                                     id={feedDescriptionInputId}
                                     placeholder="What is this feed about?"
                                     onChange={handleChange}
@@ -99,12 +95,12 @@ function NewFeed(props: IModalProps): JSX.Element {
                             </Form.Group>
                         </Form>
                     </Container>
-                </ModalBody>
-                <ModalFooter>
+                </Modal.Body>
+                <Modal.Footer>
                     <Button variant="primary" onClick={handleSubmit}>
                         Create
                     </Button>
-                </ModalFooter>
+                </Modal.Footer>
             </Modal>
         </>
     )

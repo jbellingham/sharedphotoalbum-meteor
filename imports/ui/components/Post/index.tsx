@@ -59,7 +59,9 @@ const Post = (props: any) => {
 
     return (
         <Card className="post-container">
-            <Card.Header>{post.text}</Card.Header>
+            {post.text &&
+                <Card.Header>{post.text}</Card.Header>
+            }
             {post.media.length > 0 &&
                 <Card.Body>
                     <MediaContainer media={post.media}/>

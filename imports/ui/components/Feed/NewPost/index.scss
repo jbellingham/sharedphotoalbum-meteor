@@ -1,5 +1,11 @@
 .new-post-container {
     border-radius: 10px;
+    min-height: 140px;
+
+    .post-in-progress-spinner {
+        width: 6rem;
+        height: 6rem;
+    }
     
     .status-input {
         margin: 0.3em 0 0 1em;

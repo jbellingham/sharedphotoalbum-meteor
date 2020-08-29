@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button, Row, Col, Card } from 'react-bootstrap'
+import { Form, Button, Row, Col, Card, Spinner } from 'react-bootstrap'
 import ProfilePicture from '../../shared/ProfilePicture'
 import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
@@ -31,6 +31,7 @@ function NewPost(props: INewPostProps): JSX.Element {
     const [postText, setPostTest] = React.useState('')
     const [files, setFiles] = React.useState(new Array<File>())
     const [photoId, setPhotoId] = React.useState(0)
+    const [newPostInProgress, setNewPostInProgress] = React.useState(false)
     const { feedId } = props
     const env = Meteor.isDevelopment ? "development" : "production"
     
@@ -49,8 +50,12 @@ function NewPost(props: INewPostProps): JSX.Element {
     const createNewPost = async () => {
         event.preventDefault()
         event.stopPropagation()
-        if (postText) {
+        if (postText || files.length > 0) {
+            setNewPostInProgress(true)
             await createPost({ variables: { text: postText, feedId }})
+            setTimeout(() => {
+                setNewPostInProgress(false)
+            }, 2000)
             setPostTest('')
         }
     }
@@ -91,37 +96,43 @@ function NewPost(props: INewPostProps): JSX.Element {
         })
     }
 
-    return (
+    return <>
         <Card className="new-post-container mb-2">
             <Card.Body>
-                <Form>
-                    <Row>
-                        <Col md={{ span: 1 }}>
-                            <ProfilePicture />
-                        </Col>
-                        <Col className="status-input">
-                            <Form.Control
-                                className="status-input-field align-middle"
-                                placeholder="Whats new?"
-                                value={postText}
-                                onKeyDown={onKeyDown}
-                                onChange={handleChange}
-                            />
-                            <a href="#" className="fas fa-play fa-2x status-input-submit align-middle" onClick={createNewPost}></a>
-                        </Col>
-                    </Row>
-                    <Row className="justify-content-md-center mt-1">
-                        <Col md={{ offset: 1, span: 3 }}>
-                            <Form.File multiple onChange={onFileAdd} custom label="Photos/Videos" />
-                        </Col>
-                        <Col md={{ span: 3 }}>
-                            <Button className="life-event-button" variant="light">Life Event</Button>
-                        </Col>
-                    </Row>
-                </Form>
+                <div className="float-left">
+                    <ProfilePicture userId={null} />
+                </div>
+                {newPostInProgress ?
+                    <div className="d-flex justify-content-center">
+                        <Spinner className="post-in-progress-spinner" animation="grow" variant="warning" />
+                    </div>
+                    : 
+                    <Form>
+                        <Row>
+                            <Col className="status-input">
+                                <Form.Control
+                                    className="status-input-field align-middle"
+                                    placeholder="Whats new?"
+                                    value={postText}
+                                    onKeyDown={onKeyDown}
+                                    onChange={handleChange}
+                                />
+                                <a href="#" className="fas fa-play fa-2x status-input-submit align-middle" onClick={createNewPost}></a>
+                            </Col>
+                        </Row>
+                        <Row className="justify-content-md-center mt-1">
+                            <Col md={{ offset: 1, span: 3 }}>
+                                <Form.File multiple onChange={onFileAdd} custom label="Photos/Videos" />
+                            </Col>
+                            <Col md={{ span: 3 }}>
+                                <Button className="life-event-button" variant="light" disabled>Life Event</Button>
+                            </Col>
+                        </Row>                    
+                    </Form>
+                }
             </Card.Body>
         </Card>
-    )
+    </>
 }
 
 export default NewPost
