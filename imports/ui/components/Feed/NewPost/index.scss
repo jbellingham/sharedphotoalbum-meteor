@@ -2,6 +2,15 @@
     border-radius: 10px;
     min-height: 140px;
 
+    .thumbnail-container {
+        max-width: 200px;
+        margin-right: 1em;
+    }
+    
+    .thumbnail-container:last-child {
+        margin-right: 0;
+    }
+
     .post-in-progress-spinner {
         width: 6rem;
         height: 6rem;

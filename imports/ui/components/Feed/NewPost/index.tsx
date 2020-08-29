@@ -5,6 +5,7 @@ import request from 'superagent';
 import { Meteor } from 'meteor/meteor'
 import gql from 'graphql-tag';
 import { useMutation } from 'react-apollo';
+import UploadPreview from './UploadPreview';
 
 export interface INewPostProps {
     feedId: string
@@ -106,29 +107,36 @@ function NewPost(props: INewPostProps): JSX.Element {
                     <div className="d-flex justify-content-center">
                         <Spinner className="post-in-progress-spinner" animation="grow" variant="warning" />
                     </div>
-                    : 
-                    <Form>
-                        <Row>
-                            <Col className="status-input">
-                                <Form.Control
-                                    className="status-input-field align-middle"
-                                    placeholder="Whats new?"
-                                    value={postText}
-                                    onKeyDown={onKeyDown}
-                                    onChange={handleChange}
-                                />
-                                <a href="#" className="fas fa-play fa-2x status-input-submit align-middle" onClick={createNewPost}></a>
-                            </Col>
-                        </Row>
-                        <Row className="justify-content-md-center mt-1">
-                            <Col md={{ offset: 1, span: 3 }}>
-                                <Form.File multiple onChange={onFileAdd} custom label="Photos/Videos" />
-                            </Col>
-                            <Col md={{ span: 3 }}>
-                                <Button className="life-event-button" variant="light" disabled>Life Event</Button>
-                            </Col>
-                        </Row>                    
-                    </Form>
+                    :
+                    <>
+                        <div className="mb-3">
+                            <Form>
+                                <Row>
+                                    <Col className="status-input">
+                                        <Form.Control
+                                            className="status-input-field align-middle"
+                                            placeholder="Whats new?"
+                                            value={postText}
+                                            onKeyDown={onKeyDown}
+                                            onChange={handleChange}
+                                        />
+                                        <a href="#" className="fas fa-play fa-2x status-input-submit align-middle" onClick={createNewPost}></a>
+                                    </Col>
+                                </Row>
+                                <Row className="justify-content-md-center mt-1">
+                                    <Col md={{ offset: 1, span: 3 }}>
+                                        <Form.File multiple onChange={onFileAdd} custom label="Photos/Videos" />
+                                    </Col>
+                                    <Col md={{ span: 3 }}>
+                                        <Button className="life-event-button" variant="light" disabled>Life Event</Button>
+                                    </Col>
+                                </Row>
+                            </Form>
+                        </div>
+                        {files.length > 0 &&
+                            <UploadPreview files={files} />
+                        }
+                    </>
                 }
             </Card.Body>
         </Card>
