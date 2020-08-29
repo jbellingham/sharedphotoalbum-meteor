@@ -2,8 +2,15 @@ type User {
     _id: String
     email: String
     name: String
+    profilePicture: ProfilePicture
+}
+
+type ProfilePicture {
+  url: String
+  width: String
+  height: String
 }
 
 extend type Query {
-  user: User
+  getUser(userId: String): User
 }

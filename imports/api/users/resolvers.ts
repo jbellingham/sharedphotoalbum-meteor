@@ -1,8 +1,8 @@
 
 export default {
     Query: {
-      async user(_: any, __: any, context: any) {
-          return await context.user()
+      async getUser(_: any, { userId }: any, context: any) {
+          return userId ? Meteor.users.findOne({ _id: userId }) : await context.user()
       }
     },
     User: {
@@ -10,5 +10,6 @@ export default {
             user.emails[0].address :
             user.services?.facebook?.email,
         name: (user: any) => user.profile?.name || `${user.profile?.firstName} ${user.profile?.lastName}`,
+        profilePicture: (user: any) => user.services.facebook?.picture?.data
     }
 }

@@ -6,6 +6,7 @@ interface ICommentProps {
     text: string
     likes: number
     commenter: {
+        _id: string
         email: string
         name: string
     }
@@ -16,7 +17,7 @@ function Comment(props: ICommentProps): ReactElement {
         <div className="comment">
             <div className="d-flex flex-row">
                 <div className="comment-profile-picture-container">
-                    <ProfilePicture />
+                    <ProfilePicture userId={props.commenter._id} />
                 </div>
                 <div className="comment-body">
                     <span className="commenter-name">{props.commenter.name || props.commenter.email}</span>
