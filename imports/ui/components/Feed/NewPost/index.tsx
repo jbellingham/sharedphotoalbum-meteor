@@ -57,6 +57,7 @@ function NewPost(props: INewPostProps): JSX.Element {
             setTimeout(() => {
                 setNewPostInProgress(false)
             }, 2000)
+            setFiles([])
             setPostTest('')
         }
     }
