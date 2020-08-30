@@ -26,6 +26,7 @@ export const GET_FEED = gql`
                 media {
                     _id
                     publicId
+                    mimeType
                 }
             }
         }

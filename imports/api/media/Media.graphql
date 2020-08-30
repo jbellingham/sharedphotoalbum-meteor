@@ -2,10 +2,11 @@ type Media {
   _id: String
   publicId: String
   createdAt: Date
+  mimeType: String
 }
 
 extend type Mutation {
-    createMedia(publicId: String!, postId: String!): Media
+    createMedia(publicId: String!, postId: String!, mimeType: String!): Media
 }
 
 extend type Query {

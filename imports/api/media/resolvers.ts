@@ -7,11 +7,12 @@ export default {
       }
     },
     Mutation: {
-        async createMedia(_: any, { publicId, postId }: any, __: any) {
+        async createMedia(_: any, { publicId, postId, mimeType }: any, __: any) {
             const id = Media.insert({
                 createdAt: new Date(),
                 postId,
-                publicId
+                publicId,
+                mimeType
             })
 
             return Media.findOne(id)

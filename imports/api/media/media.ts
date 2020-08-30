@@ -3,6 +3,7 @@ export interface MediaModel {
   publicId: string
   createdAt: Date
   postId: string
+  mimeType: string
 }
 
 const Media = new Mongo.Collection<MediaModel>('media');
