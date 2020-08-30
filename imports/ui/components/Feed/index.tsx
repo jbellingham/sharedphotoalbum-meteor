@@ -72,7 +72,8 @@ function Feed() {
                             ))}
                         </Col>
                         <Col xs={{ span: 0 }} lg={{ span: 3 }}>
-                            <SubscriptionRequests />
+                            {feed.isOwner &&
+                                <SubscriptionRequests />}
                         </Col>
                     </Row>
                 </Container>

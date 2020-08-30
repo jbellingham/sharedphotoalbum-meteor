@@ -4,14 +4,17 @@ import { Meteor } from 'meteor/meteor'
 import CollapseMenu from '../CollapseMenu'
 import { GET_USER } from '../../../../api/users/methods'
 import { useQuery } from 'react-apollo'
+import { useHistory } from 'react-router-dom'
 
 function CollapseContainer({ setLoggedIn, children }: any) {
+    const history = useHistory()
     const [show, setShow] = React.useState(false)
     const { data, loading } = useQuery(GET_USER)
     const { name } = data?.getUser || {}
 
     const logout = () => {
         Meteor.logout()
+        history.push('/')
         setLoggedIn(false)
     }
 

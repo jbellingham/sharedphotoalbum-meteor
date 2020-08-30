@@ -88,13 +88,19 @@ function NewPost(props: INewPostProps): JSX.Element {
         Promise.all(uploads).then(responses => {
             responses.forEach(async r => {
                 if (r?.body) {
-                    await createMedia({ variables: { publicId: r.body.public_id, postId, mimeType: `${r.body.resource_type}/${r.body.format}` }})
+                    await createMedia({ variables: {
+                            publicId: r.body.public_id,
+                            postId,
+                            mimeType: `${r.body.resource_type}/${r.body.format}`
+                    }})
                 }
             })
             setTimeout(() => {
                 setNewPostInProgress(false)
             }, 2000)
             props.refetchFeed({id: feedId})
+        }).catch(() => {
+            setNewPostInProgress(false)
         })
     }
 

@@ -14,6 +14,7 @@ const MediaContainer = (props: IMediaDto): JSX.Element => {
             case 'video/mpeg':
             case 'video/ogg':
             case 'video/webm':
+            case 'video/mov':
                 return <Video publicId={media.publicId}
                     controls
                     width="500"
