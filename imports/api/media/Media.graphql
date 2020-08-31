@@ -5,10 +5,6 @@ type Media {
   mimeType: String
 }
 
-extend type Mutation {
-    createMedia(publicId: String!, postId: String!, mimeType: String!): Media
-}
-
 extend type Query {
     media(postId: String!): [Media]
 }

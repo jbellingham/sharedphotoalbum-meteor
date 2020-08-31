@@ -4,6 +4,7 @@ import Comment from './Comment'
 import MediaContainer from './MediaContainer'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from 'react-apollo'
+import Zoom from './Zoom'
 
 const GET_COMMENTS = gql`
     query ($postId: String!) {
@@ -30,6 +31,7 @@ const CREATE_COMMENT = gql`
 const Post = (props: any) => {
     const { post } = props
     const [comment, setComment] = React.useState('')
+    const [showZoom, setShowZoom] = React.useState(false)
 
     const { data, loading } = useQuery(GET_COMMENTS, {
         variables: {postId: post._id}
@@ -57,6 +59,10 @@ const Post = (props: any) => {
         }
     }
 
+    const onMediaClick = () => {
+        setShowZoom(false)//!showZoom)
+    }
+
     return (
         <Card className="post-container">
             {post.text &&
@@ -64,7 +70,8 @@ const Post = (props: any) => {
             }
             {post.media.length > 0 &&
                 <Card.Body>
-                    <MediaContainer media={post.media}/>
+                    <MediaContainer media={post.media} onClick={onMediaClick}/>
+                    <Zoom media={post.media} show={showZoom} />
                 </Card.Body>
             }
             <Card.Body>

@@ -5,17 +5,5 @@ export default {
       async media(_: any, { postId }: any, context: any, ___: any) {
           return Media.find({ postId }).fetch()
       }
-    },
-    Mutation: {
-        async createMedia(_: any, { publicId, postId, mimeType }: any, __: any) {
-            const id = Media.insert({
-                createdAt: new Date(),
-                postId,
-                publicId,
-                mimeType
-            })
-
-            return Media.findOne(id)
-        }
     }
 }

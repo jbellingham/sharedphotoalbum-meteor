@@ -4,6 +4,7 @@ import { Image, Video } from 'cloudinary-react'
 import { MediaModel } from '../../../api/media/media'
 
 export interface IMediaDto {
+    onClick: () => void
     media: MediaModel[]
 }
 
@@ -26,14 +27,15 @@ const MediaContainer = (props: IMediaDto): JSX.Element => {
                 return <Image publicId={media.publicId}
                     dpr="auto"
                     responsive
-                    quality="25"
+                    fetchFormat="auto"
+                    quality="auto"
                     width="500"
                     height="500">
                 </Image>
         }
     }
     return (
-        <Carousel interval={null}>
+        <Carousel interval={null} onClick={props.onClick}>
             {props.media?.map(_ => 
                 <CarouselItem key={_._id}>
                     <div className="image-container d-flex justify-content-center" >

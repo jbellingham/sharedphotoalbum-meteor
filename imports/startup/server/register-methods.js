@@ -1,0 +1,1 @@
+import '../../api/media/server/methods'

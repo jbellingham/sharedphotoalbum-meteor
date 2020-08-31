@@ -8,5 +8,5 @@ type Post {
 
 
 extend type Mutation {
-    createPost(text: String!, feedId: String!): Post
+    createPost(text: String!, feedId: String!, files: [String]): Post
 }

@@ -15,7 +15,10 @@ const server = new ApolloServer({
   
   server.applyMiddleware({
     app: WebApp.connectHandlers,
-    path: '/graphql'
+    path: '/graphql',
+    bodyParserConfig: {
+      limit: '100mb',
+    },
 })
 
 WebApp.connectHandlers.use('/graphql', (req, res) => {
