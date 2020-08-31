@@ -99,8 +99,9 @@ function NewPost(props: INewPostProps): JSX.Element {
                 setNewPostInProgress(false)
             }, 2000)
             props.refetchFeed({id: feedId})
-        }).catch(() => {
+        }).catch((error) => {
             setNewPostInProgress(false)
+            throw Error(error)
         })
     }
 
