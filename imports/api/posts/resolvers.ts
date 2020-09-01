@@ -12,7 +12,6 @@ export default {
     },
     Mutation: {
         async createPost(_: any, { text, feedId, files }: any, context: any) {
-            let success = true
             const user = await context.user()
             const id = Posts.insert({
                 text,
@@ -23,20 +22,17 @@ export default {
                 feedId
             })
 
-            try {
-                Meteor.call(methods.createMedia, id, feedId, files)
-            }
-            catch (error) {
-                console.log(error)
-                Posts.remove({ _id: id })
-                success = false
-            }
-            
-            if (success) {
-                Feeds.update(feedId, {
-                    $push: { posts: id }
-                })
-            }
+            Meteor.call(methods.createMedia, id, feedId, files, (error, result) => {
+                if (error) {
+                    console.log(error)
+                    Posts.remove({ _id: id })
+                } else {
+                    Feeds.update(feedId, {
+                        $push: { posts: id }
+                    })
+                }
+
+            })
 
              return Posts.findOne(id)
         },

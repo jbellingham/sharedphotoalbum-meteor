@@ -36,6 +36,7 @@ function NewPost(props: INewPostProps): JSX.Element {
         if (postText || files.length > 0) {
             setNewPostInProgress(true)
             await createPost({ variables: { text: postText, feedId, files }})
+            props.refetchFeed({id: feedId})
             setFiles([])
             setPostTest('')
             setNewPostInProgress(false)
