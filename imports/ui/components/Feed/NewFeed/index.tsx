@@ -19,12 +19,6 @@ interface IModalProps {
 }
 
 function NewFeed(props: IModalProps): JSX.Element {
-    const [show, setShow] = React.useState(props.show)
-
-    const handleClose = (): void => {
-        setShow(false)
-    }
-
     const history = useHistory()
     const [feedName, setFeedName] = React.useState('')
     const [feedDescription, setFeedDescription] = React.useState('')
@@ -32,7 +26,7 @@ function NewFeed(props: IModalProps): JSX.Element {
         refetchQueries: ['feeds'],
         onCompleted({createFeed}) {
             setTimeout(() => {
-                handleClose()
+                props.handleClose()
                 history.push(`/${createFeed._id}`)
             }, 500)
         },

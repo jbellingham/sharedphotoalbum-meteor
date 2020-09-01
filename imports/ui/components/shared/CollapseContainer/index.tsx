@@ -1,16 +1,19 @@
 import React from 'react'
 import { Button, Row, Col, Container } from 'react-bootstrap'
 import { Meteor } from 'meteor/meteor'
-import CollapseMenu from '../CollapseMenu'
+import CollapseMenu, { collapseMenuEventEmitter } from '../CollapseMenu'
 import { GET_USER } from '../../../../api/users/methods'
 import { useQuery } from 'react-apollo'
 import { useHistory } from 'react-router-dom'
 
 function CollapseContainer({ setLoggedIn, children }: any) {
     const history = useHistory()
-    const [show, setShow] = React.useState(false)
     const { data, loading } = useQuery(GET_USER)
     const { name } = data?.getUser || {}
+
+    const toggleMenu = () => {
+        collapseMenuEventEmitter.emit('toggle')
+    }
 
     const logout = () => {
         Meteor.logout()
@@ -23,7 +26,7 @@ function CollapseContainer({ setLoggedIn, children }: any) {
             <Container fluid>
                 <Row>
                     <Col md={{ span: 1 }} >
-                        <Button onClick={() => setShow(!show)}><i className="fas fa-bars fa-2x"></i></Button>
+                        <Button onClick={() => toggleMenu()}><i className="fas fa-bars fa-2x"></i></Button>
                     </Col>
                     
                     <Col md={{ span: 2, offset: 8 }} >
@@ -35,7 +38,7 @@ function CollapseContainer({ setLoggedIn, children }: any) {
                 </Row>
             </Container>
         </div>
-        <CollapseMenu children={children} show={show} />
+        <CollapseMenu children={children} />
     </>
 }
 
