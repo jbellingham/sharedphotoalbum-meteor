@@ -6,16 +6,17 @@ const cloudinaryService = new CloudinaryService()
 
 export const methods = {
     createMedia: 'createMedia'
-}    
+}
 
 Meteor.methods({
-    'createMedia': function(postId: string, feedId: string, files: string[]) {
+    async createMedia(postId: string, feedId: string, files: string[]) {
+        if (files.length === 0) return
+
         let mediaId
         try {
             const uploads = uploadFiles(feedId, files)
-            Promise.all(uploads).then(responses => {
+            return Promise.all(uploads).then(responses => {
                 responses.forEach(async r => {
-                    console.log(r)
                     mediaId = Media.insert({
                         createdAt: new Date(),
                         postId,

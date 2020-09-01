@@ -3,6 +3,7 @@ import Feeds from "../feeds/feeds"
 import Comments from "../comments/comments"
 import Media from "../media/media"
 import { methods } from "../media/server/methods"
+import { callWithPromise } from "../../../utils/method-utilities"
 
 export default {
     Post: {
@@ -22,19 +23,18 @@ export default {
                 feedId
             })
 
-            Meteor.call(methods.createMedia, id, feedId, files, (error, result) => {
-                if (error) {
-                    console.log(error)
-                    Posts.remove({ _id: id })
-                } else {
-                    Feeds.update(feedId, {
-                        $push: { posts: id }
-                    })
-                }
+            try {
+                await callWithPromise(methods.createMedia, id, feedId, files)
+                Feeds.update(feedId, {
+                    $push: { posts: id }
+                })
+            }
+            catch (error) {
+                console.log(error)
+                Posts.remove({ _id: id })
+            }
 
-            })
-
-             return Posts.findOne(id)
+            return Posts.findOne(id)
         },
     }
 }
