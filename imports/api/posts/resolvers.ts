@@ -2,8 +2,9 @@ import Posts from "./posts"
 import Feeds from "../feeds/feeds"
 import Comments from "../comments/comments"
 import Media from "../media/media"
-import { methods } from "../media/server/methods"
+import { media } from "../media/server/methods"
 import { callWithPromise } from "../../../utils/method-utilities"
+import { notifications } from "../notifications/server/methods"
 
 export default {
     Post: {
@@ -24,7 +25,7 @@ export default {
             })
 
             try {
-                await callWithPromise(methods.createMedia, id, feedId, files)
+                await callWithPromise(media.createMedia, id, feedId, files)
                 Feeds.update(feedId, {
                     $push: { posts: id }
                 })
@@ -32,7 +33,7 @@ export default {
             catch (error) {
                 Posts.remove({ _id: id })
             }
-
+            await callWithPromise(notifications.sendNotification)
             return Posts.findOne(id)
         },
     }

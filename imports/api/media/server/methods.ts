@@ -4,7 +4,7 @@ import Media from "../media"
 
 const cloudinaryService = new CloudinaryService()
 
-export const methods = {
+export const media = {
     createMedia: 'createMedia'
 }
 
