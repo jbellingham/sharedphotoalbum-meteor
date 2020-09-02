@@ -34,11 +34,5 @@ Meteor.methods({
 })
 
 const uploadFiles = (feedId: string, files: string[]): Array<Promise<any>> => {
-    const env = Meteor.isDevelopment ? "development" : "production"
-    const publicId = `${env}/feed-${feedId}`
-    let uploads = new Array<Promise<any>>()
-    files.forEach(file => {
-        uploads.push(cloudinaryService.uploadFile(file, publicId))
-    })
-    return uploads
+    return cloudinaryService.uploadFiles(files, feedId)
 }
