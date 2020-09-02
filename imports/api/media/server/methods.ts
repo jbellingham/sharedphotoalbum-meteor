@@ -28,6 +28,7 @@ Meteor.methods({
         }
         catch (error) {
             Media.remove({ _id: mediaId })
+            console.log(error)
             throw error
         }
     }

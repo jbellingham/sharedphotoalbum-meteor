@@ -30,7 +30,6 @@ export default {
                 })
             }
             catch (error) {
-                console.log(error)
                 Posts.remove({ _id: id })
             }
 
