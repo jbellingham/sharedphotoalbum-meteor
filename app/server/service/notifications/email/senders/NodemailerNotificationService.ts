@@ -1,5 +1,5 @@
 import * as nodemailer from 'nodemailer'
-import { INotificationService } from './INotificationService'
+import { INotificationService } from '../../INotificationService'
 
 export class NodemailerNotificationService implements INotificationService {
     private transporter

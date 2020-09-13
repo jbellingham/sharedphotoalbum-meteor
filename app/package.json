@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.8.4",
-    "@sendgrid/mail": "^7.2.4",
     "@types/lodash": "^4.14.158",
     "@types/nodemailer": "^6.4.0",
     "@types/react-router-dom": "^5.1.5",
@@ -41,6 +40,7 @@
     "react-dropzone": "^11.0.1",
     "react-meteor-hooks": "^0.3.1",
     "react-router-dom": "^5.2.0",
+    "sendgrid": "^5.2.3",
     "simpl-schema": "^1.8.0",
     "superagent": "^5.3.1"
   },
