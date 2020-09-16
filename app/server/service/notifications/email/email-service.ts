@@ -1,14 +1,9 @@
-//import email
-import { Email } from './facades/email'
-import { TestEmail } from './facades/test-email'
-import { ProductionEmail } from './facades/production-email'
-
-//import template
 import { EmailTemplate } from './templates/email-template'
-
-//import sendgrid
-import { SendGridContent } from './facades/send-grid'
 import { Meteor } from 'meteor/meteor'
+import { SendGridContent } from '../../../../@types/send-grid'
+import { Email } from './facades/email'
+// import { ProductionEmail } from './facades/production-email'
+import { TestEmail } from './facades/test-email'
 
 /**
  * The exposed email service.

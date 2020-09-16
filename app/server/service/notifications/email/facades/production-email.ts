@@ -1,10 +1,6 @@
 //import parent Email class
 import { Email } from './email'
 
-//import sendgrid
-import * as SendGrid from 'sendgrid'
-import { SendGridMail, SendGridResponse } from './send-grid'
-
 /**
  * An email when application is in production.
  * @class ProductionEmail
@@ -37,7 +33,8 @@ export class ProductionEmail extends Email {
      * Send the email
      * @method send
      */
-    public send(): Promise<SendGridResponse> {
+    public send(): Promise<any> {
+        //SendGridResponse> {
         //pre hook
         this.pre()
 

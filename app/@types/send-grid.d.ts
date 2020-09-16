@@ -292,7 +292,7 @@ export interface SendGridEmail {
     name?: string
 }
 
-export class SendGrid {
+export class Sender {
     constructor(apiKey: string, host?: string, globalHeaders?: { [header: string]: string })
 
     emptyRequest(data?: Request): Request

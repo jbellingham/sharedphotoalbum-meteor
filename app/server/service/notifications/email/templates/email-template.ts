@@ -4,9 +4,9 @@ import { EmailService } from '../email-service'
 
 //import file system i/o api
 import { existsSync, readFileSync } from 'fs'
+import { SendGridContent, SendGridResponse } from '../../../../../@types/send-grid'
 
 //import sendgrid
-import { SendGridContent, SendGridResponse } from '../facades/send-grid'
 
 /**
  * An email template.

@@ -1,19 +1,20 @@
 import { Meteor } from 'meteor/meteor'
 import sendGrid from 'sendgrid'
 import {
-    SendGrid,
     SendGridContent,
     SendGridEmail,
     SendGridMail,
     SendGridPersonalization,
-    SendGridResponse,
     SendGridSubstitution,
-} from './send-grid'
+    SendGridResponse,
+    Sender,
+} from '../../../../../@types/send-grid'
 
 /**
  * The base class for emails.
  * @class Email
  */
+
 export abstract class Email {
     //constants
     public static FROM_EMAIL = 'notifications@sharedphotoalbum.com'
@@ -25,7 +26,7 @@ export abstract class Email {
     // protected configuration: IConfiguration
 
     //the SendGrid API
-    protected sendGrid: SendGrid
+    protected sendGrid: Sender
 
     //the SendGrid Mail helper
     protected _mail: any

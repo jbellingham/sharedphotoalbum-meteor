@@ -1,17 +1,16 @@
 //import parent Email class
 import { Email } from './email'
-import { ProductionEmail } from './production-email'
 
 //import sendgrid
 import * as SendGrid from 'sendgrid'
-import { SendGridResponse } from './send-grid'
+import { SendGridResponse } from '../../../../../@types/send-grid'
 import { Meteor } from 'meteor/meteor'
 
 /**
  * An email when testing the application.
  * @class TestEmail
  */
-export class TestEmail extends ProductionEmail {
+export class TestEmail extends Email {
     /**
      * @constructor
      */
@@ -24,7 +23,7 @@ export class TestEmail extends ProductionEmail {
      * @method pre
      */
     public pre() {
-        super.pre()
+        // super.pre()
 
         //get MailSettings
         let mailSettings

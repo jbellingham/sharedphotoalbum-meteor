@@ -5,6 +5,7 @@ import Media from '../media/media'
 import { media } from '../media/server/methods'
 import { callWithPromise } from '../../../utils/method-utilities'
 import { notifications } from '../notifications/server/methods'
+import { Meteor } from 'meteor/meteor'
 
 export default {
     Post: {

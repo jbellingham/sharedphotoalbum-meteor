@@ -69,7 +69,6 @@ declare module 'cloudinary-react' {
         maxWidth(requiredWidth): any
 
         cloudinary_update(url, options): any
-
     }
 
     export class Transformation extends CloudinaryComponent {
