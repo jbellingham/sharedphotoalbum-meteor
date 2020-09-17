@@ -18,7 +18,6 @@ export class SendGridNotificationService implements INotificationService {
         console.log(message)
         try {
             const result = await this.sendGrid.send(message)
-            console.log(result)
             result.map((_) => console.log(_))
         } catch (error) {
             console.log(error)

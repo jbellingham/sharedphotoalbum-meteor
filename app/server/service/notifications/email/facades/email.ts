@@ -1,35 +1,36 @@
 import { Meteor } from 'meteor/meteor'
-import sendGrid from 'sendgrid'
-import {
-    SendGridContent,
-    SendGridEmail,
-    SendGridMail,
-    SendGridPersonalization,
-    SendGridSubstitution,
-    SendGridResponse,
-    Sender,
-} from '../../../../../@types/send-grid'
+import * as sendGrid from 'sendgrid'
+import { Client } from '@sendgrid/client'
+import { SendGridResponse } from '../../../../../@types/send-grid'
 
 /**
  * The base class for emails.
  * @class Email
  */
 
-export abstract class Email {
+class SendGridClient extends Client {}
+class Mail extends sendGrid.mail.Mail {}
+class Personalization extends sendGrid.mail.Personalization {}
+export class Content extends sendGrid.mail.Content {}
+class Email extends sendGrid.mail.Email {}
+
+export abstract class EmailBase {
     //constants
     public static FROM_EMAIL = 'notifications@sharedphotoalbum.com'
     public static FROM_NAME = 'Notifications'
     public static TO_EMAIL = 'test@example.com'
     public static TO_NAME = 'Test Test'
 
+    private personalizations: Personalization[] = new Array<Personalization>()
+
     //the config
     // protected configuration: IConfiguration
 
     //the SendGrid API
-    protected sendGrid: Sender
+    protected sendGrid: SendGridClient
 
     //the SendGrid Mail helper
-    protected _mail: any
+    protected _mail: Mail
 
     /**
      * @constructor
@@ -39,51 +40,53 @@ export abstract class Email {
         // this.configuration = ConfigurationFactory.config()
 
         //store the SendGrid API
-        this.sendGrid = sendGrid(Meteor.settings.sendGrid.apiKey)
+        this.sendGrid = new SendGridClient()
+        this.sendGrid.setApiKey(Meteor.settings.sendGrid.apiKey)
 
         //set default from email address(es)
-        this.setFromString(Email.FROM_EMAIL, Email.FROM_NAME)
+        this.setFromString(EmailBase.FROM_EMAIL, EmailBase.FROM_NAME)
     }
 
     /**
      * Returns the Contents array.
      * @method get contents
-     * @return {SendGridContent[]}
+     * @return {Content[]}
      */
-    public get contents(): SendGridContent[] {
-        return this.mail.getContents()
+    public get contents(): Content[] {
+        const contents = this.mail.getContents()
+        return contents
     }
 
     /**
      * Returns the from Email object.
-     * @return {SendGridEmail}
+     * @return {Email}
      */
-    public get from(): SendGridEmail {
+    public get from(): Email {
         return this.mail.getFrom()
     }
 
     /**
      * Set the from email and name.
      * @method set from
-     * @param {SendGridEmail} from
+     * @param {Email} from
      */
-    public set from(from: SendGridEmail) {
+    public set from(from: Email) {
         this.mail.setFrom(from)
     }
 
     /**
      * Returns the populated SendGrid.mail.Email helper object.
      * @method get mail
-     * @return {SendGridMail}
+     * @return {Mail}
      */
-    public get mail(): SendGridMail {
+    public get mail(): Mail {
         //return existing mail object
         if (this._mail !== undefined) {
             return this._mail
         }
 
         //set mail helper
-        this._mail = new SendGridMail()
+        this._mail = new Mail()
 
         return this._mail
     }
@@ -91,17 +94,16 @@ export abstract class Email {
     /**
      * Returns the SendGrid Personalization object.
      * @method get personalization
-     * @return {SendGridPersonalization}
+     * @return {Personalization}
      */
-    public get personalization(): SendGridPersonalization {
-        //verify personalization exists
-        if (this.mail.getPersonalizations() === undefined || this.mail.getPersonalizations().length === 0) {
-            this.mail.addPersonalization(new SendGridPersonalization())
-        }
-
+    public get personalization(): Personalization {
         //get first personalization by default
-        const personalizations = this.mail.getPersonalizations()
-        return personalizations[0]
+        if (!this.personalizations.length) {
+            const personalization = new Personalization()
+            this.personalizations.push(personalization)
+            this.mail.addPersonalization(personalization)
+        }
+        return this.personalizations[0]
     }
 
     /**
@@ -134,10 +136,10 @@ export abstract class Email {
     /**
      * Add content to this email.
      * @method addContent
-     * @param {SendGridContent} content
-     * @return {Email}
+     * @param {Content} content
+     * @return {EmailBase}
      */
-    public addContent(content: SendGridContent): Email {
+    public addContent(content: Content): EmailBase {
         //add content to Mail helper
         this.mail.addContent(content)
 
@@ -149,11 +151,11 @@ export abstract class Email {
      * @method addContentString
      * @param {string} value
      * @param {string} type
-     * @return {Email}
+     * @return {EmailBase}
      */
-    public addContentString(value: string, type = 'text/html'): Email {
+    public addContentString(value: string, type = 'text/html'): EmailBase {
         //build content
-        const content: SendGridContent = {
+        const content: any = {
             type: type,
             value: value,
         }
@@ -169,11 +171,11 @@ export abstract class Email {
      * @method addTo
      * @param {string} email
      * @param {string} name
-     * @return {Email}
+     * @return {EmailBase}
      */
-    public addTo(email: string, name?: string): Email {
+    public addTo(email: string, name?: string): EmailBase {
         //create Email
-        const to: SendGridEmail = {
+        const to: Email = {
             email,
             name,
         }
@@ -192,10 +194,10 @@ export abstract class Email {
      * @method addSubstitution
      * @param {string} key
      * @param {string} value
-     * @return {Email}
+     * @return {EmailBase}
      */
-    public addSubstitution(key: string, value: string): Email {
-        const substition: SendGridSubstitution = {
+    public addSubstitution(key: string, value: string): EmailBase {
+        const substition: any = {
             key,
             value,
         }
@@ -230,11 +232,11 @@ export abstract class Email {
      * @method setFromString
      * @param {string} email
      * @param {string} name
-     * @return {Email}
+     * @return {EmailBase}
      */
-    public setFromString(email: string, name?: string): Email {
+    public setFromString(email: string, name?: string): EmailBase {
         //create Email
-        const from: SendGridEmail = {
+        const from: any = {
             email,
             name,
         }

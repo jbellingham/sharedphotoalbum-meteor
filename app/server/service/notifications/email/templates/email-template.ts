@@ -1,10 +1,10 @@
 //import email
-import { Email } from '../facades/email'
+import { Content, EmailBase } from '../facades/email'
 import { EmailService } from '../email-service'
 
 //import file system i/o api
 import { existsSync, readFileSync } from 'fs'
-import { SendGridContent, SendGridResponse } from '../../../../../@types/send-grid'
+import { SendGridResponse } from '../../../../../@types/send-grid'
 
 //import sendgrid
 
@@ -15,10 +15,10 @@ import { SendGridContent, SendGridResponse } from '../../../../../@types/send-gr
  */
 export abstract class EmailTemplate {
     //the email dist path
-    public static DIST_PATH = 'email/johnoneone/dist'
+    public static DIST_PATH = '../../../../../../email-templates/dist'
 
     //the email
-    public email: Email
+    public email: EmailBase
 
     //the email service
     public emailService: EmailService
@@ -30,7 +30,7 @@ export abstract class EmailTemplate {
     public type = 'text/html'
 
     //the contents of the template
-    private _contents: SendGridContent
+    private _contents: Content
 
     //the template file name
     private _fileName: string
@@ -51,7 +51,7 @@ export abstract class EmailTemplate {
      * @method get content
      * @return {SendGridContent}
      */
-    public get content(): SendGridContent {
+    public get content(): Content {
         //return content if it already exists
         if (this._contents !== undefined) {
             return this._contents
@@ -72,7 +72,7 @@ export abstract class EmailTemplate {
         const value = readFileSync(path).toString()
 
         //build content
-        const content: SendGridContent = {
+        const content: Content = {
             type: this.type,
             value: value,
         }

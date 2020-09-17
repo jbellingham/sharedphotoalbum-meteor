@@ -1,9 +1,9 @@
 import { EmailTemplate } from './templates/email-template'
 import { Meteor } from 'meteor/meteor'
-import { SendGridContent } from '../../../../@types/send-grid'
-import { Email } from './facades/email'
-// import { ProductionEmail } from './facades/production-email'
+import { EmailBase } from './facades/email'
 import { TestEmail } from './facades/test-email'
+import { ProductionEmail } from './facades/production-email'
+import { SendGridResponse } from '../../../../@types/send-grid'
 
 /**
  * The exposed email service.
@@ -11,7 +11,7 @@ import { TestEmail } from './facades/test-email'
  */
 export class EmailService {
     //the email
-    public email: Email
+    public email: EmailBase
 
     /**
      * @constructor
@@ -50,7 +50,7 @@ export class EmailService {
      * @param {SendGridContent} content
      * @return {Email}
      */
-    public addContent(content: SendGridContent): EmailService {
+    public addContent(content: any): EmailService {
         this.email.addContent(content)
         return this
     }
@@ -95,6 +95,7 @@ export class EmailService {
      * @method populateFromTemplate
      */
     public populateFromTemplate(template: EmailTemplate): EmailService {
+        console.log('populate from template')
         //add content to email from template
         this.email.addContent(template.content)
 
@@ -109,7 +110,7 @@ export class EmailService {
      * @method send
      * @abstract
      */
-    public send(): Promise<any> {
+    public send(): Promise<SendGridResponse> {
         return this.email.send()
     }
 

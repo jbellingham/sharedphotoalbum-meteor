@@ -39,5 +39,5 @@
     "./.meteor/**",
     "./packages/**"
   ],
-  "typeRoots": ["/@types"]
+  "typeRoots": ["node_modules/@types", "/@types"]
 }

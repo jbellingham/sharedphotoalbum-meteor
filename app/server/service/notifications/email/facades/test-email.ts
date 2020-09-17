@@ -1,16 +1,15 @@
-//import parent Email class
-import { Email } from './email'
-
 //import sendgrid
 import * as SendGrid from 'sendgrid'
-import { SendGridResponse } from '../../../../../@types/send-grid'
 import { Meteor } from 'meteor/meteor'
+import { ProductionEmail } from './production-email'
+import { EmailBase } from './email'
+import { SendGridResponse } from '../../../../../@types/send-grid'
 
 /**
  * An email when testing the application.
  * @class TestEmail
  */
-export class TestEmail extends Email {
+export class TestEmail extends ProductionEmail {
     /**
      * @constructor
      */
@@ -50,13 +49,14 @@ export class TestEmail extends Email {
      */
     public send(): Promise<SendGridResponse> {
         //delete mail if it already exists
-        if (this._mail !== undefined) {
-            delete this._mail
-        }
+        // if (this._mail !== undefined) {
+        //     console.log('delete mail')
+        //     delete this._mail
+        // }
 
         //build a new Mail helper object
-        const from = new SendGrid.mail.Email(Email.FROM_EMAIL, Email.FROM_NAME)
-        const to = new SendGrid.mail.Email(Email.TO_EMAIL, Email.TO_NAME)
+        const from = new SendGrid.mail.Email(EmailBase.FROM_EMAIL, EmailBase.FROM_NAME)
+        const to = new SendGrid.mail.Email(EmailBase.TO_EMAIL, EmailBase.TO_NAME)
         let content
         if (this.contents.length === 0) {
             content = new SendGrid.mail.Content('text/html', '')

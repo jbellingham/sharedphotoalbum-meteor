@@ -1,11 +1,11 @@
 //import parent Email class
-import { Email } from './email'
+import { EmailBase } from './email'
 
 /**
  * An email when application is in production.
  * @class ProductionEmail
  */
-export class ProductionEmail extends Email {
+export class ProductionEmail extends EmailBase {
     /**
      * @constructor
      */
@@ -34,19 +34,18 @@ export class ProductionEmail extends Email {
      * @method send
      */
     public send(): Promise<any> {
-        //SendGridResponse> {
         //pre hook
         this.pre()
 
         //build request
-        const request = this.sendGrid.emptyRequest({
+        const request = this.sendGrid.createRequest({
             body: this.mail.toJSON(),
             method: 'POST',
-            path: '/v3/mail/send',
+            url: '/v3/mail/send',
         })
 
         //send request
-        return this.sendGrid.API(request).then(() => {
+        return this.sendGrid.request(request).then(() => {
             //post hook
             this.post()
         })

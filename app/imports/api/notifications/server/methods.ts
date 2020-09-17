@@ -21,6 +21,7 @@ Meteor.methods({
         try {
             await template.send()
         } catch (error) {
+            console.log('poop')
             console.log(error)
             throw error
         }
