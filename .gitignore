@@ -1,5 +1,4 @@
 node_modules/
 settings.*.json
 sendgrid.env
-app/.meteor
 email-templates/dist
