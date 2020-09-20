@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
+    "debug": "meteor run --inspect-brk=9229 --settings settings.development.json",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
@@ -11,6 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.8.4",
     "@sendgrid/client": "^7.2.6",
+    "@sendgrid/mail": "^7.2.6",
     "@types/lodash": "^4.14.158",
     "@types/nodemailer": "^6.4.0",
     "@types/react-router-dom": "^5.1.5",

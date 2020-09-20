@@ -30,6 +30,10 @@ export class NewPostEmailTemplate extends EmailTemplate {
         return 'new-post.html'
     }
 
+    public get templateId(): string {
+        return 'd-3bee0e5093d74aeb8b3aab50bfbba276'
+    }
+
     /**
      * Post-content hook.
      * @method post

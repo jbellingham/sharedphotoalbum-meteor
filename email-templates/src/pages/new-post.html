@@ -1,7 +1,7 @@
 ---
-subject: My Basic Email Template Subject
+subject: New Post template
 ---
-
+{{{{raw}}}}
 <wrapper class="header">
   <container>
     <row class="collapse">
@@ -19,9 +19,10 @@ subject: My Basic Email Template Subject
   <row>
     <columns small="12">
       
-      <h1>Hi -firstName-,</h1>
-      <p class="lead">A subscribed feed: -feedName- has a new post.</p>
+      <h1>Hi {{firstName}},</h1>
+      <p class="lead">A subscribed feed: {{feedName}} has a new post.</p>
       <p>View it <a href="">here</a></p>
     </columns>
   </row>
 </container>
+{{{{/raw}}}}

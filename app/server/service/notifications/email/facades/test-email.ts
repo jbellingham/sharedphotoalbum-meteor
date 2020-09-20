@@ -1,5 +1,5 @@
 //import sendgrid
-import * as SendGrid from 'sendgrid'
+import sendGrid, * as SendGrid from 'sendgrid'
 import { Meteor } from 'meteor/meteor'
 import { ProductionEmail } from './production-email'
 import { EmailBase } from './email'
@@ -22,7 +22,7 @@ export class TestEmail extends ProductionEmail {
      * @method pre
      */
     public pre() {
-        // super.pre()
+        super.pre()
 
         //get MailSettings
         let mailSettings
@@ -41,6 +41,7 @@ export class TestEmail extends ProductionEmail {
             sandBoxMode = mailSettings.getSandBoxMode()
             sandBoxMode.setEnabled(Meteor.isDevelopment)
         }
+        this.mail.addMailSettings(mailSettings)
     }
 
     /**
@@ -49,21 +50,21 @@ export class TestEmail extends ProductionEmail {
      */
     public send(): Promise<SendGridResponse> {
         //delete mail if it already exists
-        // if (this._mail !== undefined) {
-        //     console.log('delete mail')
-        //     delete this._mail
-        // }
+        if (this._mail !== undefined) {
+            delete this._mail
+        }
 
         //build a new Mail helper object
         const from = new SendGrid.mail.Email(EmailBase.FROM_EMAIL, EmailBase.FROM_NAME)
         const to = new SendGrid.mail.Email(EmailBase.TO_EMAIL, EmailBase.TO_NAME)
         let content
-        if (this.contents.length === 0) {
-            content = new SendGrid.mail.Content('text/html', '')
+        if (this.contents === undefined ||
+            this.contents?.length === 0) {
+            content = new SendGrid.mail.Content('text/html', 'test')
         } else {
             content = this.contents[0]
         }
-        this._mail = new SendGrid.mail.Mail(from, this.subject, to, content)
+        this._mail = new SendGrid.mail.Mail(from, "test", to, content)
 
         //send email
         return super.send()

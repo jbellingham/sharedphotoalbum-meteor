@@ -19,11 +19,12 @@ export class EmailService {
     constructor() {
         //get configuration
         //set email facade based on configuration
-        if (Meteor.isProduction) {
-            this.email = new ProductionEmail()
-        } else {
-            this.email = new TestEmail()
-        }
+        // if (Meteor.isProduction) {
+        //     this.email = new ProductionEmail()
+        // } else {
+        //     this.email = new TestEmail()
+        // }
+        this.email = new ProductionEmail()
     }
 
     /**
@@ -95,12 +96,12 @@ export class EmailService {
      * @method populateFromTemplate
      */
     public populateFromTemplate(template: EmailTemplate): EmailService {
-        console.log('populate from template')
         //add content to email from template
         this.email.addContent(template.content)
 
         //set the subject from the template
         this.email.subject = template.subject
+        this.email.templateId = template.templateId
 
         return this
     }

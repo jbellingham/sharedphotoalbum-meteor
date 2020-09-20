@@ -35,6 +35,8 @@ export abstract class EmailTemplate {
     //the template file name
     private _fileName: string
 
+    private _templateId: string
+
     /**
      * @constructor
      */
@@ -103,6 +105,14 @@ export abstract class EmailTemplate {
             fileName += '.html'
         }
         this.fileName = fileName
+    }
+
+    public get templateId(): string {
+        return this._templateId
+    }
+
+    public set templateId(templateId: string) {
+        this.templateId = templateId
     }
 
     /**
