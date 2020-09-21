@@ -5,6 +5,7 @@ import { EmailService } from '../email-service'
 //import file system i/o api
 import { existsSync, readFileSync } from 'fs'
 import { SendGridResponse } from '../../../../../@types/send-grid'
+import { DynamicData } from './dynamic-data'
 
 //import sendgrid
 
@@ -36,6 +37,8 @@ export abstract class EmailTemplate {
     private _fileName: string
 
     private _templateId: string
+
+    private _dynamicData: DynamicData
 
     /**
      * @constructor
@@ -112,7 +115,15 @@ export abstract class EmailTemplate {
     }
 
     public set templateId(templateId: string) {
-        this.templateId = templateId
+        this._templateId = templateId
+    }    
+
+    public set dynamicData(dynamicData: DynamicData) {
+        this._dynamicData = dynamicData
+    }
+
+    public get dynamicData(): DynamicData {
+        return this._dynamicData
     }
 
     /**

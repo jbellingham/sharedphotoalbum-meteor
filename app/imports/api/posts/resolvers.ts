@@ -33,7 +33,7 @@ export default {
             } catch (error) {
                 Posts.remove({ _id: id })
             }
-            await callWithPromise(notifications.sendNotification)
+            await callWithPromise(notifications.sendNotification, id, feedId)
             return Posts.findOne(id)
         },
     },

@@ -18,13 +18,12 @@ export class EmailService {
      */
     constructor() {
         //get configuration
-        //set email facade based on configuration
-        // if (Meteor.isProduction) {
-        //     this.email = new ProductionEmail()
-        // } else {
-        //     this.email = new TestEmail()
-        // }
-        this.email = new ProductionEmail()
+        // set email facade based on configuration
+        if (Meteor.isProduction) {
+            this.email = new ProductionEmail()
+        } else {
+            this.email = new TestEmail()
+        }
     }
 
     /**
@@ -102,6 +101,7 @@ export class EmailService {
         //set the subject from the template
         this.email.subject = template.subject
         this.email.templateId = template.templateId
+        this.email.dynamicData = template.dynamicData
 
         return this
     }

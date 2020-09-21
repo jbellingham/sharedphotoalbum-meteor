@@ -42,17 +42,10 @@ export class ProductionEmail extends EmailBase {
         //pre hook
         this.pre()
 
-        //build request
-        // const request = this.sendGrid.createRequest({
-        //     body: this.mail.toJSON(),
-        //     method: 'POST',
-        //     url: '/v3/mail/send',
-        // })
-
         const request = this.mail.toJSON()
+        const dynamicData = this.dynamicData
 
         const formattedRequest: MailDataRequired = {
-            // to: request.personalizations[0].to.map(_ => _.email),
             from: request.from as string,
             subject: request.subject as string,
             html: request.content[0].value,
@@ -61,10 +54,7 @@ export class ProductionEmail extends EmailBase {
             personalizations: request.personalizations.map<PersonalizationData>(function(personalization): PersonalizationData {
                 return {
                     to: personalization.to,
-                    dynamic_template_data: {
-                        firstName: "poop",
-                        feedName: "poop feed"
-                    },
+                    dynamic_template_data: dynamicData
                 }
             })
         }
@@ -74,11 +64,5 @@ export class ProductionEmail extends EmailBase {
         }, (error) => {
             console.log(error)
         })
-        // return this.sendGrid.request(request).then((response) => {
-        //     //post hook
-        //     this.post()
-        // }, (error) => {
-        //     console.log(error)
-        // })
     }
 }

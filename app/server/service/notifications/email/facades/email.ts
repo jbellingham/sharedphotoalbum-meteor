@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import * as sendGrid from 'sendgrid'
-import { Client } from '@sendgrid/client'
 import { SendGridResponse } from '../../../../../@types/send-grid'
 import { MailService } from '@sendgrid/mail'
+import { DynamicData } from '../templates/dynamic-data'
 
 /**
  * The base class for emails.
@@ -30,6 +30,8 @@ export abstract class EmailBase {
     protected _mail: Mail
 
     public templateId: string
+
+    public dynamicData: DynamicData
 
     /**
      * @constructor
