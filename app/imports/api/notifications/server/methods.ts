@@ -25,7 +25,7 @@ Meteor.methods({
             try {
                 await template.send()
             } catch (error) {
-                console.log(error.response?.body)
+                console.log(error?.response?.body)
                 throw error
             }
         })

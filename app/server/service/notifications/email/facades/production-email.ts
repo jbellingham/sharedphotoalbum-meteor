@@ -59,10 +59,6 @@ export class ProductionEmail extends EmailBase {
             })
         }
 
-        return this.sendGrid.send(formattedRequest).then((response) => {
-            console.log(response)
-        }, (error) => {
-            console.log(error)
-        })
+        return this.sendGrid.send(formattedRequest)
     }
 }
