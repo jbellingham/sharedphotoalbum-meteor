@@ -45,28 +45,6 @@ export class EmailService {
     }
 
     /**
-     * Add content to this email.
-     * @method addContent
-     * @param {SendGridContent} content
-     * @return {Email}
-     */
-    public addContent(content: any): EmailService {
-        this.email.addContent(content)
-        return this
-    }
-
-    /**
-     * Add content to this email from a simple string. The default type is "text/html".
-     * @param {string} value
-     * @param {string} type
-     * @return {Email}
-     */
-    public addContentString(value?: string, type = 'text/html'): EmailService {
-        this.email.addContentString(value, type)
-        return this
-    }
-
-    /**
      * Add to address using simple values.
      * @method addTo
      * @param {string} email
@@ -95,9 +73,6 @@ export class EmailService {
      * @method populateFromTemplate
      */
     public populateFromTemplate(template: EmailTemplate): EmailService {
-        //add content to email from template
-        this.email.addContent(template.content)
-
         //set the subject from the template
         this.email.subject = template.subject
         this.email.templateId = template.templateId

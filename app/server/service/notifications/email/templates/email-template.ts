@@ -1,9 +1,7 @@
 //import email
-import { Content, EmailBase } from '../facades/email'
+import { EmailBase } from '../facades/email'
 import { EmailService } from '../email-service'
 
-//import file system i/o api
-import { existsSync, readFileSync } from 'fs'
 import { SendGridResponse } from '../../../../../@types/send-grid'
 import { DynamicData } from './dynamic-data'
 
@@ -15,9 +13,6 @@ import { DynamicData } from './dynamic-data'
  * @class EmailTemplate
  */
 export abstract class EmailTemplate {
-    //the email dist path
-    public static DIST_PATH = '../../../../../../email-templates/dist'
-
     //the email
     public email: EmailBase
 
@@ -26,15 +21,6 @@ export abstract class EmailTemplate {
 
     //the email subject
     abstract subject: string
-
-    //the mime type
-    public type = 'text/html'
-
-    //the contents of the template
-    private _contents: Content
-
-    //the template file name
-    private _fileName: string
 
     private _templateId: string
 
@@ -51,72 +37,13 @@ export abstract class EmailTemplate {
         this.email = this.emailService.email
     }
 
-    /**
-     * Returns the SendGridContent object for this template.
-     * @method get content
-     * @return {SendGridContent}
-     */
-    public get content(): Content {
-        //return content if it already exists
-        if (this._contents !== undefined) {
-            return this._contents
-        }
-
-        //invoke pre-content hook
-        this.pre()
-
-        //build template file path
-        const path = `${EmailTemplate.DIST_PATH}/${this.fileName}`
-
-        //verify template file exists
-        if (!existsSync(path)) {
-            throw new Error(`[EmailTemplate.content] The file does not exist {path: ${path}}.`)
-        }
-
-        //read file
-        const value = readFileSync(path).toString()
-
-        //build content
-        const content: Content = {
-            type: this.type,
-            value: value,
-        }
-
-        //invoke post-content hook
-        this.post()
-
-        return content
-    }
-
-    /**
-     * Returns the file name in the DIST_PATH directory for this template.
-     * @method get fileName
-     * @return {string}
-     */
-    public get fileName(): string {
-        return this._fileName
-    }
-
-    /**
-     * Set the file name in the DIST_PATH directory for this template.
-     * The contents of this file will be used for the email content.
-     * @method set fileName
-     * @param {string} fileName
-     */
-    public set fileName(fileName: string) {
-        if (!fileName.match(/\.html$/i)) {
-            fileName += '.html'
-        }
-        this.fileName = fileName
-    }
-
     public get templateId(): string {
         return this._templateId
     }
 
     public set templateId(templateId: string) {
         this._templateId = templateId
-    }    
+    }
 
     public set dynamicData(dynamicData: DynamicData) {
         this._dynamicData = dynamicData

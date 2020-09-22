@@ -11,7 +11,6 @@ import { DynamicData } from '../templates/dynamic-data'
 
 class Mail extends sendGrid.mail.Mail {}
 class Personalization extends sendGrid.mail.Personalization {}
-export class Content extends sendGrid.mail.Content {}
 class Email extends sendGrid.mail.Email {}
 
 export abstract class EmailBase {
@@ -37,25 +36,12 @@ export abstract class EmailBase {
      * @constructor
      */
     constructor() {
-        //get configuration object
-        // this.configuration = ConfigurationFactory.config()
-
         //store the SendGrid API
-        this.sendGrid = new MailService()//SendGridClient()
+        this.sendGrid = new MailService()
         this.sendGrid.setApiKey(Meteor.settings.sendGrid.apiKey)
 
         //set default from email address(es)
         this.setFromString(EmailBase.FROM_EMAIL, EmailBase.FROM_NAME)
-    }
-
-    /**
-     * Returns the Contents array.
-     * @method get contents
-     * @return {Content[]}
-     */
-    public get contents(): Content[] {
-        const contents = this.mail.getContents()
-        return contents
     }
 
     /**
@@ -139,39 +125,6 @@ export abstract class EmailBase {
     }
 
     /**
-     * Add content to this email.
-     * @method addContent
-     * @param {Content} content
-     * @return {EmailBase}
-     */
-    public addContent(content: Content): EmailBase {
-        //add content to Mail helper
-        this.mail.addContent(content)
-
-        return this
-    }
-
-    /**
-     * Add content to this email from a simple string. The default type is "text/html".
-     * @method addContentString
-     * @param {string} value
-     * @param {string} type
-     * @return {EmailBase}
-     */
-    public addContentString(value: string, type = 'text/html'): EmailBase {
-        //build content
-        const content: Content = {
-            type,
-            value,
-        }
-
-        //add content to Mail helper
-        this.addContent(content)
-
-        return this
-    }
-
-    /**
      * Add to address using simple values.
      * @method addTo
      * @param {string} email
@@ -180,7 +133,7 @@ export abstract class EmailBase {
      */
     public addTo(email: string, name?: string): EmailBase {
         //create Email
-        let to = new sendGrid.mail.Email(email, name)
+        const to = new sendGrid.mail.Email(email, name)
         if (name !== undefined) {
             to.name = name
         }
@@ -235,7 +188,7 @@ export abstract class EmailBase {
      */
     public setFromString(email: string, name?: string): EmailBase {
         //create Email
-        let from = new sendGrid.mail.Email(email, name)
+        const from = new sendGrid.mail.Email(email, name)
         if (name !== undefined) {
             from.name = name
         }

@@ -1,5 +1,3 @@
-
-import { classes } from '@sendgrid/helpers'
 import { MailDataRequired, PersonalizationData } from '../../../../../@types/send-grid/mail-data'
 //import parent Email class
 import { EmailBase } from './email'
@@ -48,15 +46,16 @@ export class ProductionEmail extends EmailBase {
         const formattedRequest: MailDataRequired = {
             from: request.from as string,
             subject: request.subject as string,
-            html: request.content[0].value,
             templateId: this.templateId,
             // mailSettings: this.mail.getMailSettings(),
-            personalizations: request.personalizations.map<PersonalizationData>(function(personalization): PersonalizationData {
+            personalizations: request.personalizations.map<PersonalizationData>(function (
+                personalization,
+            ): PersonalizationData {
                 return {
                     to: personalization.to,
-                    dynamic_template_data: dynamicData
+                    dynamic_template_data: dynamicData,
                 }
-            })
+            }),
         }
 
         return this.sendGrid.send(formattedRequest)
