@@ -12,15 +12,6 @@ export class NewPostEmailTemplate extends EmailTemplate {
     //the name of the feed with the new post
     public feedName = ''
 
-    /**
-     * Returns the email subject.
-     * @method get subject
-     * @return {string}
-     */
-    public get subject(): string {
-        return `${this.feedName} has a new post waiting for you`
-    }
-
     public get templateId(): string {
         return 'd-3bee0e5093d74aeb8b3aab50bfbba276'
     }

@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import * as sendGrid from 'sendgrid'
 import { SendGridResponse } from '../../../../../@types/send-grid'
 import { MailService } from '@sendgrid/mail'
-import { DynamicData } from '../templates/dynamic-data'
 
 /**
  * The base class for emails.
@@ -10,7 +9,7 @@ import { DynamicData } from '../templates/dynamic-data'
  */
 
 class Mail extends sendGrid.mail.Mail {}
-class Personalization extends sendGrid.mail.Personalization {}
+export class Personalization extends sendGrid.mail.Personalization {}
 class Email extends sendGrid.mail.Email {}
 
 export abstract class EmailBase {
@@ -27,8 +26,6 @@ export abstract class EmailBase {
     protected _mail: Mail
 
     public templateId: string
-
-    public dynamicData: DynamicData
 
     /**
      * @constructor
@@ -72,44 +69,6 @@ export abstract class EmailBase {
         this._mail = new Mail()
 
         return this._mail
-    }
-
-    /**
-     * Returns the subject for this email.
-     * @method get subject
-     * @return {string}
-     */
-    public get subject(): string {
-        return this.mail.getSubject()
-    }
-
-    /**
-     * Set the subject for this email.
-     * @method set subject
-     * @param {string} subject
-     */
-    public set subject(subject: string) {
-        this.mail.setSubject(subject)
-    }
-
-    /**
-     * Add to address using simple values.
-     * @method addTo
-     * @param {string} email
-     * @param {string} name
-     * @return {EmailBase}
-     */
-    public addTo(email: string, name?: string): EmailBase {
-        const to = new sendGrid.mail.Email(email, name)
-        if (name !== undefined) {
-            to.name = name
-        }
-
-        const personalization = new Personalization()
-        personalization.addTo(to)
-        this.addPersonalization(personalization)
-
-        return this
     }
 
     public addPersonalization(personalization: Personalization): void {

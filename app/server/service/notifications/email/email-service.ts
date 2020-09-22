@@ -26,44 +26,11 @@ export class EmailService {
     }
 
     /**
-     * Returns the subject for this email.
-     * @method get subject
-     * @return {string}
-     */
-    public get subject(): string {
-        return this.email.subject
-    }
-
-    /**
-     * Set the subject for this email.
-     * @method set subject
-     * @param {string} subject
-     */
-    public set subject(subject: string) {
-        this.email.subject = subject
-    }
-
-    /**
-     * Add to address using simple values.
-     * @method addTo
-     * @param {string} email
-     * @param {string} name
-     * @return {Email}
-     */
-    public addTo(email: string, name?: string): EmailService {
-        this.email.addTo(email, name)
-        return this
-    }
-
-    /**
      * Populate the email using a template.
      * @method populateFromTemplate
      */
     public populateFromTemplate(template: EmailTemplate): EmailService {
-        //set the subject from the template
-        this.email.subject = template.subject
         this.email.templateId = template.templateId
-        this.email.dynamicData = template.dynamicData
 
         return this
     }

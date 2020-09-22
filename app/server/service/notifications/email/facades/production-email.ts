@@ -2,8 +2,6 @@ import { MailDataRequired, PersonalizationData } from '../../../../../@types/sen
 //import parent Email class
 import { EmailBase } from './email'
 
-// class Mail extends classes.Mail { }
-
 /**
  * An email when application is in production.
  * @class ProductionEmail
@@ -41,23 +39,8 @@ export class ProductionEmail extends EmailBase {
         this.pre()
 
         const request = this.mail.toJSON()
-        const dynamicData = this.dynamicData
         if (request.personalizations?.length) {
-            const formattedRequest: MailDataRequired = {
-                from: request.from as string,
-                subject: request.subject as string,
-                templateId: this.templateId,
-                // mailSettings: this.mail.getMailSettings(),
-                personalizations: request.personalizations.map<PersonalizationData>(function (
-                    personalization,
-                ): PersonalizationData {
-                    return {
-                        to: personalization.to,
-                        dynamic_template_data: dynamicData,
-                    }
-                }),
-            }
-
+            const formattedRequest = formatRequest(request, this.templateId)
             return this.sendGrid.send(formattedRequest)
         } else {
             console.log('No recipients for email, not sent.')
@@ -65,4 +48,19 @@ export class ProductionEmail extends EmailBase {
             console.log(request)
         }
     }
+}
+
+const formatRequest = (request: any, templateId: string) => {
+    const formattedRequest: MailDataRequired = {
+        from: request.from as string,
+        templateId: templateId,
+        // mailSettings: this.mail.getMailSettings(),
+        personalizations: request.personalizations.map(function (personalization): PersonalizationData {
+            return {
+                to: personalization.to,
+                dynamic_template_data: personalization.substitutions,
+            }
+        }),
+    }
+    return formattedRequest
 }
