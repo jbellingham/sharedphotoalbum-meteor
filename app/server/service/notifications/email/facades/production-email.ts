@@ -42,22 +42,27 @@ export class ProductionEmail extends EmailBase {
 
         const request = this.mail.toJSON()
         const dynamicData = this.dynamicData
+        if (request.personalizations?.length) {
+            const formattedRequest: MailDataRequired = {
+                from: request.from as string,
+                subject: request.subject as string,
+                templateId: this.templateId,
+                // mailSettings: this.mail.getMailSettings(),
+                personalizations: request.personalizations.map<PersonalizationData>(function (
+                    personalization,
+                ): PersonalizationData {
+                    return {
+                        to: personalization.to,
+                        dynamic_template_data: dynamicData,
+                    }
+                }),
+            }
 
-        const formattedRequest: MailDataRequired = {
-            from: request.from as string,
-            subject: request.subject as string,
-            templateId: this.templateId,
-            // mailSettings: this.mail.getMailSettings(),
-            personalizations: request.personalizations.map<PersonalizationData>(function (
-                personalization,
-            ): PersonalizationData {
-                return {
-                    to: personalization.to,
-                    dynamic_template_data: dynamicData,
-                }
-            }),
+            return this.sendGrid.send(formattedRequest)
+        } else {
+            console.log('No recipients for email, not sent.')
+            console.log('Payload:')
+            console.log(request)
         }
-
-        return this.sendGrid.send(formattedRequest)
     }
 }

@@ -15,20 +15,20 @@ Meteor.methods({
         const baseUrl = Meteor.isDevelopment ? 'http://localhost:3000' : 'https://sharedphotoalbum.au.meteorapp.com'
 
         const subscriptions = Subscriptions.find({ feedId: feedId, isActive: true })
-        subscriptions.forEach(async (_) => {
+        subscriptions.forEach((_) => {
             const user = Meteor.users.findOne(_.userId)
             const email = getEmail(user)
             const name = getName(user)
             template.email.addTo(email, name)
             template.dynamicData = new NewPostData(name, feed.name, `${baseUrl}/${feedId}`)
-
-            try {
-                await template.send()
-            } catch (error) {
-                console.log(error?.response?.body)
-                throw error
-            }
         })
+
+        try {
+            await template.send()
+        } catch (error) {
+            console.log(error?.response?.body)
+            throw error
+        }
     },
 })
 

@@ -21,15 +21,6 @@ export class NewPostEmailTemplate extends EmailTemplate {
         return `${this.feedName} has a new post waiting for you`
     }
 
-    /**
-     * Returns the file name in the DIST_PATH directory for this template.
-     * @method get fileName
-     * @return {string}
-     */
-    public get fileName(): string {
-        return 'new-post.html'
-    }
-
     public get templateId(): string {
         return 'd-3bee0e5093d74aeb8b3aab50bfbba276'
     }
@@ -47,8 +38,6 @@ export class NewPostEmailTemplate extends EmailTemplate {
      * @method pre
      */
     public pre() {
-        //add custom substitutions
-        this.email.addSubstitution('-name-', this.name)
-        this.email.addSubstitution('-feedName-', this.feedName)
+        // do nothing
     }
 }

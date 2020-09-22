@@ -17,7 +17,6 @@ export class EmailService {
      * @constructor
      */
     constructor() {
-        //get configuration
         // set email facade based on configuration
         if (Meteor.isProduction) {
             this.email = new ProductionEmail()
@@ -53,18 +52,6 @@ export class EmailService {
      */
     public addTo(email: string, name?: string): EmailService {
         this.email.addTo(email, name)
-        return this
-    }
-
-    /**
-     * Add a substitution in the email template.
-     * @method addSubstitution
-     * @param {string} key
-     * @param {string} value
-     * @return {Email}
-     */
-    public addSubstitution(key: string, value: string): EmailService {
-        this.email.addSubstitution(key, value)
         return this
     }
 
