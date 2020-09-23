@@ -1,12 +1,12 @@
 import React from 'react'
 import NewPost from './NewPost'
-import Post from '../Post'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Col, Row, Container } from 'react-bootstrap'
 import SubscriptionRequests from './SubscriptionRequests'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo'
 import NewFeed from './NewFeed'
+import PostList from '../Post/PostList'
 
 export const GET_FEED = gql`
     query feedById($id: String) {
@@ -16,24 +16,11 @@ export const GET_FEED = gql`
             ownerId
             isOwner
             isActiveSubscription
-            posts {
-                _id
-                text
-                poster {
-                    _id
-                    email
-                }
-                media {
-                    _id
-                    publicId
-                    mimeType
-                }
-            }
         }
     }
 `
 
-function Feed() {
+function Feed(): JSX.Element {
     const [showNewFeedModal, setShowNewFeedModal] = React.useState(false)
     const toggleNewFeedModal = (e: React.MouseEvent) => {
         e.preventDefault()
@@ -50,6 +37,7 @@ function Feed() {
         variables: {
             id: feedId,
         },
+        fetchPolicy: 'cache-and-network',
     })
 
     const { feedById: feed } = data || {}
@@ -64,9 +52,7 @@ function Feed() {
                         <Col xs={{ span: 12 }} lg={{ span: 7, offset: 2 }}>
                             <h1>{feed?.name}</h1>
                             {feed.isOwner && <NewPost feedId={feedId} refetchFeed={refetch} />}
-                            {feed?.posts?.map((post) => (
-                                <Post post={post} key={post._id} />
-                            ))}
+                            <PostList feedId={feed._id} />
                         </Col>
                         <Col xs={{ span: 0 }} lg={{ span: 3 }}>
                             {feed.isOwner && <SubscriptionRequests />}

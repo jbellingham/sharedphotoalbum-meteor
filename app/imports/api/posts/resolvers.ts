@@ -1,4 +1,4 @@
-import Posts from './posts'
+import Posts, { PostModel } from './posts'
 import Feeds from '../feeds/feeds'
 import Comments from '../comments/comments'
 import Media from '../media/media'
@@ -35,6 +35,11 @@ export default {
             }
             await callWithPromise(notifications.sendNotification, id, feedId)
             return Posts.findOne(id)
+        },
+    },
+    Query: {
+        postsByFeedId(_: any, { feedId, skip, limit }): PostModel[] {
+            return Posts.find({ feedId }, { skip, limit }).fetch()
         },
     },
 }

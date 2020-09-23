@@ -1,6 +1,6 @@
-import Feeds from './feeds'
+import Feeds, { FeedModel } from './feeds'
 import { Random } from 'meteor/random'
-import Posts from '../posts/posts'
+import Posts, { PostModel } from '../posts/posts'
 import Subscriptions from '../subscriptions/subscriptions'
 
 export default {
@@ -18,7 +18,9 @@ export default {
         },
     },
     Feed: {
-        posts: (feed) => Posts.find({ feedId: feed._id }, { sort: { createdAt: -1 } }).fetch(),
+        posts: (feed: FeedModel): PostModel[] => {
+            return Posts.find({ feedId: feed._id }, { sort: { createdAt: -1 } }).fetch()
+        },
         isOwner: async (feed: any, _: any, { user }: any, __: any) => {
             const u = await user()
             return feed.ownerId === u._id

@@ -7,6 +7,6 @@ import MediaSchema from '../../../../api/media/Media.graphql'
 import SubscriptionsSchema from '../../../../api/subscriptions/Subscription.graphql'
 
 const typeDefs = [DatesSchema, CommentsSchema, FeedsSchema, PostsSchema, UsersSchema, MediaSchema, SubscriptionsSchema]
-//ddsasdcdsddsddsdsadsdsaddsdsassdssdssasa
+//ddsasdcdsddsddsdsadsdsaddsdsassdssdssasaddsddds
 
 export default typeDefs
