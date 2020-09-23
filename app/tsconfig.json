@@ -32,7 +32,8 @@
     "resolveJsonModule": true,
     "types": ["node", "mocha"],
     "esModuleInterop": true,
-    "preserveSymlinks": true
+    "preserveSymlinks": true,
+    "experimentalDecorators": true
   },
   "files": ["/@types/graphql.d.ts"],
   "exclude": [

@@ -2,6 +2,7 @@ import { EmailBase } from '../facades/email'
 import { EmailService } from '../email-service'
 
 import { SendGridResponse } from '../../../../../@types/send-grid'
+import { NotificationType } from '../../../../domain/notifications/notifications'
 
 /**
  * @class EmailTemplate
@@ -14,6 +15,8 @@ export abstract class EmailTemplate {
     public emailService: EmailService
 
     private _templateId: string
+
+    private _templateType: TemplateType
 
     /**
      * @constructor
@@ -32,6 +35,18 @@ export abstract class EmailTemplate {
 
     public set templateId(templateId: string) {
         this._templateId = templateId
+    }
+
+    public get templateType(): TemplateType {
+        return this._templateType
+    }
+
+    public set templateType(templateType: TemplateType) {
+        this._templateType = templateType
+    }
+
+    public get notificationType(): NotificationType {
+        return NotificationType.Email
     }
 
     /**
@@ -56,4 +71,8 @@ export abstract class EmailTemplate {
     public send(): Promise<SendGridResponse> {
         return this.emailService.populateFromTemplate(this).send()
     }
+}
+
+export enum TemplateType {
+    NewPost,
 }

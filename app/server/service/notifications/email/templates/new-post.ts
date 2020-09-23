@@ -1,5 +1,5 @@
 //import the base email class
-import { EmailTemplate } from './email-template'
+import { EmailTemplate, TemplateType } from './email-template'
 
 /**
  * Invite email template.
@@ -14,6 +14,10 @@ export class NewPostEmailTemplate extends EmailTemplate {
 
     public get templateId(): string {
         return 'd-3bee0e5093d74aeb8b3aab50bfbba276'
+    }
+
+    public get templateType(): TemplateType {
+        return TemplateType.NewPost
     }
 
     /**

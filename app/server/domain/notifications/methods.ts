@@ -1,10 +1,12 @@
-import { Meteor } from 'meteor/meteor'
-import { EmailTemplateFactory } from '../../../../server/service/notifications/email/email-factory'
-import Subscriptions from '../../subscriptions/subscriptions'
-import Feeds, { FeedModel } from '../../feeds/feeds'
-import sendGrid from 'sendgrid'
-import { Personalization } from '../../../../server/service/notifications/email/facades/email'
+import Feeds, { FeedModel } from '../../../imports/api/feeds/feeds'
+import Subscriptions from '../../../imports/api/subscriptions/subscriptions'
+import { EmailTemplateFactory } from '../../service/notifications/email/email-factory'
+import { Personalization } from '../../service/notifications/email/facades/email'
 import { Substitution } from 'sendgrid/lib/helpers/mail/mail'
+import sendGrid from 'sendgrid'
+import Notifications from './notifications'
+import { EmailTemplate } from '../../service/notifications/email/templates/email-template'
+import { User, UserExtensions } from '../users/users'
 
 export const notifications = {
     sendNotification: 'sendNotification',
@@ -24,6 +26,7 @@ Meteor.methods({
 
         try {
             await template.send()
+            storeNotification(template)
         } catch (error) {
             console.log(error?.response?.body)
             throw error
@@ -31,14 +34,10 @@ Meteor.methods({
     },
 })
 
-const getEmail = (user: Meteor.User) => (user.emails ? user.emails[0].address : user.services?.facebook?.email)
-
-const getName = (user: Meteor.User) => user.profile?.name || user.profile?.firstName
-
 const createPersonalization = (userId: string, feed: FeedModel, baseUrl: string): Personalization => {
-    const user = Meteor.users.findOne(userId)
-    const email = getEmail(user)
-    const name = getName(user)
+    const user = Meteor.users.findOne(userId) as User
+    const email = UserExtensions.getEmail(user)
+    const name = UserExtensions.getName(user)
     const personalization = new Personalization()
     const to = new sendGrid.mail.Email(email, name)
     personalization.addTo(to)
@@ -46,4 +45,21 @@ const createPersonalization = (userId: string, feed: FeedModel, baseUrl: string)
     personalization.addSubstitution(new Substitution('feedName', feed.name))
     personalization.addSubstitution(new Substitution('postLink', `${baseUrl}/${feed._id}`))
     return personalization
+}
+
+const storeNotification = (template: EmailTemplate) => {
+    const personalizations = template.email.mail.getPersonalizations()
+    personalizations.forEach((personalization) => {
+        const recipients = personalization.to
+        recipients.forEach((recipient) => {
+            Notifications.insert({
+                createdAt: new Date(),
+                templateId: template.templateId,
+                recipientEmail: recipient.email,
+                notificationType: template.notificationType,
+                templateType: template.templateType,
+                additionalData: personalization,
+            })
+        })
+    })
 }

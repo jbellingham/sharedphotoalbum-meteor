@@ -4,8 +4,8 @@ import Comments from '../comments/comments'
 import Media from '../media/media'
 import { media } from '../media/server/methods'
 import { callWithPromise } from '../../../utils/method-utilities'
-import { notifications } from '../notifications/server/methods'
 import { Meteor } from 'meteor/meteor'
+import { notifications } from '../../../server/domain/notifications/methods'
 
 export default {
     Post: {
