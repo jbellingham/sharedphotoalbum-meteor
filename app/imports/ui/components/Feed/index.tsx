@@ -20,6 +20,10 @@ export const GET_FEED = gql`
     }
 `
 
+interface FeedParams {
+    feedId: string
+}
+
 function Feed(): JSX.Element {
     const [showNewFeedModal, setShowNewFeedModal] = React.useState(false)
     const toggleNewFeedModal = (e: React.MouseEvent) => {
@@ -31,7 +35,7 @@ function Feed(): JSX.Element {
         setShowNewFeedModal(!showNewFeedModal)
     }
 
-    const { feedId } = useParams()
+    const { feedId } = useParams<FeedParams>()
 
     const { data, loading, refetch } = useQuery(GET_FEED, {
         variables: {
