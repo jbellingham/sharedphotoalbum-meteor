@@ -2,7 +2,7 @@ import { EmailBase } from '../facades/email'
 import { EmailService } from '../email-service'
 
 import { SendGridResponse } from '../../../../../@types/send-grid'
-import { NotificationType } from '../../../../domain/notifications/notifications'
+import { NotificationType } from '../../../../domain/entities/notifications'
 
 /**
  * @class EmailTemplate

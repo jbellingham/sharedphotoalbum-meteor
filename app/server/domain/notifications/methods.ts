@@ -1,12 +1,12 @@
 import Feeds, { FeedModel } from '../../../imports/api/feeds/feeds'
 import Subscriptions from '../../../imports/api/subscriptions/subscriptions'
-import { EmailTemplateFactory } from '../../service/notifications/email/email-factory'
-import { Personalization } from '../../service/notifications/email/facades/email'
 import { Substitution } from 'sendgrid/lib/helpers/mail/mail'
 import sendGrid from 'sendgrid'
-import Notifications from './notifications'
-import { EmailTemplate } from '../../service/notifications/email/templates/email-template'
-import { User, UserExtensions } from '../users/users'
+import { User, UserExtensions } from '../entities/users'
+import { EmailTemplateFactory } from '../service/notifications/email/email-factory'
+import { Personalization } from '../service/notifications/email/facades/email'
+import { EmailTemplate } from '../service/notifications/email/templates/email-template'
+import Notifications from '../entities/notifications'
 
 export const notifications = {
     sendNotification: 'sendNotification',
