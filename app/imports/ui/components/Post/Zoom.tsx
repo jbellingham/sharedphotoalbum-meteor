@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Container, Carousel } from 'react-bootstrap'
 import { Image, Video } from 'cloudinary-react'
-import { MediaModel } from '../../../../server/domain/entities/media'
+import { MediaModel } from '../../../api/media/media'
 
 interface IZoomProps {
     show: boolean

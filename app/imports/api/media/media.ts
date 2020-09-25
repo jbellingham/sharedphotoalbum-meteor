@@ -1,5 +1,3 @@
-import { Mongo } from 'meteor/mongo'
-
 export interface MediaModel {
     _id?: string
     publicId: string

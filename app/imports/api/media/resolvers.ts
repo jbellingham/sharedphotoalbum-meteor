@@ -1,8 +1,8 @@
-import Media, { MediaModel } from '../../../server/domain/entities/media'
+import Media from './media'
 
 export default {
     Query: {
-        async media(_: any, { postId }: any, __: any, ___: any): Promise<MediaModel[]> {
+        async media(_: any, { postId }: any, context: any, ___: any) {
             return Media.find({ postId }).fetch()
         },
     },

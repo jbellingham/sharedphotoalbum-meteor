@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
-import { CloudinaryService } from '../cloudinary/cloudinary-service'
-import Media from '../../entities/media'
+import { CloudinaryService } from '../../../../server/domain/service/cloudinary/cloudinary-service'
+import Media from '../media'
 
 const cloudinaryService = new CloudinaryService()
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Carousel, CarouselItem } from 'react-bootstrap'
 import { Image, Video } from 'cloudinary-react'
-import { MediaModel } from '../../../../server/domain/entities/media'
+import { MediaModel } from '../../../api/media/media'
 
 export interface IMediaDto {
     onClick: () => void
