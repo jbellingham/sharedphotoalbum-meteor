@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo'
-import { TemplateType } from '../service/notifications/email/templates/email-template'
+import { TemplateType } from '../../service/notifications/email/templates/email-template'
 
 export interface NotificationModel {
     _id?: string
