@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor'
 import assert from 'assert'
-// import * as notificationTests from '../server/domain/notifications/notifications.methods.test'
 
 describe('photo-album-meteor', function () {
     it('package.json has correct name', async function () {

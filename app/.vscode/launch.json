@@ -43,6 +43,13 @@
         {
             "name": "Meteor: All",
             "configurations": ["Meteor: Node", "Meteor: Chrome"]
-        }
+        },
+        {
+            "name": "Meteor: All Tests",
+            "configurations": [
+              "Meteor: Server Tests",
+              "Meteor: Client Tests"
+            ]
+          }
     ]
 }
