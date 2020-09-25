@@ -32,6 +32,10 @@ aldeed:simple-schema
 socialize:cloudinary
 swydo:graphql
 
+meteortesting:browser-tests
+meteortesting:mocha
+meteortesting:mocha-core@8.0.1
+
 apollo
 promise@0.11.2
 dburles:factory
