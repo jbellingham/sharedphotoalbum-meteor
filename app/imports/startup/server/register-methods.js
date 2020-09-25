@@ -1,2 +1,2 @@
-import '../../api/media/server/methods'
+import '../../../server/domain/service/media/methods'
 import '../../../server/domain/notifications/methods'
