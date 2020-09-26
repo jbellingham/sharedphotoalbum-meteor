@@ -7,6 +7,7 @@ import sendGrid from 'sendgrid'
 import Notifications from './notifications'
 import { EmailTemplate } from '../../service/notifications/email/templates/email-template'
 import { User, UserExtensions } from '../users/users'
+import { Meteor } from 'meteor/meteor'
 
 export const notifications = {
     sendNotification: 'sendNotification',
@@ -26,7 +27,7 @@ Meteor.methods({
 
         try {
             await template.send()
-            storeNotification(template)
+            return storeNotification(template)
         } catch (error) {
             console.log(error?.response?.body)
             throw error
@@ -47,12 +48,13 @@ const createPersonalization = (userId: string, feed: FeedModel, baseUrl: string)
     return personalization
 }
 
-const storeNotification = (template: EmailTemplate) => {
+const storeNotification = (template: EmailTemplate): Array<string> => {
+    const ids = new Array<string>()
     const personalizations = template.email.mail.getPersonalizations()
     personalizations.forEach((personalization) => {
         const recipients = personalization.to
-        recipients.forEach((recipient) => {
-            Notifications.insert({
+        recipients.forEach((recipient: { email: any }) => {
+            const id = Notifications.insert({
                 createdAt: new Date(),
                 templateId: template.templateId,
                 recipientEmail: recipient.email,
@@ -60,6 +62,8 @@ const storeNotification = (template: EmailTemplate) => {
                 templateType: template.templateType,
                 additionalData: personalization,
             })
+            ids.push(id)
         })
     })
+    return ids
 }

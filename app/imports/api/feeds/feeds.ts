@@ -7,7 +7,6 @@ export interface FeedModel {
     createdAt: Date
     ownerId: string
     inviteCode: string
-    posts: string[]
 }
 
 const Feeds = new Mongo.Collection<FeedModel>('feeds')
