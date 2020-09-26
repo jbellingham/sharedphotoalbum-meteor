@@ -1,12 +1,6 @@
-import Feeds, { FeedModel } from '../../../imports/api/feeds/feeds'
-import Subscriptions from '../../../imports/api/subscriptions/subscriptions'
 import { EmailTemplateFactory } from '../../service/notifications/email/email-factory'
-import { Personalization } from '../../service/notifications/email/facades/email'
-import { Substitution } from 'sendgrid/lib/helpers/mail/mail'
-import sendGrid from 'sendgrid'
 import Notifications from './notifications'
-import { EmailTemplate } from '../../service/notifications/email/templates/email-template'
-import { User, UserExtensions } from '../users/users'
+import { EmailTemplate, TemplateType } from '../../service/notifications/email/templates/email-template'
 import { Meteor } from 'meteor/meteor'
 
 export const notifications = {
@@ -14,16 +8,9 @@ export const notifications = {
 }
 
 Meteor.methods({
-    async sendNotification(postId: string, feedId: string) {
-        const template = EmailTemplateFactory.newPost
-        const feed = Feeds.findOne(feedId)
-        const baseUrl = Meteor.isDevelopment ? 'http://localhost:3000' : 'https://sharedphotoalbum.au.meteorapp.com'
-
-        const subscriptions = Subscriptions.find({ feedId: feedId, isActive: true })
-        subscriptions.forEach((_) => {
-            const personalization = createPersonalization(_.userId, feed, baseUrl)
-            template.email.addPersonalization(personalization)
-        })
+    async sendNotification(templateType: TemplateType, args: unknown) {
+        const template = EmailTemplateFactory.getTemplate(templateType)
+        template.build(args)
 
         try {
             await template.send()
@@ -34,19 +21,6 @@ Meteor.methods({
         }
     },
 })
-
-const createPersonalization = (userId: string, feed: FeedModel, baseUrl: string): Personalization => {
-    const user = Meteor.users.findOne(userId) as User
-    const email = UserExtensions.getEmail(user)
-    const name = UserExtensions.getName(user)
-    const personalization = new Personalization()
-    const to = new sendGrid.mail.Email(email, name)
-    personalization.addTo(to)
-    personalization.addSubstitution(new Substitution('firstName', name))
-    personalization.addSubstitution(new Substitution('feedName', feed.name))
-    personalization.addSubstitution(new Substitution('postLink', `${baseUrl}/${feed._id}`))
-    return personalization
-}
 
 const storeNotification = (template: EmailTemplate): Array<string> => {
     const ids = new Array<string>()

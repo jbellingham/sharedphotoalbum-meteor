@@ -8,6 +8,7 @@ import { Accounts } from 'meteor/accounts-base'
 import Subscriptions, { SubscriptionModel } from '../../../imports/api/subscriptions/subscriptions'
 import { UserExtensions } from '../users/users'
 import { TemplateType } from '../../service/notifications/email/templates/email-template'
+import { EmailTemplateFactory } from '../../service/notifications/email/email-factory'
 
 describe('notification methods', function () {
     before(() => {
@@ -16,17 +17,30 @@ describe('notification methods', function () {
         Subscriptions.rawCollection().drop()
     })
     after(() => {
-        Feeds.rawCollection().drop()
+        //
+        // do nothing
+        //
     })
 
     if (Meteor.isServer) {
-        it('Send notification correctly stores details in collection', async function (done) {
+        it('New post notification sends and stores in notifications collection', async function (done) {
             const { user, feed } = withUserSubscribedToFeed()
-            const notificationIds = await callWithPromise(notifications.sendNotification, 'fdsfds', feed._id)
+            const notificationIds = await callWithPromise(notifications.sendNotification, TemplateType.NewPost, {
+                postId: 'fdsfds',
+                feedId: feed._id,
+            })
             const notification = Notifications.find({ _id: { $in: notificationIds } }).fetch()[0]
             assert.strictEqual(notificationIds.length === 1, true)
             assert.strictEqual(notification.recipientEmail, UserExtensions.getEmail(user))
             assert.strictEqual(notification.templateType, TemplateType.NewPost)
+            done()
+        })
+        it('Invalid template type results in appropriate error being thrown', async function (done) {
+            try {
+                await callWithPromise(notifications.sendNotification, -1, { postId: 'fdsfds', feedId: 'dasfs' })
+            } catch (error) {
+                assert.strictEqual(error.message, EmailTemplateFactory.invalidTemplateTypeError)
+            }
             done()
         })
     }
