@@ -46,7 +46,7 @@
     "react-meteor-hooks": "^0.3.1",
     "react-router-dom": "^5.2.0",
     "sendgrid": "^5.2.3",
-    "simpl-schema": "^1.8.0",
+    "simpl-schema": "^1.10.2",
     "superagent": "^5.3.1"
   },
   "devDependencies": {
