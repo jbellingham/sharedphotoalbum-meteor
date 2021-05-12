@@ -37,7 +37,7 @@
     "lodash.debounce": "^4.0.8",
     "meteor-node-stubs": "^1.0.0",
     "meteor-promise": "github:meteor/promise",
-    "nodemailer": "^6.4.11",
+    "nodemailer": "^6.4.16",
     "react": "^16.13.0",
     "react-apollo": "^3.1.5",
     "react-bootstrap": "^1.0.1",
