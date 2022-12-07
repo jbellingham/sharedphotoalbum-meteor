@@ -31,7 +31,7 @@
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.10.4",
-    "graphql-tools": "^6.0.14",
+    "graphql-tools": "^6.2.6",
     "jquery": "^3.5.1",
     "lodash": "^4.17.19",
     "lodash.debounce": "^4.0.8",
